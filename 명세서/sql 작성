@@ -1,0 +1,21 @@
+-- 회원 테이블 생성
+CREATE TABLE member (
+    member_id VARCHAR2(30) NOT NULL,
+    member_pw CHAR(60) NOT NULL,
+    member_nickname VARCHAR2(20) NOT NULL,
+    member_phone CHAR(13) NOT NULL,
+    member_email VARCHAR2(30) NOT NULL,
+    member_type NUMBER(1) NOT NULL,
+    member_enroll_date DATE DEFAULT SYSDATE NOT NULL,
+    member_profile_img VARCHAR2(500) NULL,
+    
+    -- 기본키 제약조건
+    CONSTRAINT pk_member PRIMARY KEY (member_id),
+    
+    -- 유니크 제약조건
+    CONSTRAINT uk_member_nickname UNIQUE (member_nickname),
+    CONSTRAINT uk_member_email UNIQUE (member_email),
+    
+    -- 체크 제약조건 (회원 유형: 1=관리자, 2=일반회원, 3=정지회원)
+    CONSTRAINT ck_member_type CHECK (member_type IN (1, 2, 3))
+);

@@ -1,0 +1,12 @@
+항목	내용
+프로젝트명	영화 추천 사이트
+프로젝트 목적	웹 포토폴리오 프로젝트
+	React, Node.js, Spring Boot 3, Oracle, mybatis을 활용한 풀스택 웹 애플리케이션 개발
+	사용자 맞춤형 영화 추천 서비스 제공
+프로젝트 기간	[작성 필요]
+Frontend	React
+Backend	Node.js, Spring Boot 3
+Database	Oracle
+External API	The Movie Database (TMDB) API
+"- ORM/매퍼:
+"	MyBatis

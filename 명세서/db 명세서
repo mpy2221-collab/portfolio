@@ -1,0 +1,114 @@
+회원								
+테이블 명	컬럼 명 - 한글	컬럼 명 - 영어	데이터 타입	PK	FK	NULL / NOT NULL	설명	예시
+member	회원 아이디	member_id	varchar2(30)	O		NOT NULL	"회원 고유 ID 
+(길이: 4자 이상 20자 이하, 
+영문자로 시작, 
+영문자/숫자 조합만 허용)"	user01
+member	회원 비밀번호	member_pw	char(60)			NOT NULL	암호화하여 60글자 저장 (비밀번호 길이: 4자 이상 20자 이하)	1234
+member	회원 닉네임	member_nickname	varchar2(20)			NOT NULL	"닉네임
+UNIQUE 제약조건 - 닉네임 중복 방지"	qwer1234
+member	회원 전화번호	member_phone	char(13)			NOT NULL	전화번호	010-1234-5678
+member	회원 이메일	member_email	varchar2(30)			NOT NULL	unique 제약조건 (id, pw 찾기용)	user01@gmail.com
+member	회원 유형	member_type	NUMBER(1)			NOT NULL	1: 관리자, 2: 일반회원, 3: 정지회원	2
+member	가입일	member_enroll_date	date			NOT NULL	sysdate 기본값	2025-12-18
+member	회원 프로필 이미지	member_profile_img	varchar2(500)			NULL	없으면 기본 이미지 출력	user01.png
+								
+심플 리뷰								
+테이블 명	컬럼 명 - 한글	컬럼 명 - 영어	데이터 타입	PK	FK	NULL / NOT NULL	설명	예시
+simple_review	심플 리뷰 번호	simple_review_no	number	O		NOT NULL	"리뷰 고유 번호
+simple_review_seq 이름의 시퀀스를 이용해서 1씩 증가하면서 저장"	123
+simple_review	회원 아이디	simple_review_member_id	varchar2(30)		O	NOT NULL	member(member_id) 참조	user01
+simple_review	TMDB 영화 아이디	simple_review_tmdb_movie_id	number			NOT NULL	TMDB 영화 고유 ID	12345
+simple_review	심플 리뷰 점수	simple_review_rating	number			NOT NULL	1~10 사이 정수	8
+simple_review	심플 리뷰 내용	simple_review_content	varchar2(500)			NOT NULL	리뷰 텍스트	영화 리뷰 입니다.
+simple_review	심플 리뷰 날짜	simple_review_date	date			NOT NULL	리뷰 작성일	2025-12-18
+특이사항	"UNIQUE 제약조건
+(simple_review_member_id, simple_review_tmdb_movie_id)"							
+	"CHECK 제약조건
+simple_review_rating BETWEEN 1 AND 10"							
+								
+								
+유저픽 영화								
+테이블 명	컬럼 명 - 한글	컬럼 명 - 영어	데이터 타입	PK	FK	NULL / NOT NULL	설명	예시
+userpick_movie	유저픽 영화 번호	userpick_movie_no	number	O		NOT NULL	"유저픽 영화 고유 번호
+userpick_movie_seq 시퀀스를 이용해 1씩 증가"	1
+userpick_movie	TMDB 영화 아이디	userpick_movie_tmdb_movie_id	number			NOT NULL	"TMDB 영화 고유 ID
+UNIQUE 제약조건"	12345
+userpick_movie	유저픽 영화 상태	userpick_movie_status	number(1)			NOT NULL	"1: 활성, 2: 비활성
+기본값 1"	1
+userpick_movie	등록일	userpick_movie_date	date			NOT NULL	유저픽 영화 등록일 (sysdate 기본값)	2025-12-18
+userpick_movie	포스터 경로	userpick_movie_poster_path	varchar2(200)			NULL	TMDB 포스터 이미지 경로	/abc123.jpg
+userpick_movie	영화 제목	userpick_movie_title	varchar2(200)			NOT NULL	영화 제목	인터스텔라
+userpick_movie	개봉일	userpick_movie_release_date	date			NULL	영화 개봉일	2014-11-07
+userpick_movie	러닝타임	userpick_movie_runtime	number			NULL	영화 상영 시간(분)	169
+userpick_movie	조회수	userpick_movie_view_count	number			NOT NULL	"영화 상세 조회수
+기본값 0"	0
+특이사항 	장르는 여러개 있는 경우가 있으므로 userpick_movie 테이블에 있으면 장르를 통한 검색이 불가능하다. 그렇게 때문에 정규화를 해준다.							
+								
+유저픽 영화 장르								
+테이블 명	컬럼 명 - 한글	컬럼 명 - 영어	데이터 타입	PK	FK	NULL / NOT NULL	설명	예시
+userpick_movie_genre	유저픽 영화 장르 번호	userpick_movie_genre_no	number	O		NOT NULL	"유저픽 영화 장르 고유 번호
+userpick_movie_genre_seq 시퀀스를 이용해 1씩 증가"	1
+userpick_movie_genre	유저픽 영화 번호	userpick_movie_genre_userpick_movie_no	number		O	NOT NULL	userpick_movie(userpick_movie_no) 참조	10
+userpick_movie_genre	TMDB 장르 ID	userpick_movie_genre_genre_id	number			NOT NULL	TMDB 장르 고유 ID	878
+userpick_movie_genre	장르 이름	userpick_movie_genre_genre_name	varchar2(50)			NOT NULL	장르 이름	SF
+특이사항	"UNIQUE 제약조건: 
+(userpick_movie_genre_userpick_movie_no, userpick_movie_genre_genre_id)
+- 한 영화에 같은 장르가 중복 등록되는 것을 방지"							
+								
+								
+게시글 리뷰								
+테이블 명	컬럼 명 - 한글	컬럼 명 - 영어	데이터 타입	PK	FK	NULL / NOT NULL	설명	예시
+board_review	게시글 리뷰 번호	board_review_no	number	O		NOT NULL	게시글 리뷰 고유 번호	100
+board_review	회원 아이디	board_review_member_id	varchar2(30)		O	NOT NULL	member(member_id) 참조	user01
+board_review	TMDB 영화 아이디	board_review_tmdb_movie_id	number			NOT NULL	TMDB 영화 고유 ID	12345
+board_review	게시글 리뷰 제목	board_review_title	varchar2(200)			NOT NULL	리뷰 제목	인생 영화입니다
+board_review	게시글 리뷰 내용	board_review_content	varchar2(2000)			NOT NULL	리뷰 본문 내용	정말 감동적인 영화였습니다.
+board_review	게시글 리뷰 평점	board_review_rating	number			NOT NULL	1~10 사이 정수	9
+board_review	게시글 리뷰 작성일	board_review_date	date			NOT NULL	리뷰 작성일 (sysdate 기본값)	2025-12-18
+board_review	게시글 리뷰 상태	board_review_status	number(1)			NOT NULL	1: 노출, 2: 숨김	1
+board_review	조회수	board_review_view_count	number			NOT NULL	"게시글 조회수
+기본값 0"	0
+특이사항	"UNIQUE 제약조건: (board_review_member_id, board_review_tmdb_movie_id)
+- 한 회원당 한 영화에 리뷰 1개만"							
+	"CHECK 제약조건: board_review_rating BETWEEN 1 AND 10
+- 평점 범위 제한"							
+								
+								
+								
+게시글 리뷰 추천								
+테이블 명	컬럼 명 - 한글	컬럼 명 - 영어	데이터 타입	PK	FK	NULL / NOT NULL	설명	예시
+board_review_like	게시글 리뷰 좋아요 번호	board_review_like_no	number	O		NOT NULL	"게시글 리뷰 좋아요 고유 번호
+board_review_like_seq 시퀀스를 이용해 1씩 증가"	1
+board_review_like	게시글 리뷰 번호	board_review_like_board_review_no	number		O	NOT NULL	board_review(board_review_no) 참조	100
+board_review_like	회원 아이디	board_review_like_member_id	varchar2(30)		O	NOT NULL	member(member_id) 참조	user01
+board_review_like	좋아요 날짜	board_review_like_date	date			NOT NULL	추천/비추천 등록일 (sysdate 기본값)	2025-12-18
+특이사항	"UNIQUE 제약조건:
+(board_review_like_board_review_no, board_review_like_member_id)"							
+								
+게시글 리뷰 파일								
+테이블 명	컬럼 명 - 한글	컬럼 명 - 영어	데이터 타입	PK	FK	NULL / NOT NULL	설명	예시
+board_review_file	게시글 리뷰 파일 번호	board_review_file_no	number	O		NOT NULL	게시글 리뷰 파일 고유 번호	1
+board_review_file	게시글 리뷰 번호	board_review_file_board_review_no	number		O	NOT NULL	board_review(board_review_no) 참조	100
+board_review_file	원본 파일명	board_review_filename	varchar2(255)			NOT NULL	사용자가 업로드한 원본 파일명	test.png
+board_review_file	저장 파일명	board_review_filepath	varchar2(255)			NOT NULL	"서버에 실제 저장된 파일명
+중복 시 숫자 부여"	test_1.png
+								
+댓글(공용)								
+테이블 명	컬럼 명 - 한글	컬럼 명 - 영어	데이터 타입	PK	FK	NULL / NOT NULL	설명	예시
+comment	댓글 번호	comment_no	number	O		NOT NULL	"댓글 고유 번호
+comment_seq 시퀀스를 이용해 1씩 증가"	1
+comment	댓글 유형	comment_type	varchar2(20)			NOT NULL	"댓글 대상 구분
+userpick 또는 board"	board
+comment	유저픽 영화 번호	comment_userpick_movie_no	number		O	NULL	"userpick_movie(userpick_movie_no) 참조
+simple 댓글일 경우만 사용"	10
+comment	게시글 리뷰 번호	comment_board_review_no	number		O	NULL	"board_review(board_review_no) 참조
+board 댓글일 경우만 사용"	100
+comment	회원 아이디	comment_member_id	varchar2(30)		O	NOT NULL	member(member_id) 참조	user01
+comment	댓글 내용	comment_content	varchar2(500)			NOT NULL	댓글 본문	공감합니다
+comment	댓글 작성일	comment_date	date			NOT NULL	댓글 작성일 (sysdate 기본값)	2025-12-18
+comment	부모 댓글 번호	comment_parent_no	number		O	NULL	"대댓글용 부모 댓글 번호
+comment(comment_no) 자기참조"	1
+	CHECK: comment_type IN ('userpick', 'board')							
+	"CHECK: (comment_type = 'userpick' AND comment_userpick_movie_no IS NOT NULL AND comment_board_review_no IS NULL)
+       OR (comment_type = 'board' AND comment_board_review_no IS NOT NULL AND comment_userpick_movie_no IS NULL)"							
