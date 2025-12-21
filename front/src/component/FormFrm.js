@@ -8,6 +8,7 @@ const Input = (props) => {
   const blurEvent = props.blurEvent; // 포커스 벗어났을때 실행할 이벤트
   // blur 뜻 : 포커스 벗어났을때
   const placeholder = props.placeholder;
+  const onKeyPress = props.onKeyPress; // Enter 키 이벤트
 
   const changeData = (e) => {
     setData(e.target.value);
@@ -22,6 +23,7 @@ const Input = (props) => {
         id={content}
         onChange={changeData}
         onBlur={blurEvent}
+        onKeyPress={onKeyPress}
         placeholder={placeholder}
       />
     </>

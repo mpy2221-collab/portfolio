@@ -300,3 +300,110 @@
   padding-top: 30px;
   border-top: 1px solid var(--overlay-white-10);
 }
+
+/* 로그인 페이지 */
+.login-wrap {
+  min-height: calc(100vh - 160px);
+  padding: 60px 20px;
+  background: #ffffff;
+}
+
+.login-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 50px 40px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.login-title {
+  font-family: ns-eb;
+  font-size: 36px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-section {
+  margin-bottom: 30px;
+}
+
+/* 로그인 입력 필드 래퍼 */
+.login-input-wrap {
+  margin-bottom: 24px;
+}
+
+.login-input-wrap .label {
+  margin-bottom: 8px;
+}
+
+.login-input-wrap label {
+  font-family: ns-b;
+  font-size: 14px;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.login-input-wrap .input {
+  position: relative;
+}
+
+/* 로그인 버튼 섹션 */
+.login-btn-wrap {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+/* 아이디/비밀번호 찾기 링크 */
+.login-link-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--overlay-white-10);
+}
+
+.find-link {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-family: ns-r;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 0;
+}
+
+.find-link:hover {
+  color: var(--accent-orange);
+}
+
+.link-divider {
+  color: var(--text-tertiary);
+  font-size: 14px;
+}

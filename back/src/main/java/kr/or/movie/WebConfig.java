@@ -8,19 +8,19 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
+import kr.or.movie.util.LoginInterceptor;
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
-//	@Autowired
-//	private LoginInterceptor loginInterceptor;
+	@Autowired
+	private LoginInterceptor loginInterceptor;
 	
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(loginInterceptor)
-//			.addPathPatterns("/member/**","/board/**","/admin/**")
-//			.excludePathPatterns("/member/login","/member/id/*","/member/join","/board/list/*","/board/editor/*","/board/thumbnail/*","/board/one/*","/board/file/*");
-//		
-//	}
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(loginInterceptor)
+			.addPathPatterns("/member/**")
+			.excludePathPatterns("/member/login","/member/join","/member/email/auth","/member/id/*","/member/nickname/*","/member/email/*");
+		
+	}
 //	
 //	
 //

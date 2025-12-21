@@ -124,4 +124,19 @@ public class MemberController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
+
+    @PostMapping("/login")
+    @Operation(summary = "로그인", description = "로그인 정보 전달")
+    public ResponseEntity<ResponseDTO> login(@RequestBody Member member) {
+        String accessToken = memberService.login(member);
+
+        if(accessToken != null) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", accessToken);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
 }

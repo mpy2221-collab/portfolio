@@ -2,18 +2,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import "./default.css";
 
-const Header = () => {
+const Header = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // TODO: 나중에 토큰 구현 시 로그인 상태 확인
-  const isLogin = false;
+  const isLogin = props.isLogin;
+  const logoutFunction = props.logoutFunction;
   const isAdmin = false;
-
-  // 로그아웃 처리
-  const logout = () => {
-    
-  };
 
   // 현재 경로가 활성화된 메뉴인지 확인
   const isActive = (path) => {
@@ -78,7 +73,7 @@ const Header = () => {
               </button>
               <button
                 className="user-menu-btn logout-btn"
-                onClick={logout}
+                onClick={logoutFunction}
               >
                 로그아웃
               </button>
