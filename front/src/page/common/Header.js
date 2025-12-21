@@ -87,13 +87,13 @@ const Header = () => {
             <>
               <button
                 className="user-menu-btn login-btn"
-                onClick={() => navigate("/member/login")}
+                onClick={() => navigate("/login")}
               >
                 로그인
               </button>
               <button
                 className="user-menu-btn join-btn"
-                onClick={() => navigate("/member/join")}
+                onClick={() => navigate("/join")}
               >
                 회원가입
               </button>

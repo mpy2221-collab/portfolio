@@ -2,6 +2,7 @@ import Header from './page/common/Header';
 import Main from './page/common/Main';
 import Footer from './page/common/Footer';
 import { Routes, Route } from 'react-router-dom';
+import Join from './page/member/Join';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <div className="content">
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/join" element={<Join />} />
         </Routes>
       </div>
       <Footer />
