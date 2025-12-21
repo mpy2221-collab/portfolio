@@ -3,6 +3,7 @@ import Main from './page/common/Main';
 import Footer from './page/common/Footer';
 import { Routes, Route } from 'react-router-dom';
 import Join from './page/member/Join';
+import Login from './page/member/Login';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
       <Footer />

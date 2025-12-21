@@ -4,4 +4,25 @@
     <select id="idCheck" resultType="member">
         SELECT * FROM member WHERE member_id = #{memberId}
     </select>
+
+    <select id="nicknameCheck" resultType="member">
+        SELECT * FROM member WHERE member_nickname = #{memberNickname}
+    </select>
+
+    <select id="emailCheck" resultType="member">
+        SELECT * FROM member WHERE member_email = #{memberEmail}
+    </select>
+
+    <insert id="insertMember" parameterType="member">
+        insert into member values(
+            #{memberId},
+            #{memberPw},
+            #{memberNickname},
+            #{memberPhone},
+            #{memberEmail},
+            2,
+            sysdate,
+            #{memberProfileImg}
+        )
+    </insert>
 </mapper>

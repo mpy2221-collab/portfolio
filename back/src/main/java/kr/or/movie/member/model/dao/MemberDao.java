@@ -6,4 +6,7 @@ import kr.or.movie.member.model.dto.Member;
 public interface MemberDao {
 
     public Member idCheck(String memberId);
+    public Member nicknameCheck(String memberNickname);
+    public Member emailCheck(String memberEmail);
+    public int insertMember(Member member);
 }

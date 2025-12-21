@@ -3,19 +3,29 @@ package kr.or.movie.member.controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.or.movie.member.model.dto.Member;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import kr.or.movie.ResponseDTO;
 import kr.or.movie.member.model.service.MemberService;
+import kr.or.movie.util.FileUtils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import io.swagger.v3.oas.annotations.Operation;
+import kr.or.movie.EmailSender;
+
 
 @RestController
 @RequestMapping("/member")
@@ -25,6 +35,12 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+    @Value("${file.root}")
+    private String root;
+    @Autowired
+    private FileUtils fileUtils;
+    @Autowired
+    private EmailSender emailSender;
 
     
     @GetMapping("/id/{memberId}")
@@ -37,6 +53,74 @@ public class MemberController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }else{
             ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/nickname/{memberNickname}")
+    @Operation(summary = "닉네임 중복 검사", description = "매개변수로 전달한 닉네임 사용여부 조회")
+    public ResponseEntity<ResponseDTO> nicknameCheck(@PathVariable String memberNickname) {
+        Member member = memberService.nicknameCheck(memberNickname);
+
+        if(member == null) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/email/{memberEmail}")
+    @Operation(summary = "이메일 중복 검사", description = "매개변수로 전달한 이메일 사용여부 조회")
+    public ResponseEntity<ResponseDTO> emailCheck(@PathVariable String memberEmail) {
+        Member member = memberService.emailCheck(memberEmail);
+        if(member == null) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/join")
+    @Operation(summary = "회원가입", description = "회원가입 정보 전달")
+    public ResponseEntity<ResponseDTO> join(@ModelAttribute Member member, @ModelAttribute MultipartFile memberImg) {
+        String savepath = root + "/member/profile_img/";
+
+        System.out.println(memberImg);
+
+        if(memberImg != null) {
+            String filepath = fileUtils.upload(savepath, memberImg);
+            member.setMemberProfileImg(filepath);
+        }
+
+        int result = memberService.insertMember(member);
+
+        if(result > 0) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+    }
+
+    @PostMapping("/email/auth")
+    @Operation(summary = "이메일 인증번호 발송", description = "이메일로 인증번호 발송")
+    public ResponseEntity<ResponseDTO> emailAuth(@RequestBody Member member) {
+    	System.out.println(member.getMemberEmail());
+    
+        String authCode = emailSender.sendEmailAuth(member.getMemberEmail());
+        
+        if(authCode != null) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", authCode);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }else {
+        	ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }

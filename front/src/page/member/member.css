@@ -1,0 +1,302 @@
+/* 회원가입 페이지 */
+.join-wrap {
+  min-height: calc(100vh - 160px);
+  padding: 60px 20px;
+  background: #ffffff;
+}
+
+.join-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 50px 40px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 헤더 영역 */
+.join-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.join-title {
+  font-family: ns-eb;
+  font-size: 36px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.join-subtitle {
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+/* 섹션 */
+.join-form-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-family: ns-b;
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--overlay-white-10);
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-red), var(--accent-orange));
+}
+
+/* 입력 필드 래퍼 */
+.join-input-wrap {
+  margin-bottom: 24px;
+}
+
+.join-input-wrap .label {
+  margin-bottom: 8px;
+}
+
+.join-input-wrap label {
+  font-family: ns-b;
+  font-size: 14px;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.join-input-wrap .input {
+  position: relative;
+}
+
+.input-form {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: ns-r;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.input-form::placeholder {
+  color: var(--text-tertiary);
+}
+
+.input-form:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px var(--overlay-red-20);
+  background: var(--bg-dark-light);
+}
+
+.input-form:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 에러 메시지 */
+.check-msg {
+  margin-top: 8px;
+  font-family: ns-r;
+  font-size: 13px;
+  color: var(--accent-red);
+  padding-left: 4px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 프로필 이미지 섹션 */
+.profile-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--overlay-white-20);
+  background: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.profile-preview:hover {
+  border-color: var(--accent-orange);
+  transform: scale(1.05);
+}
+
+.profile-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--text-tertiary);
+}
+
+.profile-placeholder svg {
+  margin-bottom: 8px;
+}
+
+.profile-placeholder p {
+  font-family: ns-r;
+  font-size: 12px;
+  margin: 0;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--overlay-white-10);
+  border: 1px solid var(--overlay-white-20);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-family: ns-r;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-upload-btn:hover {
+  background: var(--overlay-white-15);
+  color: var(--text-primary);
+  border-color: var(--overlay-white-30);
+  transform: translateY(-2px);
+}
+
+.file-upload-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* 이메일 인증 */
+.email-input-wrapper {
+  position: relative;
+}
+
+.email-auth-send-section {
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.auth-send-btn {
+  padding: 10px 20px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-red) 0%,
+    var(--accent-orange) 100%
+  );
+  color: var(--text-primary);
+  border: none;
+  border-radius: 6px;
+  font-family: ns-b;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--overlay-red-30);
+}
+
+.auth-send-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--overlay-red-40);
+}
+
+.auth-send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.email-auth-code-wrapper {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--overlay-white-10);
+}
+
+.auth-timer {
+  margin-top: 8px;
+  font-family: ns-r;
+  font-size: 13px;
+  color: var(--accent-orange);
+  padding-left: 4px;
+}
+
+.auth-timer.expired {
+  color: var(--accent-red);
+}
+
+.email-auth-success {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 6px;
+  color: #4caf50;
+  font-family: ns-r;
+  font-size: 14px;
+}
+
+.email-auth-success svg {
+  width: 18px;
+  height: 18px;
+  stroke: #4caf50;
+}
+
+/* 버튼 섹션 */
+.join-btn-section {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid var(--overlay-white-10);
+}
