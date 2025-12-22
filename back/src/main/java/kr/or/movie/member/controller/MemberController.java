@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -194,6 +195,20 @@ public class MemberController {
 
         if(result > 0) {
             ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO> getMember(@RequestAttribute String memberId) {
+        Member member = memberService.selectMemberById(memberId);
+
+        if(member != null) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", member);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         else{

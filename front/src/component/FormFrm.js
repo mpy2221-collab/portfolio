@@ -1,4 +1,5 @@
 import "./formFrm.css";
+import { useNavigate } from "react-router-dom";
 
 const Input = (props) => {
   const data = props.data; // input 태그와 연결할 state
@@ -57,4 +58,31 @@ const Button = (props) => {
   );
 };
 
-export { Input, Button };
+const Sidebar = (props) => {
+  const navigate = useNavigate();
+  const url = props.url;
+  const text = props.text;
+  const active = props.active || false;
+
+  const handleClick = () => {
+    navigate(url);
+  };
+
+  const getSidebarClassName = () => {
+    const baseClass = "sidebar-menu-link";
+    const activeClass = active ? " active" : "";
+    return baseClass + activeClass;
+  };
+
+  return (
+    <button
+      className={getSidebarClassName()}
+      onClick={handleClick}
+      type="button"
+    >
+      {text}
+    </button>
+  );
+};
+
+export { Input, Button, Sidebar };

@@ -37,4 +37,8 @@
     <select id="selectMemberByEmailAndId" resultType="member">
         SELECT * FROM member WHERE member_email = #{memberEmail} AND member_id = #{memberId}
     </select>
+
+    <select id="selectMemberById" resultType="member">
+        SELECT * FROM member WHERE member_id = #{memberId}
+    </select>
 </mapper>

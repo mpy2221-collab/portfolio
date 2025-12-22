@@ -62,4 +62,8 @@ public class MemberService {
     public Member selectMemberByEmailAndId(String memberEmail, String memberId) {
         return memberDao.selectMemberByEmailAndId(memberEmail, memberId);
     }
+
+    public Member selectMemberById(String memberId) {
+        return memberDao.selectMemberById(memberId);
+    }
 }

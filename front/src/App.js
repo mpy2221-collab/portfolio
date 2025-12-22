@@ -77,7 +77,7 @@ function App() {
           <Route path="/login" element={<Login loginFunction={login} />} />
           <Route path="/find-id" element={<FindId />} />
           <Route path="/find-pw" element={<FindPw />} />
-          <Route path="/member/*" element={<MemberMain isLogin={isLogin} />} />
+          <Route path="/member/*" element={<MemberMain isLogin={isLogin} logoutFunction={logout} />} />
         </Routes>
       </div>
       <Footer />
