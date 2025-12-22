@@ -139,4 +139,66 @@ public class MemberController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
+
+    @PostMapping("/find-id")
+    @Operation(summary = "아이디 찾기", description = "이메일로 아이디 찾기")
+    public ResponseEntity<ResponseDTO> findId(@RequestBody Member member) {
+        String memberId = memberService.findId(member.getMemberEmail());
+
+        boolean result =  emailSender.sendFindId(member.getMemberEmail(), memberId);
+
+        if(result) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/pw/auth")
+    @Operation(summary = "비밀번호 인증번호 발송", description = "이메일로 비밀번호 인증번호 발송")
+    public ResponseEntity<ResponseDTO> pwAuth(@RequestBody Member member) {
+    	System.out.println(member);
+        // 1. 해당 아이디와 이메일로 회원 조회
+        Member m = memberService.selectMemberByEmailAndId(member.getMemberEmail(), member.getMemberId());
+        
+        System.out.println(m);
+        
+        if(m != null) {
+            String authCode = emailSender.sendPwAuth(m.getMemberEmail());
+            if(authCode != null) {
+                ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", authCode);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            else{
+                ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        }else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/find-pw")
+    @Operation(summary = "비밀번호 찾기", description = "아이디와 이메일로 비밀번호 찾기")
+    public ResponseEntity<ResponseDTO> findPw(@RequestBody Member member) {
+        // 1. 임시 비밀번호 발송
+        String memberPw = emailSender.sendFindPw(member.getMemberEmail(), member.getMemberId());
+        member.setMemberPw(memberPw);
+
+        // 2. 임시 비밀번호 업데이트. 아이디를 조건절로 사용
+        int result = memberService.updatePwMember(member);
+
+        if(result > 0) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
 }

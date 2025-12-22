@@ -25,4 +25,16 @@
             #{memberProfileImg}
         )
     </insert>
+
+    <select id="findId" resultType="string">
+        SELECT member_id FROM member WHERE member_email = #{memberEmail}
+    </select>
+
+    <update id="updatePwMember" parameterType="member">
+        UPDATE member SET member_pw = #{memberPw} WHERE member_id = #{memberId}
+    </update>
+
+    <select id="selectMemberByEmailAndId" resultType="member">
+        SELECT * FROM member WHERE member_email = #{memberEmail} AND member_id = #{memberId}
+    </select>
 </mapper>

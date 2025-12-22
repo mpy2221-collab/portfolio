@@ -262,6 +262,48 @@
   border-top: 1px solid var(--overlay-white-10);
 }
 
+.email-auth-code-input-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.email-auth-code-input-wrapper .join-input-wrap {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.auth-verify-btn {
+  margin-top: 28px;
+  padding: 14px 24px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-red) 0%,
+    var(--accent-orange) 100%
+  );
+  color: var(--text-primary);
+  border: none;
+  border-radius: 8px;
+  font-family: ns-b;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--overlay-red-30);
+  white-space: nowrap;
+  height: fit-content;
+}
+
+.auth-verify-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--overlay-red-40);
+}
+
+.auth-verify-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .auth-timer {
   margin-top: 8px;
   font-family: ns-r;
@@ -406,4 +448,114 @@
 .link-divider {
   color: var(--text-tertiary);
   font-size: 14px;
+}
+
+/* 아이디 찾기 페이지 */
+.find-id-wrap {
+  min-height: calc(100vh - 160px);
+  padding: 60px 20px;
+  background: #ffffff;
+}
+
+.find-id-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 50px 40px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.find-id-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.find-id-title {
+  font-family: ns-eb;
+  font-size: 36px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.find-id-subtitle {
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.find-id-content {
+  margin-bottom: 30px;
+}
+
+.find-id-form-section {
+  margin-bottom: 40px;
+}
+
+.find-id-btn-section {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid var(--overlay-white-10);
+}
+
+/* 비밀번호 찾기 페이지 */
+.find-pw-wrap {
+  min-height: calc(100vh - 160px);
+  padding: 60px 20px;
+  background: #ffffff;
+}
+
+.find-pw-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 50px 40px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.find-pw-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.find-pw-title {
+  font-family: ns-eb;
+  font-size: 36px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.find-pw-subtitle {
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.find-pw-content {
+  margin-bottom: 30px;
+}
+
+.find-pw-form-section {
+  margin-bottom: 40px;
+}
+
+.find-pw-btn-section {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid var(--overlay-white-10);
 }

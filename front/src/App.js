@@ -1,13 +1,15 @@
-import Header from './page/common/Header';
-import Main from './page/common/Main';
-import Footer from './page/common/Footer';
-import { Routes, Route } from 'react-router-dom';
-import Join from './page/member/Join';
-import Login from './page/member/Login';
-import { useState } from 'react';
-import axios from 'axios';
-import { useEffect } from 'react';
-import MemberMain from './page/member/MemberMain';
+import Header from "./page/common/Header";
+import Main from "./page/common/Main";
+import Footer from "./page/common/Footer";
+import { Routes, Route } from "react-router-dom";
+import Join from "./page/member/Join";
+import Login from "./page/member/Login";
+import FindId from "./page/member/FindId";
+import FindPw from "./page/member/FindPw";
+import { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
+import MemberMain from "./page/member/MemberMain";
 
 function App() {
   //스토리지에 저장된 데이터를 꺼내서 객체형식으로 변환
@@ -72,10 +74,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/join" element={<Join />} />
-          <Route
-            path="/login"
-            element={<Login loginFunction = {login} />}
-          />
+          <Route path="/login" element={<Login loginFunction={login} />} />
+          <Route path="/find-id" element={<FindId />} />
+          <Route path="/find-pw" element={<FindPw />} />
           <Route path="/member/*" element={<MemberMain isLogin={isLogin} />} />
         </Routes>
       </div>

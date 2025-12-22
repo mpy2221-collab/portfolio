@@ -49,4 +49,17 @@ public class MemberService {
             return null;
         }
     }
+
+    public String findId(String memberEmail) {
+        return memberDao.findId(memberEmail);
+    }
+
+    @Transactional
+    public int updatePwMember(Member member) {
+        return memberDao.updatePwMember(member);
+    }
+
+    public Member selectMemberByEmailAndId(String memberEmail, String memberId) {
+        return memberDao.selectMemberByEmailAndId(memberEmail, memberId);
+    }
 }

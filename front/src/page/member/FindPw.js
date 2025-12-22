@@ -5,22 +5,10 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import "./member.css";
 
-const Join = () => {
-  // 전송용
+const FindPw = () => {
   const [memberId, setMemberId] = useState("");
-  const [memberPw, setMemberPw] = useState("");
-  const [memberNickname, setMemberNickname] = useState("");
-  const [memberEmail, setMemberEmail] = useState("");
-  const [memberPhone, setMemberPhone] = useState("");
-  const [memberImg, setMemberImg] = useState(null); // 프로필 전송용
-  const [memberImgPreview, setMemberImgPreview] = useState(null); // 프로필 미리보기용
-
-  // 유효성 검사용
   const [checkIdMsg, setCheckIdMsg] = useState("");
-  const [checkPwMsg, setCheckPwMsg] = useState("");
-  const [memberPwRe, setMemberPwRe] = useState("");
-  const [checkNicknameMsg, setCheckNicknameMsg] = useState("");
-  const [checkPhoneMsg, setCheckPhoneMsg] = useState("");
+  const [memberEmail, setMemberEmail] = useState("");
   const [checkEmailMsg, setCheckEmailMsg] = useState("");
 
   // 이메일 인증 관련
@@ -34,21 +22,12 @@ const Join = () => {
   const backServer = process.env.REACT_APP_BACK_SERVER;
   const navigate = useNavigate();
 
-  const idCheck = (e) => {
+  // 아이디 유효성 검사
+  const idCheck = () => {
     const idReg = /^[a-zA-Z][a-zA-Z0-9]{3,19}$/;
 
-    // 1. 유효성 검사
     if (idReg.test(memberId)) {
       setCheckIdMsg("");
-
-      // 2. 중복 검사
-      axios.get(backServer + "/member/id/" + memberId).then((res) => {
-        if (res.data.message == "success") {
-          setCheckIdMsg("");
-        } else {
-          setCheckIdMsg("현재 사용중인 아이디입니다.");
-        }
-      });
     } else {
       setCheckIdMsg(
         "4자 이상 20자 이하, 영문자로 시작, 영문자/숫자 조합만 허용"
@@ -56,89 +35,34 @@ const Join = () => {
     }
   };
 
-  const pwCheck1 = () => {
-    const pwReg = /^.{4,20}$/;
-
-    if (pwReg.test(memberPw)) {
-      setCheckPwMsg("");
-    } else {
-      setCheckPwMsg("비밀번호는 4자 이상 20자 이하");
-    }
-  };
-  const pwCheck2 = () => {
-    if (memberPw == memberPwRe) {
-      setCheckPwMsg("");
-    } else {
-      setCheckPwMsg("비밀번호가 일치하지 않습니다.");
-    }
-  };
-
-  const nicknameCheck = () => {
-    const nicknameReg = /^[가-힣a-zA-Z0-9]{1,20}$/;
-
-    if (nicknameReg.test(memberNickname)) {
-      setCheckNicknameMsg("");
-      axios
-        .get(backServer + "/member/nickname/" + memberNickname)
-        .then((res) => {
-          if (res.data.message == "success") {
-            setCheckNicknameMsg("");
-          } else {
-            setCheckNicknameMsg("사용 불가능한 닉네임입니다.");
-          }
-        })
-        .catch((err) => {
-          setCheckNicknameMsg("서버 오류가 발생했습니다.");
-        });
-    } else {
-      setCheckNicknameMsg("1자 이상 20자 이하, 한글/영문/숫자 조합만 허용");
-    }
-  };
-
-  const phoneCheck = () => {
-    const phoneReg = /^010-[0-9]{4}-[0-9]{4}$/;
-
-    if (phoneReg.test(memberPhone)) {
-      setCheckPhoneMsg("");
-    } else {
-      setCheckPhoneMsg("전화번호는 010-0000-0000 형식으로 입력해주세요.");
-    }
-  };
-
+  // 이메일 유효성 검사
   const emailCheck = () => {
     const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (emailReg.test(memberEmail)) {
       setCheckEmailMsg("");
-      axios.get(backServer + "/member/email/" + memberEmail).then((res) => {
-        if (res.data.message == "success") {
-          setCheckEmailMsg("");
-        } else {
-          setCheckEmailMsg("사용 불가능한 이메일입니다.");
-        }
-      });
     } else {
       setCheckEmailMsg("이메일은 올바른 형식으로 입력해주세요.");
     }
   };
 
-  // 이메일 변경 시 인증 상태 초기화
+  // 아이디 또는 이메일 변경 시 인증 상태 초기화
   useEffect(() => {
-    if (memberEmail !== "") {
+    if (memberId !== "" || memberEmail !== "") {
       setIsEmailAuthSent(false);
       setIsEmailAuthVerified(false);
       setEmailAuthCode("");
       setEmailAuthTimer(0);
       setCheckEmailAuthMsg("");
-      setAuthCode(""); // 서버로부터 받은 인증번호도 초기화
+      setAuthCode("");
     }
-  }, [memberEmail]);
+  }, [memberId, memberEmail]);
 
   // 이메일 인증번호 발송
   const sendEmailAuth = () => {
-    if (checkEmailMsg === "" && memberEmail !== "") {
+    if (checkEmailMsg === "" && memberEmail !== "" && memberId !== "") {
       axios
-        .post(backServer + "/member/email/auth", { memberEmail: memberEmail })
+        .post(backServer + "/member/pw/auth", { memberEmail: memberEmail, memberId: memberId })
         .then((res) => {
           if (res.data.message === "success") {
             setIsEmailAuthSent(true);
@@ -149,7 +73,7 @@ const Join = () => {
           } else {
             Swal.fire({
               title: "발송 실패",
-              text: "인증번호 발송에 실패했습니다.",
+              text: "회원정보가 일치하지 않습니다",
               icon: "error",
               confirmButtonText: "확인",
               confirmButtonColor: "#1a1a1a",
@@ -179,7 +103,6 @@ const Join = () => {
   // 이메일 인증번호 확인 (클라이언트에서 직접 비교)
   const verifyEmailAuth = () => {
     if (emailAuthCode.length >= 4) {
-      // 서버로부터 받은 인증번호와 사용자가 입력한 인증번호 비교
       if (authCode === emailAuthCode) {
         setIsEmailAuthVerified(true);
         setCheckEmailAuthMsg("");
@@ -214,98 +137,77 @@ const Join = () => {
     };
   }, [emailAuthTimer, isEmailAuthSent, isEmailAuthVerified]);
 
-  const changeImg = (e) => {
-    const files = e.currentTarget.files;
-
-    if (files.length !== 0 && files[0] != 0) {
-      setMemberImg(files[0]); // 전송용 state에 파일 객체 세팅
-      const reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      reader.onloadend = () => {
-        setMemberImgPreview(reader.result);
-      };
-    } else {
-      setMemberImgPreview(null);
-      setMemberImg(null);
-    }
-  };
-
-  const join = () => {
+  // 비밀번호 찾기 요청
+  const findPw = () => {
     if (
-      checkIdMsg == "" &&
-      memberId != "" &&
-      checkPwMsg == "" &&
-      memberPw != "" &&
-      checkPwMsg == "" &&
-      memberPwRe != "" &&
-      checkNicknameMsg == "" &&
-      memberNickname != "" &&
-      checkPhoneMsg == "" &&
-      memberPhone != "" &&
-      checkEmailMsg == "" &&
-      memberEmail != "" &&
-      isEmailAuthVerified &&
-      emailAuthCode != ""
+      checkIdMsg === "" &&
+      memberId !== "" &&
+      checkEmailMsg === "" &&
+      memberEmail !== "" &&
+      isEmailAuthVerified
     ) {
-      const formData = new FormData();
-      formData.append("memberId", memberId);
-      formData.append("memberPw", memberPw);
-      formData.append("memberNickname", memberNickname);
-      formData.append("memberPhone", memberPhone);
-      formData.append("memberEmail", memberEmail);
-
-      if (memberImg !== null) {
-        formData.append("memberImg", memberImg);
-      }
 
       axios
-        .post(backServer + "/member/join", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            processData: false,
-          },
+        .post(backServer + "/member/find-pw", {
+          memberId: memberId,
+          memberEmail: memberEmail,
         })
         .then((res) => {
-          if (res.data.message == "success") {
+          if (res.data.message === "success") {
             Swal.fire({
-              title: "회원가입 성공",
-              text: "회원가입이 완료되었습니다.",
+              title: "임시 비밀번호 발송 완료",
+              text: "등록된 이메일로 임시 비밀번호를 전송했습니다.",
               icon: "success",
               confirmButtonText: "확인",
+              confirmButtonColor: "#1a1a1a",
             }).then(() => {
               navigate("/login");
             });
           } else {
             Swal.fire({
-              title: "회원가입 실패",
-              text: "회원가입이 실패했습니다.",
+              title: "조회 실패",
+              text: "이메일 정보가 존재하지 않습니다.",
               icon: "error",
               confirmButtonText: "확인",
-            }).then(() => {
-              navigate("/");
+              confirmButtonColor: "#1a1a1a",
             });
           }
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: "조회 실패",
+            text: "서버 오류가 발생했습니다.",
+            icon: "error",
+            confirmButtonText: "확인",
+            confirmButtonColor: "#1a1a1a",
+          });
         });
     } else {
-      Swal.fire("회원가입을 완료해주세요.", "", "warning");
+      Swal.fire({
+        title: "입력 확인",
+        text: "아이디, 이메일을 입력하고 이메일 인증을 완료해주세요.",
+        icon: "warning",
+        confirmButtonText: "확인",
+        confirmButtonColor: "#1a1a1a",
+      });
     }
   };
 
   return (
-    <div className="join-wrap">
-      <div className="join-container">
-        <div className="join-header">
-          <h1 className="join-title">회원가입</h1>
-          <p className="join-subtitle">
-            영화 추천 사이트에 오신 것을 환영합니다
+    <div className="find-pw-wrap">
+      <div className="find-pw-container">
+        <div className="find-pw-header">
+          <h1 className="find-pw-title">비밀번호 찾기</h1>
+          <p className="find-pw-subtitle">
+            아이디와 등록된 이메일로 비밀번호를 찾을 수 있습니다
           </p>
         </div>
 
-        <div className="join-content">
-          <div className="join-form-section">
-            <h2 className="section-title">기본 정보</h2>
+        <div className="find-pw-content">
+          <div className="find-pw-form-section">
+            <h2 className="section-title">아이디 및 이메일 입력</h2>
 
-            <JoinInputWrap
+            <FindPwInputWrap
               label="아이디"
               content="memberId"
               type="text"
@@ -315,53 +217,9 @@ const Join = () => {
               checkMsg={checkIdMsg}
               placeholder="아이디를 입력해주세요."
             />
-            <JoinInputWrap
-              label="비밀번호"
-              content="memberPw"
-              type="password"
-              data={memberPw}
-              setData={setMemberPw}
-              blurEvent={pwCheck1}
-              checkMsg={checkPwMsg}
-              placeholder="비밀번호를 입력해주세요."
-            />
-            <JoinInputWrap
-              label="비밀번호 확인"
-              content="memberPwRe"
-              type="password"
-              data={memberPwRe}
-              setData={setMemberPwRe}
-              blurEvent={pwCheck2}
-              checkMsg={checkPwMsg}
-              placeholder="비밀번호 확인을 입력해주세요."
-            />
-            <JoinInputWrap
-              label="닉네임"
-              content="memberNickname"
-              type="text"
-              data={memberNickname}
-              setData={setMemberNickname}
-              blurEvent={nicknameCheck}
-              checkMsg={checkNicknameMsg}
-              placeholder="닉네임을 입력해주세요."
-            />
-          </div>
 
-          <div className="join-form-section">
-            <h2 className="section-title">연락처 정보</h2>
-
-            <JoinInputWrap
-              label="전화번호"
-              content="memberPhone"
-              type="text"
-              data={memberPhone}
-              setData={setMemberPhone}
-              blurEvent={phoneCheck}
-              checkMsg={checkPhoneMsg}
-              placeholder="010-0000-0000"
-            />
             <div className="email-input-wrapper">
-              <JoinInputWrap
+              <FindPwInputWrap
                 label="이메일"
                 content="memberEmail"
                 type="email"
@@ -397,7 +255,7 @@ const Join = () => {
             {isEmailAuthSent && !isEmailAuthVerified && (
               <div className="email-auth-code-wrapper">
                 <div className="email-auth-code-input-wrapper">
-                  <JoinInputWrap
+                  <FindPwInputWrap
                     label="이메일 인증번호"
                     content="emailAuthCode"
                     type="text"
@@ -439,70 +297,26 @@ const Join = () => {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                이메일 인증이 완료되었습니다.
+                <span>이메일 인증이 완료되었습니다.</span>
               </div>
             )}
           </div>
-
-          <div className="join-form-section">
-            <h2 className="section-title">프로필 이미지</h2>
-
-            <div className="profile-image-section">
-              <div className="profile-preview">
-                {memberImg === null ? (
-                  <div className="profile-placeholder">
-                    <svg
-                      width="80"
-                      height="80"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    <p>프로필 이미지</p>
-                  </div>
-                ) : (
-                  <img src={memberImgPreview} alt="프로필 미리보기" />
-                )}
-              </div>
-              <label htmlFor="memberImg" className="file-upload-btn">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="17 8 12 3 7 8"></polyline>
-                  <line x1="12" y1="3" x2="12" y2="15"></line>
-                </svg>
-                이미지 선택
-              </label>
-              <input
-                type="file"
-                onChange={changeImg}
-                id="memberImg"
-                accept="image/*"
-                className="file-input"
-              />
-            </div>
-          </div>
         </div>
 
-        <div className="join-btn-section">
+        <div className="find-pw-btn-section">
           <Button
-            text="회원가입"
+            text="비밀번호 찾기"
             type="primary"
-            onClick={join}
+            onClick={findPw}
             className="btn-full btn-large"
+            disabled={
+              checkIdMsg !== "" || memberId === "" || !isEmailAuthVerified
+            }
           />
         </div>
       </div>
@@ -510,7 +324,7 @@ const Join = () => {
   );
 };
 
-const JoinInputWrap = (props) => {
+const FindPwInputWrap = (props) => {
   const label = props.label;
   const content = props.content;
   const type = props.type;
@@ -519,6 +333,7 @@ const JoinInputWrap = (props) => {
   const blurEvent = props.blurEvent;
   const checkMsg = props.checkMsg;
   const placeholder = props.placeholder;
+
   return (
     <div className="join-input-wrap">
       <div>
@@ -541,4 +356,4 @@ const JoinInputWrap = (props) => {
   );
 };
 
-export default Join;
+export default FindPw;

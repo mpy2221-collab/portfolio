@@ -18,7 +18,12 @@ public class WebConfig implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor)
 			.addPathPatterns("/member/**")
-			.excludePathPatterns("/member/login","/member/join","/member/email/auth","/member/id/*","/member/nickname/*","/member/email/*");
+			// 로그인 관련 요청
+			.excludePathPatterns("/member/login",
+			// 회원가입 관련 요청
+			"/member/join","/member/email/auth", "/member/id/*","/member/nickname/*","/member/email/*",
+			// 계정 찾기 관련 요청
+			"/member/find-id","/member/find-pw","/member/pw/auth");
 		
 	}
 //	

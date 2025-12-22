@@ -9,4 +9,7 @@ public interface MemberDao {
     public Member nicknameCheck(String memberNickname);
     public Member emailCheck(String memberEmail);
     public int insertMember(Member member);
+    public String findId(String memberEmail);
+    public int updatePwMember(Member member);
+    public Member selectMemberByEmailAndId(String memberEmail, String memberId);
 }
