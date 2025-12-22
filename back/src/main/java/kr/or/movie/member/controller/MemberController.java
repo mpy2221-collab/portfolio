@@ -252,4 +252,39 @@ public class MemberController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
+
+    @PostMapping("/pw/check")
+    @Operation(summary = "비밀번호 인증", description = "비밀번호 인증")
+    public ResponseEntity<ResponseDTO> pwCheck(@RequestBody Member member,@RequestAttribute String memberId) {
+        member.setMemberId(memberId);
+        Member m = memberService.selectMemberByIdAndPw(member);
+
+        if(m != null) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
+    @PatchMapping("/pw")
+    @Operation(summary = "비밀번호 변경", description = "비밀번호 변경")
+    public ResponseEntity<ResponseDTO> changePw(@RequestBody Member member,@RequestAttribute String memberId) {
+        member.setMemberId(memberId);
+        // aop로 인해 자동 암호화 
+        // 비밀번호 찾기때 만든 기능 재사용
+        int result = memberService.updatePwMember(member);
+
+        if(result > 0) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
 }
+

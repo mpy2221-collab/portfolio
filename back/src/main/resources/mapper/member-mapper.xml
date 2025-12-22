@@ -45,4 +45,6 @@
     <update id="updateMemberInfo" parameterType="member">
         UPDATE member SET member_nickname = #{memberNickname}, member_profile_img = #{memberProfileImg} WHERE member_id = #{memberId}
     </update>
+
+
 </mapper>

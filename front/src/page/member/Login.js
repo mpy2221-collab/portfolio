@@ -13,31 +13,32 @@ const Login = (props) => {
   const loginFunction = props.loginFunction;
 
   const login = () => {
-    if(memberId !== "" && memberPw !== "") {
-        const obj = {
-            memberId: memberId,
-            memberPw: memberPw,
-        }
-        axios.post(backServer + "/member/login", obj)
+    if (memberId !== "" && memberPw !== "") {
+      const obj = {
+        memberId: memberId,
+        memberPw: memberPw,
+      };
+      axios
+        .post(backServer + "/member/login", obj)
         .then((res) => {
-            if(res.data.message === "success") {
-                // window.localStorage.setItem("token", res.data.data);
-                // setIsLogin(true);
-                loginFunction(res.data.data);
-                navigate("/");
-            }
+          if (res.data.message === "success") {
+            // window.localStorage.setItem("token", res.data.data);
+            // setIsLogin(true);
+            loginFunction(res.data.data);
+            navigate("/");
+          }
         })
         .catch((err) => {
-            Swal.fire({
-                title: "로그인 실패",
-                text: "서버 오류가 발생했습니다.",
-                icon: "error",
-                confirmButtonText: "확인",
-                confirmButtonColor: "#1a1a1a",
-            });
-        })
+          Swal.fire({
+            title: "로그인 실패",
+            text: "서버 오류가 발생했습니다.",
+            icon: "error",
+            confirmButtonText: "확인",
+            confirmButtonColor: "#1a1a1a",
+          });
+        });
     }
-  }
+  };
 
   // Enter 키로 로그인
   const handleKeyPress = (e) => {
@@ -85,6 +86,7 @@ const Login = (props) => {
               type="primary"
               onClick={login}
               className="btn-full btn-large"
+              disabled={memberId === "" || memberPw === ""}
             />
           </div>
 

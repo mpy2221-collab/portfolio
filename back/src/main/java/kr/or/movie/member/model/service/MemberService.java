@@ -71,4 +71,19 @@ public class MemberService {
     public int updateMemberInfo(Member member) {
         return memberDao.updateMemberInfo(member);
     }
+
+    public Member selectMemberByIdAndPw(Member member) {
+        // 1. 아이디 존재 여부 확인 -> 암호화된 비밀번호 얻기
+        Member m = memberDao.selectMemberById(member.getMemberId());
+
+        // 2. 사용자 입력 패스워드와 암호화된 패스워드 비교 
+        if(m != null && passwordEncoder.matches(member.getMemberPw(), m.getMemberPw())) {
+            return m;
+        }
+        else{
+            return null;
+        }
+    }
+
+  
 }
