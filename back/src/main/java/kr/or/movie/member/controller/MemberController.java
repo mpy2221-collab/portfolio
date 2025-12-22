@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -209,6 +210,41 @@ public class MemberController {
 
         if(member != null) {
             ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", member);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
+    @PatchMapping("/info")
+    @Operation(summary = "회원 정보 수정", description = "회원 정보 수정")
+    public ResponseEntity<ResponseDTO> updateMember(@ModelAttribute Member member,@ModelAttribute MultipartFile memberImg, @RequestAttribute String memberId) {
+        String savepath = root + "/member/profile_img/";
+        member.setMemberId(memberId);
+
+        // 1. 프로필 이미지가 변경된 경우 처리
+        if(member.isMemberImgChangeCheck()) {
+            if(memberImg != null) {
+                String filepath = fileUtils.upload(savepath, memberImg);
+                member.setMemberProfileImg(filepath);
+            }else{
+                member.setMemberProfileImg(null);
+            }
+        }else {
+        // 프로필 이미지를 변경하지 않은 경우, 기존 프로필 이미지 유지
+        Member existingMember = memberService.selectMemberById(memberId);
+        if(existingMember != null) {
+            member.setMemberProfileImg(existingMember.getMemberProfileImg());
+        }
+    }
+        
+        // 2. 회원 정보 수정
+        int result = memberService.updateMemberInfo(member);
+
+        if(result > 0) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", null);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         else{

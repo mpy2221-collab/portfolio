@@ -30,4 +30,6 @@ public class Member {
     private Date memberEnrollDate;
     @Schema(description = "회원 프로필 이미지")
     private String memberProfileImg;
+    @Schema(description = "프로필 이미지 변경 여부")
+    private boolean memberImgChangeCheck;
 }

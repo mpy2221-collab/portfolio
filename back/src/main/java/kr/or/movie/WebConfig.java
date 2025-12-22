@@ -23,19 +23,20 @@ public class WebConfig implements WebMvcConfigurer{
 			// 회원가입 관련 요청
 			"/member/join","/member/email/auth", "/member/id/*","/member/nickname/*","/member/email/*",
 			// 계정 찾기 관련 요청
-			"/member/find-id","/member/find-pw","/member/pw/auth");
+			"/member/find-id","/member/find-pw","/member/pw/auth")
+			// 프로필 이미지 관련 요청
+			.excludePathPatterns("/member/profile/**");
+			;
 		
 	}
 //	
 //	
 //
-//	@Override
-//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//		registry.addResourceHandler("/board/editor/**")
-//		.addResourceLocations("file:///C:/Temp/react/boardEditor/");
-//		registry.addResourceHandler("/board/thumbnail/**")
-//		.addResourceLocations("file:///C:/Temp/react/board/");
-//	}
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/member/profile/**")
+		.addResourceLocations("file:///C:/Temp/movie_project/member/profile_img/");
+	}
 
 
 

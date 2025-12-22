@@ -66,4 +66,9 @@ public class MemberService {
     public Member selectMemberById(String memberId) {
         return memberDao.selectMemberById(memberId);
     }
+
+    @Transactional
+    public int updateMemberInfo(Member member) {
+        return memberDao.updateMemberInfo(member);
+    }
 }

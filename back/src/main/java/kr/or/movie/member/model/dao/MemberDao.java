@@ -13,4 +13,5 @@ public interface MemberDao {
     public int updatePwMember(Member member);
     public Member selectMemberByEmailAndId(String memberEmail, String memberId);
     public Member selectMemberById(String memberId);
+    public int updateMemberInfo(Member member);
 }

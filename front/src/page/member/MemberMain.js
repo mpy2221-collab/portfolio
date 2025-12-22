@@ -40,7 +40,7 @@ const MemberMain = (props) => {
           console.error("회원 정보 조회 실패:", err);
         });
     }
-  }, [isLogin, backServer]);
+  }, []);
 
   if (!isLogin) {
     Swal.fire({
@@ -64,7 +64,7 @@ const MemberMain = (props) => {
         <div className="mypage-header"></div>
         <div className="mypage-content">
           <Routes>
-            <Route path="/info" element={<MemberInfo />} />
+            <Route path="/info" element={<MemberInfo member={member} setMember={setMember} />} />
             <Route path="/pw" element={<MemberPw />} />
             <Route path="/simple-review" element={<MemberSimpleReview />} />
             <Route path="/board-review" element={<MemberBoardReview />} />

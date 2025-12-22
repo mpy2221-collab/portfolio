@@ -41,4 +41,8 @@
     <select id="selectMemberById" resultType="member">
         SELECT * FROM member WHERE member_id = #{memberId}
     </select>
+
+    <update id="updateMemberInfo" parameterType="member">
+        UPDATE member SET member_nickname = #{memberNickname}, member_profile_img = #{memberProfileImg} WHERE member_id = #{memberId}
+    </update>
 </mapper>
