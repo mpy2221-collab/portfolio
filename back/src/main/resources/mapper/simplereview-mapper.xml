@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="kr.or.movie.simepleReview.model.dao.SimpleReviewDao">
+    <select id="selectReviewCount" resultType="int">
+        SELECT COUNT(*) FROM simple_review 
+        WHERE SIMPLE_REVIEW_TMDB_MOVIE_ID = #{movieId} 
+        AND SIMPLE_REVIEW_MEMBER_ID = #{memberId}
+    </select>
+    
+    <insert id="insertSimpleReview">
+        INSERT INTO simple_review (
+            SIMPLE_REVIEW_NO,
+            SIMPLE_REVIEW_MEMBER_ID,
+            SIMPLE_REVIEW_TMDB_MOVIE_ID,
+            SIMPLE_REVIEW_RATING,
+            SIMPLE_REVIEW_CONTENT,
+            SIMPLE_REVIEW_DATE
+        ) VALUES (
+            simple_review_seq.NEXTVAL,
+            #{simpleReviewMemberId},
+            #{simpleReviewTmdbMovieId},
+            #{simpleReviewRating},
+            #{simpleReviewContent},
+            SYSDATE
+        )
+    </insert>
+</mapper>

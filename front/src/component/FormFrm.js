@@ -85,4 +85,92 @@ const Sidebar = (props) => {
   );
 };
 
-export { Input, Button, Sidebar };
+const SearchInput = (props) => {
+  const data = props.data;
+  const setData = props.setData;
+  const placeholder = props.placeholder || "검색어를 입력하세요";
+  const onKeyPress = props.onKeyPress;
+  const onSearch = props.onSearch;
+
+  const changeData = (e) => {
+    setData(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && onSearch) {
+      onSearch();
+    } else if (onKeyPress) {
+      onKeyPress(e);
+    }
+  };
+
+  return (
+    <div className="search-input-wrapper">
+      <input
+        className="search-input"
+        type="text"
+        value={data || ""}
+        onChange={changeData}
+        onKeyPress={handleKeyPress}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+};
+
+const SearchSelect = (props) => {
+  const data = props.data;
+  const setData = props.setData;
+  const options = props.options || [];
+  const onKeyPress = props.onKeyPress;
+  const onSearch = props.onSearch;
+
+  const changeData = (e) => {
+    setData(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && onSearch) {
+      onSearch();
+    } else if (onKeyPress) {
+      onKeyPress(e);
+    }
+  };
+
+  return (
+    <div className="search-select-wrapper">
+      <select
+        className="search-select"
+        value={data || ""}
+        onChange={changeData}
+        onKeyPress={handleKeyPress}
+      >
+        <option value="">선택하세요</option>
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+const SearchButton = (props) => {
+  const text = props.text || "검색";
+  const onClick = props.onClick;
+  const disabled = props.disabled || false;
+
+  return (
+    <button
+      className="search-btn"
+      onClick={onClick}
+      disabled={disabled}
+      type="button"
+    >
+      {text}
+    </button>
+  );
+};
+
+export { Input, Button, Sidebar, SearchInput, SearchSelect, SearchButton };

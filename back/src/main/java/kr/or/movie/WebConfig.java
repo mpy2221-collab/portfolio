@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -17,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor)
-			.addPathPatterns("/member/**")
+			.addPathPatterns("/member/**", "/simple/review/**","/api/**")
 			// 로그인 관련 요청
 			.excludePathPatterns("/member/login",
 			// 회원가입 관련 요청
@@ -25,9 +26,10 @@ public class WebConfig implements WebMvcConfigurer{
 			// 계정 찾기 관련 요청
 			"/member/find-id","/member/find-pw","/member/pw/auth")
 			// 프로필 이미지 관련 요청
-			.excludePathPatterns("/member/profile/**");
+			.excludePathPatterns("/member/profile/**")
+			// API 관련 요청
+			.excludePathPatterns("/api/popular/*", "/api/popular/search", "/api/popular/view/*")
 			;
-		
 	}
 //	
 //	
@@ -52,4 +54,10 @@ public class WebConfig implements WebMvcConfigurer{
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+
+	@Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

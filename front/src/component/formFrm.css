@@ -94,3 +94,103 @@
 .btn-full {
   width: 100%;
 }
+
+/* 검색 컴포넌트 스타일 */
+.search-input-wrapper {
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: ns-r;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.search-input:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px var(--overlay-red-20);
+  background: var(--bg-dark-light);
+}
+
+.search-select-wrapper {
+  width: 100%;
+}
+
+.search-select {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: ns-r;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.search-select option {
+  background: var(--bg-dark);
+  color: #ffffff;
+}
+
+.search-select:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px var(--overlay-red-20);
+}
+
+.search-btn {
+  padding: 12px 24px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-red) 0%,
+    var(--accent-orange) 100%
+  );
+  color: var(--text-primary);
+  border: none;
+  border-radius: 8px;
+  font-family: ns-b;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px var(--overlay-red-30);
+  white-space: nowrap;
+}
+
+.search-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--overlay-red-40);
+}
+
+.search-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.search-reset-btn {
+  background: var(--overlay-white-10);
+  color: var(--text-secondary);
+  border: 1px solid var(--overlay-white-20);
+  box-shadow: none;
+}
+
+.search-reset-btn:hover:not(:disabled) {
+  background: var(--overlay-white-15);
+  color: var(--text-primary);
+  border-color: var(--overlay-white-30);
+  box-shadow: 0 4px 12px var(--overlay-black-30);
+}
