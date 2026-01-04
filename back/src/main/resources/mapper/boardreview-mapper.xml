@@ -3,7 +3,175 @@
 <mapper namespace="kr.or.movie.boardReview.model.dao.BoardReviewDao">
     <select id="selectReviewCount" resultType="int">
         SELECT COUNT(*) FROM board_review 
-        WHERE board_tmdb_movie_id = #{movieId} 
-        AND board_member_id = #{memberId}
+        WHERE board_review_tmdb_movie_id = #{movieId} 
+        AND board_review_member_id = #{memberId}
     </select>
+
+    <select id="selectBoardReviewAvg" resultType="double">
+        SELECT AVG(BOARD_REVIEW_RATING) FROM BOARD_REVIEW WHERE BOARD_REVIEW_TMDB_MOVIE_ID = #{tmdbMovieId}
+    </select>
+
+    <select id="selectBoardReviewCount" resultType="int">
+        SELECT COUNT(*) FROM BOARD_REVIEW WHERE BOARD_REVIEW_TMDB_MOVIE_ID = #{tmdbMovieId}
+    </select>
+
+    <insert id="insertBoardReview">
+        INSERT INTO board_review VALUES (
+            board_review_seq.NEXTVAL,
+            #{boardReviewMemberId},
+            #{boardReviewTmdbMovieId},
+            #{boardReviewTitle},
+            #{boardReviewContent},
+            #{boardReviewRating},
+            SYSDATE,
+            1,
+            0
+        )
+        <selectKey resultType="int" order="AFTER" keyProperty="boardReviewNo">
+            select board_review_seq.currval from dual
+        </selectKey>
+
+    </insert>
+
+    <select id="checkReview" resultType="int">
+        SELECT COUNT(*) FROM BOARD_REVIEW WHERE BOARD_REVIEW_TMDB_MOVIE_ID = #{movieId} AND BOARD_REVIEW_MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="selectBoardReviewListCount" resultType="int">
+        SELECT COUNT(*) FROM BOARD_REVIEW
+    </select>
+
+    <select id="selectBoardReviewList" resultType="board_review">
+    select * from (
+        select rownum as rnum, b.* from (
+            (select 
+                br.*,
+                (select member_nickname from member where member_id = br.board_review_member_id) as board_review_member_nickname
+            from board_review br 
+            where board_review_status = 1 
+            order by board_review_no desc)b
+        )
+    ) where rnum between #{start} and #{end}
+    </select>
+
+    <!-- 영화 제목 검색 카운트 -->
+    <select id="selectBoardReviewSearchCountByTitle" resultType="int">
+        SELECT COUNT(DISTINCT br.BOARD_REVIEW_NO)
+        FROM board_review br
+        INNER JOIN userpick_movie um ON br.BOARD_REVIEW_TMDB_MOVIE_ID = um.USERPICK_MOVIE_TMDB_MOVIE_ID
+        WHERE br.BOARD_REVIEW_STATUS = 1
+        AND um.USERPICK_MOVIE_STATUS = 1
+        AND um.USERPICK_MOVIE_TITLE LIKE '%' || #{keyword} || '%'
+    </select>
+
+    <!-- 영화 제목 검색 리스트 -->
+    <select id="selectBoardReviewSearchByTitle" resultType="board_review">
+        select * from (
+            select rownum as rnum, b.* from (
+                (select DISTINCT
+                    br.BOARD_REVIEW_NO,
+                    br.BOARD_REVIEW_MEMBER_ID,
+                    br.BOARD_REVIEW_TMDB_MOVIE_ID,
+                    br.BOARD_REVIEW_TITLE,
+                    br.BOARD_REVIEW_CONTENT,
+                    br.BOARD_REVIEW_RATING,
+                    br.BOARD_REVIEW_DATE,
+                    br.BOARD_REVIEW_STATUS,
+                    br.BOARD_REVIEW_VIEW_COUNT
+                from board_review br
+                INNER JOIN userpick_movie um ON br.BOARD_REVIEW_TMDB_MOVIE_ID = um.USERPICK_MOVIE_TMDB_MOVIE_ID
+                where br.BOARD_REVIEW_STATUS = 1
+                and um.USERPICK_MOVIE_STATUS = 1
+                and um.USERPICK_MOVIE_TITLE LIKE '%' || #{keyword} || '%'
+                order by br.BOARD_REVIEW_NO desc)b
+            )
+        ) where rnum between #{pageInfo.start} and #{pageInfo.end}
+    </select>
+
+    <!-- 장르 검색 카운트 -->
+    <select id="selectBoardReviewSearchCountByGenre" resultType="int">
+        SELECT COUNT(DISTINCT br.BOARD_REVIEW_NO)
+        FROM board_review br
+        INNER JOIN userpick_movie um ON br.BOARD_REVIEW_TMDB_MOVIE_ID = um.USERPICK_MOVIE_TMDB_MOVIE_ID
+        INNER JOIN userpick_genre ug ON um.USERPICK_MOVIE_NO = ug.USERPICK_GENRE_MOVIE_NO
+        WHERE br.BOARD_REVIEW_STATUS = 1
+        AND um.USERPICK_MOVIE_STATUS = 1
+        AND ug.USERPICK_GENRE_ID = #{genreId}
+    </select>
+
+    <!-- 장르 검색 리스트 -->
+    <select id="selectBoardReviewSearchByGenre" resultType="board_review">
+        select * from (
+            select rownum as rnum, b.* from (
+                (select DISTINCT
+                    br.BOARD_REVIEW_NO,
+                    br.BOARD_REVIEW_MEMBER_ID,
+                    br.BOARD_REVIEW_TMDB_MOVIE_ID,
+                    br.BOARD_REVIEW_TITLE,
+                    br.BOARD_REVIEW_CONTENT,
+                    br.BOARD_REVIEW_RATING,
+                    br.BOARD_REVIEW_DATE,
+                    br.BOARD_REVIEW_STATUS,
+                    br.BOARD_REVIEW_VIEW_COUNT
+                from board_review br
+                INNER JOIN userpick_movie um ON br.BOARD_REVIEW_TMDB_MOVIE_ID = um.USERPICK_MOVIE_TMDB_MOVIE_ID
+                INNER JOIN userpick_genre ug ON um.USERPICK_MOVIE_NO = ug.USERPICK_GENRE_MOVIE_NO
+                where br.BOARD_REVIEW_STATUS = 1
+                and um.USERPICK_MOVIE_STATUS = 1
+                and ug.USERPICK_GENRE_ID = #{genreId}
+                order by br.BOARD_REVIEW_NO desc)b
+            )
+        ) where rnum between #{pageInfo.start} and #{pageInfo.end}
+    </select>
+
+    <!-- 리뷰 제목 검색 카운트 -->
+    <select id="selectBoardReviewSearchCountByReviewTitle" resultType="int">
+        SELECT COUNT(*) FROM board_review
+        WHERE board_review_status = 1
+        AND board_review_title LIKE '%' || #{keyword} || '%'
+    </select>
+
+    <!-- 리뷰 제목 검색 리스트 -->
+    <select id="selectBoardReviewSearchByReviewTitle" resultType="board_review">
+        select * from (
+            select rownum as rnum, b.* from (
+                (select 
+                    *
+                from board_review
+                where board_review_status = 1
+                and board_review_title LIKE '%' || #{keyword} || '%'
+                order by board_review_no desc)b
+            )
+        ) where rnum between #{pageInfo.start} and #{pageInfo.end}
+    </select>
+
+    <!-- 상세 조회 -->
+    <select id="selectBoardReviewByNo" resultType="board_review">
+        select br.*,
+        (select member_nickname from member where member_id = br.board_review_member_id) as board_review_member_nickname
+        from board_review br 
+        where board_review_no = #{boardReviewNo}
+    </select>
+
+    <update id="updateBoardReviewViewCount">
+        UPDATE board_review SET board_review_view_count = board_review_view_count + 1 WHERE board_review_no = #{boardReviewNo}
+    </update>
+
+    <delete id="deleteBoardReview">
+        DELETE FROM board_review 
+        WHERE board_review_no = #{boardReviewNo}
+    </delete>
+
+
+    <!-- 수정 관련 메서드 -->
+    <update id="updateBoardReview">
+        UPDATE board_review SET
+        board_review_title = #{boardReviewTitle},
+        board_review_content = #{boardReviewContent},
+        board_review_rating = #{boardReviewRating}
+        WHERE board_review_no = #{boardReviewNo}
+    </update>
+    
+
+ 
 </mapper>

@@ -25,4 +25,16 @@
             SYSDATE
         )
     </insert>
+
+    <select id="selectSimpleReviewAvg" resultType="double">
+        SELECT AVG(SIMPLE_REVIEW_RATING) FROM SIMPLE_REVIEW WHERE SIMPLE_REVIEW_TMDB_MOVIE_ID = #{tmdbMovieId}
+    </select>
+
+    <select id="selectSimpleReviewCount" resultType="int">
+        SELECT COUNT(*) FROM SIMPLE_REVIEW WHERE SIMPLE_REVIEW_TMDB_MOVIE_ID = #{tmdbMovieId}
+    </select>
+
+    <select id="checkReview" resultType="int">
+        SELECT COUNT(*) FROM SIMPLE_REVIEW WHERE SIMPLE_REVIEW_TMDB_MOVIE_ID = #{movieId} AND SIMPLE_REVIEW_MEMBER_ID = #{memberId}
+    </select>
 </mapper>

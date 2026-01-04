@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="kr.or.movie.commenttbl.model.dao.CommentTblDao">
-  
+<mapper namespace="kr.or.movie.comment.model.dao.CommentDao">
+
+  <select id="selectCommentList" resultType="comment_tbl">
+    select 
+      ct.*,
+      (select member_nickname from member where member_id = comment_member_id) as comment_member_nickname,
+      (select member_profile_img from member where member_id = comment_member_id) as comment_member_profile_img
+    from comment_tbl ct
+    where comment_type = #{commentType} 
+    <if test="commentType == 'board'">
+      and comment_board_no = #{targetNo}
+    </if>
+    <if test="commentType == 'userpick'">
+      and comment_userpick_no = #{targetNo}
+    </if>
+    and comment_parent_no is null order by 1
+  </select>
+
+  <select id="selectReCommentList" resultType="comment_tbl">
+    select 
+      ct.*,
+      (select member_nickname from member where member_id = comment_member_id) as comment_member_nickname,
+      (select member_profile_img from member where member_id = comment_member_id) as comment_member_profile_img
+    from comment_tbl ct
+    where comment_type = #{commentType} 
+    <if test="commentType == 'board'">
+      and comment_board_no = #{targetNo}
+    </if>
+    <if test="commentType == 'userpick'">
+      and comment_userpick_no = #{targetNo}
+    </if>
+    and comment_parent_no is not null order by 1
+  </select>
+
+  <insert id="insertComment">
+    insert into comment_tbl values(
+      comment_tbl_seq.nextval,
+      #{commentType},
+      #{commentUserpickNo},
+      #{commentBoardNo},
+      #{commentMemberId},
+      #{commentContent},
+      sysdate,
+      #{commentParentNo}
+    )
+  </insert>
+
+  <update id="updateComment">
+    update comment_tbl
+    set comment_content = #{commentContent}
+    where comment_no = #{commentNo}
+  </update>
+
+  <delete id="deleteComment">
+    delete from comment_tbl where comment_no = #{commentNo}
+  </delete>
 </mapper>

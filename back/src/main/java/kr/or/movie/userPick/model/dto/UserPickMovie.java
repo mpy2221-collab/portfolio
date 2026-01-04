@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
+import java.util.List;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
@@ -18,26 +20,36 @@ public class UserPickMovie {
     private int userpickMovieNo;
     
     @Schema(description = "TMDB 영화 아이디")
-    private int userpickTmdbMovieId;
+    private int userpickMovieTmdbMovieId;
     
     @Schema(description = "유저픽 영화 상태 (1: 활성, 2: 비활성)")
-    private int userpickStatus;
+    private int userpickMovieStatus;
     
     @Schema(description = "등록일")
-    private Date userpickDate;
+    private Date userpickMovieDate;
     
     @Schema(description = "포스터 경로")
-    private String userpickPosterPath;
+    private String userpickMoviePosterPath;
     
     @Schema(description = "영화 제목")
-    private String userpickTitle;
+    private String userpickMovieTitle;
     
     @Schema(description = "개봉일")
-    private Date userpickReleaseDate;
+    private Date userpickMovieReleaseDate;
     
     @Schema(description = "러닝타임")
-    private Integer userpickRuntime;
+    private Integer userpickMovieRuntime;
     
     @Schema(description = "조회수")
-    private int userpickViewCount;
+    private int userpickMovieViewCount;
+
+    // 객체에서 추가한 필드
+    @Schema(description = "장르 목록")
+    private List<UserPickMovieGenre> userpickMovieGenres;
+
+    @Schema(description = "유저 평가 평점")
+    private Double userpickMovieRating;
+
+    @Schema(description = "유저 평가 리뷰 개수")
+    private int userpickMovieReviewCount;
 }

@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor)
-			.addPathPatterns("/member/**", "/simple/review/**","/api/**")
+			.addPathPatterns("/member/**", "/simple/review/**","/api/**","/board/review/**","/comment/**")
 			// 로그인 관련 요청
 			.excludePathPatterns("/member/login",
 			// 회원가입 관련 요청
@@ -29,6 +29,10 @@ public class WebConfig implements WebMvcConfigurer{
 			.excludePathPatterns("/member/profile/**")
 			// API 관련 요청
 			.excludePathPatterns("/api/popular/*", "/api/popular/search", "/api/popular/view/*")
+			// 게시글 리뷰 관련 요청
+			.excludePathPatterns("/board/review/editor", "/board/review/list/*","/board/review/search","/board/review/view/*","/board/review/file/*")
+			// 댓글 관련 요청
+			.excludePathPatterns("/comment/list/*")
 			;
 	}
 //	
@@ -38,6 +42,9 @@ public class WebConfig implements WebMvcConfigurer{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/member/profile/**")
 		.addResourceLocations("file:///C:/Temp/movie_project/member/profile_img/");
+
+		registry.addResourceHandler("/board/editor/**")
+		.addResourceLocations("file:///C:/Temp/movie_project/board/editor/");
 	}
 
 

@@ -64,7 +64,7 @@ public class ApiService {
         List<Map<String, Object>> allMovies = new ArrayList<>();
 
         for(int page = 1;page <=5; page++){
-            String url = baseUrl + "/movie/popular?api_key=" + apiKey + "&page=" + page;
+            String url = baseUrl + "/movie/popular?api_key=" + apiKey + "&language=ko-KR&page=" + page;
 
             // api 호출
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
@@ -216,6 +216,40 @@ public class ApiService {
             map.put("movie", null);
         }
 
+        return map;
+    }
+
+    // 영화 검색 (게시글 리뷰 작성용)
+    public Map searchMovie(String keyword) {
+        Map<String, Object> map = new HashMap<>();
+        
+        try {
+            String url = baseUrl + "/search/movie?api_key=" + apiKey 
+                       + "&language=ko-KR&query=" + java.net.URLEncoder.encode(keyword, "UTF-8");
+            
+            Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+            
+            if (response != null) {
+                List<Map<String, Object>> results = (List<Map<String, Object>>) response.get("results");
+                
+                // 최대 5개만 반환
+                List<Map<String, Object>> movieList = new ArrayList<>();
+                if (results != null) {
+                    int maxResults = Math.min(5, results.size());
+                    for(int i = 0; i < maxResults; i++) {
+                        movieList.add(results.get(i));
+                    }
+                }
+                
+                map.put("movieList", movieList);
+            } else {
+                map.put("movieList", new ArrayList<>());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("movieList", new ArrayList<>());
+        }
+        
         return map;
     }
 }

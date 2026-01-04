@@ -52,4 +52,15 @@ public class ApiController {
         ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/movie/search")
+    public ResponseEntity<ResponseDTO> searchMovie(
+        @RequestParam String keyword
+    ) {
+        Map map = apiService.searchMovie(keyword);
+        ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+   
 }

@@ -36,6 +36,7 @@ public class SimpleReviewService {
     	
     	// 2-1. userpick_movie 테이블에 해당 영화가 있는지 체크
         int isUserpickMovie = userpickMovieDao.selectUserpickMovie(simpleReview.getSimpleReviewTmdbMovieId());
+        System.out.println("userpick_movie 테이블에 해당 영화가 있는지 체크 : " + isUserpickMovie);
     	
     	// 2-2. 없으면 (== 0) userpick_movie에 영화 정보 추가
         // 2-3. 그리고 userpick_genre에 해당 영화 장르들 추가 
@@ -81,11 +82,16 @@ public class SimpleReviewService {
 
     // 리뷰 작성 여부 확인
     public boolean checkHasReview(int movieId, String memberId) {
+//    	System.out.println(movieId);
+//    	System.out.println(memberId);
         // simple_review 테이블에서 확인
         int simpleReviewCount = simpleReviewDao.selectReviewCount(movieId, memberId);
         
         // board_review 테이블에서 확인
         int boardReviewCount = boardReviewDao.selectReviewCount(movieId, memberId);
+        
+        System.out.println(simpleReviewCount);
+        System.out.println(boardReviewCount);
         
         // 둘 중 하나라도 있으면 true (리뷰 작성 불가)
         return (simpleReviewCount > 0 || boardReviewCount > 0);

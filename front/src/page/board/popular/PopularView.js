@@ -117,7 +117,7 @@ const PopularView = (props) => {
 
     const reviewData = {
       // 심플 리뷰 정보
-      simpleTmdbMovieId: parseInt(movieId),
+      simpleReviewTmdbMovieId: parseInt(movieId),
       simpleReviewRating: parseInt(simpleRating),
       simpleReviewContent: simpleContent.trim(),
 
@@ -173,6 +173,8 @@ const PopularView = (props) => {
   const goToBoardReviewWrite = () => {
     navigate("/board/review/write/" + movieId);
   };
+
+  
 
   if (loading) {
     return (

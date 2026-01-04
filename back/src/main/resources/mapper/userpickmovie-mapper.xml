@@ -2,21 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.or.movie.userPick.model.dao.UserPickMovieDao">
   <select id="selectUserpickMovie" resultType="int">
-    SELECT COUNT(*) FROM userpick_movie WHERE userpick_tmdb_movie_id = #{tmdbMovieId}
+    SELECT COUNT(*) FROM userpick_movie WHERE userpick_movie_tmdb_movie_id = #{tmdbMovieId}
   </select>
 
   <insert id="insertUserpickMovie" parameterType="simple_review" useGeneratedKeys="true" keyProperty="userpickMovieNo" keyColumn="userpick_movie_no">
-    INSERT INTO userpick_movie (
-        userpick_movie_no,
-        userpick_tmdb_movie_id,
-        userpick_status,
-        userpick_date,
-        userpick_poster_path,
-        userpick_title,
-        userpick_release_date,
-        userpick_runtime,
-        userpick_view_count
-    ) VALUES (
+    INSERT INTO userpick_movie VALUES (
         userpick_movie_seq.NEXTVAL,
         #{simpleReviewTmdbMovieId},
         1,
@@ -28,4 +18,102 @@
         0
     )
   </insert>
+
+  <insert id="insertUserpickMovieFromBoardReview" parameterType="board_review" useGeneratedKeys="true" keyProperty="userpickMovieNo" keyColumn="userpick_movie_no">
+    INSERT INTO userpick_movie VALUES (
+        userpick_movie_seq.NEXTVAL,
+        #{boardReviewTmdbMovieId},
+        1,
+        SYSDATE,
+        #{moviePosterPath},
+        #{movieTitle},
+        <if test="movieReleaseDate != null and movieReleaseDate != ''">
+        TO_DATE(#{movieReleaseDate}, 'YYYY-MM-DD'),
+        </if>
+        <if test="movieReleaseDate == null or movieReleaseDate == ''">
+        NULL,
+        </if>
+        #{movieRuntime},
+        0
+    )
+  </insert>
+
+  <select id="selectUserPickListCount" resultType="int">
+    select count(*) from userpick_movie
+  </select>
+
+  <select id="selectUserPickList" resultType="userpick_movie">
+  select * from (
+    select rownum as rnum, b.* from (
+      (select 
+        * 
+      from userpick_movie where userpick_movie_status = 1 order by userpick_movie_no desc)b
+    )
+  )where rnum between #{start} and #{end}
+  </select>
+
+  <!-- 제목 검색 카운트 -->
+  <select id="selectUserPickSearchCountByTitle" resultType="int">
+    SELECT COUNT(*) FROM userpick_movie 
+    WHERE userpick_movie_status = 1 
+    AND userpick_movie_title LIKE '%' || #{keyword} || '%'
+  </select>
+
+  <!-- 제목 검색 리스트 -->
+  <select id="selectUserPickSearchByTitle" resultType="userpick_movie">
+    select * from (
+      select rownum as rnum, b.* from (
+        (select 
+          USERPICK_MOVIE_NO,
+          USERPICK_MOVIE_TMDB_MOVIE_ID,
+          USERPICK_MOVIE_STATUS,
+          USERPICK_MOVIE_DATE,
+          USERPICK_MOVIE_POSTER_PATH,
+          USERPICK_MOVIE_TITLE,
+          USERPICK_MOVIE_RELEASE_DATE,
+          USERPICK_MOVIE_RUNTIME,
+          USERPICK_MOVIE_VIEW_COUNT
+        from userpick_movie 
+        where userpick_movie_status = 1 
+        and userpick_movie_title LIKE '%' || #{keyword} || '%'
+        order by userpick_movie_no desc)b
+      )
+    )where rnum between #{pageInfo.start} and #{pageInfo.end}
+  </select>
+
+  <!-- 장르 검색 카운트 -->
+  <select id="selectUserPickSearchCountByGenre" resultType="int">
+    SELECT COUNT(DISTINCT um.USERPICK_MOVIE_NO) 
+    FROM userpick_movie um
+    INNER JOIN userpick_genre ug ON um.USERPICK_MOVIE_NO = ug.USERPICK_GENRE_MOVIE_NO
+    WHERE um.USERPICK_MOVIE_STATUS = 1 
+    AND ug.USERPICK_GENRE_ID = #{genreId}
+  </select>
+
+  <!-- 장르 검색 리스트 -->
+  <select id="selectUserPickSearchByGenre" resultType="userpick_movie">
+    select * from (
+      select rownum as rnum, b.* from (
+        (select DISTINCT
+          um.USERPICK_MOVIE_NO,
+          um.USERPICK_MOVIE_TMDB_MOVIE_ID,
+          um.USERPICK_MOVIE_STATUS,
+          um.USERPICK_MOVIE_DATE,
+          um.USERPICK_MOVIE_POSTER_PATH,
+          um.USERPICK_MOVIE_TITLE,
+          um.USERPICK_MOVIE_RELEASE_DATE,
+          um.USERPICK_MOVIE_RUNTIME,
+          um.USERPICK_MOVIE_VIEW_COUNT
+        from userpick_movie um
+        INNER JOIN userpick_genre ug ON um.USERPICK_MOVIE_NO = ug.USERPICK_GENRE_MOVIE_NO
+        where um.USERPICK_MOVIE_STATUS = 1 
+        and ug.USERPICK_GENRE_ID = #{genreId}
+        order by um.USERPICK_MOVIE_NO desc)b
+      )
+    )where rnum between #{pageInfo.start} and #{pageInfo.end}
+  </select>
+
+  <select id="selectUserPickMovie" resultType="userpick_movie">
+    select * from userpick_movie where userpick_movie_tmdb_movie_id = #{tmdbMovieId}
+  </select>
 </mapper>

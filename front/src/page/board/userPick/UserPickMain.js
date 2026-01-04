@@ -1,9 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import UserPickList from './UserPickList';
+import { Routes, Route } from 'react-router-dom';
 
-const UserPickMain = () => {
+const UserPickMain = (props) => {
+    const isLogin = props.isLogin;
+    const navigate = useNavigate();
+
     return (
-        <div>
-            <h1>유저픽 영화</h1>
+        <div className="user-pick-container">
+            <div className="user-pick-header"></div>
+            <div className="user-pick-content">
+                <Routes>
+                    <Route path="/list" element={<UserPickList isLogin={isLogin} />} />
+                </Routes>
+            </div>
+
         </div>
     );
 };

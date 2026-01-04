@@ -286,5 +286,20 @@ public class MemberController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/id")
+    public ResponseEntity<ResponseDTO> getMemberId(@RequestAttribute String memberId) {
+        Member member = memberService.selectMemberById(memberId);
+
+        if(member != null) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", member.getMemberId());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+    
 }
 

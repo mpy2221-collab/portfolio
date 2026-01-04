@@ -1,5 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="kr.or.movie.boardreviewfile.model.dao.BoardReviewFileDao">
+
+<mapper namespace="kr.or.movie.boardReview.model.dao.BoardReviewFileDao">
+  <insert id="insertBoardReviewFile">
+    insert into board_file values(
+      board_file_seq.nextval,
+      #{boardFileReviewNo},
+      #{boardFilename},
+      #{boardFilepath}
+    )
+  </insert>
+
+  <select id="selectBoardReviewFile" resultType="board_file">
+    select * 
+    from board_file 
+    where board_file_review_no = #{boardReviewNo}
+  </select>
+
+  <select id="selectBoardReviewFileByNo" resultType="board_file">
+    select * 
+    from board_file 
+    where board_file_no = #{boardFileNo}
+  </select>
+
+  <select id="selectBoardReviewFileByNoList" resultType="board_file">
+    select * 
+    from board_file 
+    where board_file_no in
+    <foreach item="item" index="index" collection="boardFileNo" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <delete id="deleteBoardReviewFile">
+    delete from board_file where board_file_no in
+    <foreach item="item" index="index" collection="boardFileNo" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+
   
 </mapper>

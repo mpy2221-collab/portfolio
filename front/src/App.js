@@ -6,11 +6,47 @@ import Join from "./page/member/Join";
 import Login from "./page/member/Login";
 import FindId from "./page/member/FindId";
 import FindPw from "./page/member/FindPw";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect } from "react";
 import MemberMain from "./page/member/MemberMain";
 import BoardMain from "./page/board/BoardMain";
+
+// findDOMNode 경고 억제 (react-quill 내부 문제)
+const originalError = console.error;
+const originalWarn = console.warn;
+
+const shouldIgnoreWarning = (args) => {
+  const message = args[0];
+  if (typeof message === "string") {
+    return (
+      message.includes("findDOMNode is deprecated") ||
+      message.includes("findDOMNode") ||
+      message.includes("quill:toolbar ignoring attaching to disabled format")
+    );
+  }
+  if (Array.isArray(args)) {
+    const str = args.join(" ");
+    return (
+      str.includes("findDOMNode") ||
+      str.includes("quill:toolbar")
+    );
+  }
+  return false;
+};
+
+console.error = (...args) => {
+  if (shouldIgnoreWarning(args)) {
+    return;
+  }
+  originalError.call(console, ...args);
+};
+
+console.warn = (...args) => {
+  if (shouldIgnoreWarning(args)) {
+    return;
+  }
+  originalWarn.call(console, ...args);
+};
 
 function App() {
   //스토리지에 저장된 데이터를 꺼내서 객체형식으로 변환

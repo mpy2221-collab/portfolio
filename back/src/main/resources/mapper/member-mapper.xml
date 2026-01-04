@@ -46,5 +46,11 @@
         UPDATE member SET member_nickname = #{memberNickname}, member_profile_img = #{memberProfileImg} WHERE member_id = #{memberId}
     </update>
 
+    <select id="selectMemberProfileImg" resultType="string">
+        SELECT member_profile_img 
+        FROM member 
+        WHERE member_id = #{memberId}
+    </select>
+
 
 </mapper>

@@ -14,4 +14,9 @@
         #{userpickGenreName}
     )
   </insert>
+
+
+  <select id="selectUserPickMovieGenre" resultType="userpick_genre">
+    SELECT * FROM userpick_genre WHERE userpick_genre_movie_no = #{userPickMovieNo}
+  </select>
 </mapper>

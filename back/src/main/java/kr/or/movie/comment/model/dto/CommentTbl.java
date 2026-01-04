@@ -37,5 +37,11 @@ public class CommentTbl {
     
     @Schema(description = "부모 댓글 번호")
     private Integer commentParentNo;
+
+    @Schema(description = "댓글 작성자 닉네임")
+    private String commentMemberNickname;
+
+    @Schema(description = "댓글 작성자 프로필 이미지")
+    private String commentMemberProfileImg;
 }
 
