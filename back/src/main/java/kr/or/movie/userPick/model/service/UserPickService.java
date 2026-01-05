@@ -1,6 +1,7 @@
 package kr.or.movie.userPick.model.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,6 +150,113 @@ public class UserPickService {
         map.put("userPickList", list);
         map.put("pi", pageInfo);
         return map;
+    }
+
+    @Transactional
+    public Map<String, Object> selectUserPickView(int tmdbMovieId) {
+    // 조회수 1 증가
+    userPickMovieDao.updateUserPickViewCount(tmdbMovieId);
+
+    // 통계 정보
+    Map<String, Object> statistics = new HashMap<>();
+    
+    // 심플 리뷰 통계
+    Map<String, Object> simpleReviewStats = new HashMap<>();
+    int simpleCount = simpleReviewDao.selectSimpleReviewCountByTmdbMovieId(tmdbMovieId);
+    Double simpleAvg = simpleReviewDao.selectSimpleReviewAverageRatingByTmdbMovieId(tmdbMovieId);
+    simpleReviewStats.put("count", simpleCount);
+    simpleReviewStats.put("averageRating", simpleAvg != null ? simpleAvg : 0.0);
+    simpleReviewStats.put("ratingDistribution", simpleReviewDao.selectSimpleReviewRatingDistributionByTmdbMovieId(tmdbMovieId));
+    statistics.put("simpleReview", simpleReviewStats);
+    
+    // 게시판 리뷰 통계
+    Map<String, Object> boardReviewStats = new HashMap<>();
+    int boardCount = boardReviewDao.selectBoardReviewCountByTmdbMovieId(tmdbMovieId);
+    Double boardAvg = boardReviewDao.selectBoardReviewAverageRatingByTmdbMovieId(tmdbMovieId);
+    boardReviewStats.put("count", boardCount);
+    boardReviewStats.put("averageRating", boardAvg != null ? boardAvg : 0.0);
+    boardReviewStats.put("ratingDistribution", boardReviewDao.selectBoardReviewRatingDistributionByTmdbMovieId(tmdbMovieId));
+    statistics.put("boardReview", boardReviewStats);
+    
+    // 통합 통계
+    Map<String, Object> totalStats = new HashMap<>();
+    int totalCount = simpleCount + boardCount;
+    
+    // 전체 평균 평점 계산 (가중 평균)
+    double totalAverage = 0.0;
+    if (totalCount > 0) {
+        double simpleTotal = (simpleAvg != null ? simpleAvg : 0.0) * simpleCount;
+        double boardTotal = (boardAvg != null ? boardAvg : 0.0) * boardCount;
+        totalAverage = (simpleTotal + boardTotal) / totalCount;
+    }
+    
+    totalStats.put("count", totalCount);
+    totalStats.put("averageRating", totalAverage);
+    totalStats.put("ratingDistribution", calculateTotalRatingDistribution(tmdbMovieId));
+    statistics.put("total", totalStats);
+
+    // 조회수 조회
+    UserPickMovie userPickMovie = userPickMovieDao.selectUserPickMovie(tmdbMovieId);
+    int viewCount = userPickMovie != null ? userPickMovie.getUserpickMovieViewCount() : 0;
+
+    // 결과 Map 생성
+    Map<String, Object> resultMap = new HashMap<>();
+    resultMap.put("viewCount", viewCount);
+    resultMap.put("statistics", statistics);
+
+    return resultMap;
+    }
+
+    // 전체 평점 분포 계산 헬퍼 메서드
+    private List<Map<String, Object>> calculateTotalRatingDistribution(int tmdbMovieId) {
+        List<Map<String, Object>> simpleDistribution = simpleReviewDao.selectSimpleReviewRatingDistributionByTmdbMovieId(tmdbMovieId);
+        List<Map<String, Object>> boardDistribution = boardReviewDao.selectBoardReviewRatingDistributionByTmdbMovieId(tmdbMovieId);
+        
+        // 1~10점별로 합산
+        Map<Integer, Integer> ratingMap = new HashMap<>();
+        
+        // 심플 리뷰 분포 추가
+        if (simpleDistribution != null) {
+            for (Map<String, Object> item : simpleDistribution) {
+                // 대문자 키(RATING, COUNT) 또는 소문자 키(rating, count) 모두 처리
+                Object ratingObj = item.get("RATING");
+                if (ratingObj == null) ratingObj = item.get("rating");
+                Object countObj = item.get("COUNT");
+                if (countObj == null) countObj = item.get("count");
+                if (ratingObj != null && countObj != null) {
+                    Integer rating = ((Number) ratingObj).intValue();
+                    Integer count = ((Number) countObj).intValue();
+                    ratingMap.put(rating, ratingMap.getOrDefault(rating, 0) + count);
+                }
+            }
+        }
+        
+        // 게시판 리뷰 분포 추가
+        if (boardDistribution != null) {
+            for (Map<String, Object> item : boardDistribution) {
+                // 대문자 키(RATING, COUNT) 또는 소문자 키(rating, count) 모두 처리
+                Object ratingObj = item.get("RATING");
+                if (ratingObj == null) ratingObj = item.get("rating");
+                Object countObj = item.get("COUNT");
+                if (countObj == null) countObj = item.get("count");
+                if (ratingObj != null && countObj != null) {
+                    Integer rating = ((Number) ratingObj).intValue();
+                    Integer count = ((Number) countObj).intValue();
+                    ratingMap.put(rating, ratingMap.getOrDefault(rating, 0) + count);
+                }
+            }
+        }
+        
+        // 1~10점 모두 포함하도록 리스트 생성
+        List<Map<String, Object>> totalDistribution = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("rating", i);
+            item.put("count", ratingMap.getOrDefault(i, 0));
+            totalDistribution.add(item);
+        }
+        
+        return totalDistribution;
     }
 }
 

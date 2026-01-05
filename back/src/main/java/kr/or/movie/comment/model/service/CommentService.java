@@ -41,8 +41,8 @@ public class CommentService {
 
     @Transactional
     public int deleteComment(CommentTbl commentTbl) {
-        return commentDao.deleteComment(commentTbl);
-    }
+         return commentDao.deleteComment(commentTbl);
+   }
 
 }
 

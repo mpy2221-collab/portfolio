@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor)
-			.addPathPatterns("/member/**", "/simple/review/**","/api/**","/board/review/**","/comment/**")
+			.addPathPatterns("/member/**", "/simple/review/**","/api/**","/board/review/**","/comment/**","/board/user-pick/**")
 			// 로그인 관련 요청
 			.excludePathPatterns("/member/login",
 			// 회원가입 관련 요청
@@ -33,6 +33,8 @@ public class WebConfig implements WebMvcConfigurer{
 			.excludePathPatterns("/board/review/editor", "/board/review/list/*","/board/review/search","/board/review/view/*","/board/review/file/*")
 			// 댓글 관련 요청
 			.excludePathPatterns("/comment/list/*")
+			// 유저픽 영화 관련 요청
+			.excludePathPatterns("/board/user-pick/view/*","/board/user-pick/list/*","/board/user-pick/search","/simple/review/list/*")
 			;
 	}
 //	

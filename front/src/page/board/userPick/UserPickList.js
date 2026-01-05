@@ -213,6 +213,12 @@ const UserPickList = (props) => {
                   <p className="movie-release-date">
                     {formatDate(movie.userpickMovieReleaseDate)}
                   </p>
+                  {/* 조회수 */}
+                  {movie.userpickMovieViewCount !== undefined && (
+                    <p className="movie-view-count">
+                      조회수: {movie.userpickMovieViewCount.toLocaleString()}회
+                    </p>
+                  )}
                   {/* 장르 태그 */}
                   {movie.userpickMovieGenres &&
                     movie.userpickMovieGenres.length > 0 && (

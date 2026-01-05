@@ -90,5 +90,10 @@ public class BoardReview {
 
     @Schema(description = "삭제할 파일 번호 목록")
     private int[] delFileNo;
-    
+
+    @Schema(description = "게시글 리뷰 작성자 프로필 이미지")
+    private String memberProfileImg;
+
+    @Schema(description = "게시글 리뷰 작성자 닉네임")
+    private String memberNickname;
 }

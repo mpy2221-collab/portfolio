@@ -403,4 +403,8 @@ public BoardReview selectBoardReviewByNo(int boardReviewNo){
             return null;
         }
     }
+
+    public List<BoardReview> selectBoardReviewListByMovieId(int movieId){
+        return boardReviewDao.selectBoardReviewListByMovieId(movieId);
+    }
 }

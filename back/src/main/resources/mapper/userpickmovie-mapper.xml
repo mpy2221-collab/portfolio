@@ -116,4 +116,24 @@
   <select id="selectUserPickMovie" resultType="userpick_movie">
     select * from userpick_movie where userpick_movie_tmdb_movie_id = #{tmdbMovieId}
   </select>
+
+
+  <!-- 상세 조회 관련 메서드 -->
+  <update id="updateUserPickViewCount">
+    update userpick_movie set userpick_movie_view_count = userpick_movie_view_count + 1 
+    where userpick_movie_tmdb_movie_id = #{tmdbMovieId}
+  </update>
+
+  <!-- 통계 관련 메서드 -->
+  <select id="calculateTotalRatingDistribution" resultType="map">
+    SELECT 
+      simple_review_rating as rating, 
+      COUNT(*) as count
+    FROM simple_review 
+    WHERE simple_review_tmdb_movie_id = #{tmdbMovieId}
+    GROUP BY simple_review_rating
+    ORDER BY simple_review_rating
+  </select>
+
+
 </mapper>

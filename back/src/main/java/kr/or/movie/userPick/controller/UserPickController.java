@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
 @RequestMapping("/board/user-pick")
@@ -30,6 +31,7 @@ public class UserPickController {
     @Autowired
     private UserPickService userPickService;
 
+    @Operation(summary = "유저픽 영화 목록 조회", description = "유저픽 영화 목록 조회")
     @GetMapping("/list/{reqPage}")
     public ResponseEntity<ResponseDTO> getUserPickList(@PathVariable int reqPage) {
         Map map = userPickService.selectUserPickList(reqPage);
@@ -43,6 +45,7 @@ public class UserPickController {
 
     }
 
+    @Operation(summary = "유저픽 영화 검색", description = "유저픽 영화 검색")
     @GetMapping("/search")
     public ResponseEntity<ResponseDTO> searchUserPickList(
             @RequestParam String searchType, 
@@ -54,8 +57,14 @@ public class UserPickController {
         ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
- 
 
+    @Operation(summary = "유저픽 영화 상세 조회", description = "유저픽 영화 상세 조회")
+    @GetMapping("/view/{tmdbMovieId}")
+    public ResponseEntity<ResponseDTO> selectUserPickView(@PathVariable int tmdbMovieId) {
+        Map map = userPickService.selectUserPickView(tmdbMovieId);
 
+        ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
 

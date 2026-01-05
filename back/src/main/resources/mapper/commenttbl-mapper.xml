@@ -13,7 +13,7 @@
       and comment_board_no = #{targetNo}
     </if>
     <if test="commentType == 'userpick'">
-      and comment_userpick_no = #{targetNo}
+      and comment_userpick_no = (select userpick_movie_no from userpick_movie where userpick_movie_tmdb_movie_id = #{targetNo} and rownum = 1)
     </if>
     and comment_parent_no is null order by 1
   </select>
@@ -29,12 +29,13 @@
       and comment_board_no = #{targetNo}
     </if>
     <if test="commentType == 'userpick'">
-      and comment_userpick_no = #{targetNo}
+      and comment_userpick_no = (select userpick_movie_no from userpick_movie where userpick_movie_tmdb_movie_id = #{targetNo} and rownum = 1)
     </if>
     and comment_parent_no is not null order by 1
   </select>
 
   <insert id="insertComment">
+  <if test="commentType == 'board'">
     insert into comment_tbl values(
       comment_tbl_seq.nextval,
       #{commentType},
@@ -45,7 +46,22 @@
       sysdate,
       #{commentParentNo}
     )
-  </insert>
+  </if>
+  <if test="commentType == 'userpick'">
+    insert into comment_tbl values(
+      comment_tbl_seq.nextval,
+      #{commentType},
+      (select userpick_movie_no 
+      from userpick_movie 
+      where userpick_movie_tmdb_movie_id = #{commentUserpickNo} and rownum = 1),
+      #{commentBoardNo},
+      #{commentMemberId},
+      #{commentContent},
+      sysdate,
+      #{commentParentNo}
+    )
+  </if>
+</insert>
 
   <update id="updateComment">
     update comment_tbl

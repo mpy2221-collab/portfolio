@@ -37,4 +37,51 @@
     <select id="checkReview" resultType="int">
         SELECT COUNT(*) FROM SIMPLE_REVIEW WHERE SIMPLE_REVIEW_TMDB_MOVIE_ID = #{movieId} AND SIMPLE_REVIEW_MEMBER_ID = #{memberId}
     </select>
+
+      <!-- 심플 리뷰 통계 관련 메서드 -->
+  <select id="selectSimpleReviewCountByTmdbMovieId" resultType="int">
+    select count(*) from simple_review 
+    where simple_review_tmdb_movie_id = #{tmdbMovieId}
+  </select>
+
+  <select id="selectSimpleReviewAverageRatingByTmdbMovieId" resultType="double">
+    select avg(simple_review_rating) from simple_review 
+    where simple_review_tmdb_movie_id = #{tmdbMovieId}
+  </select>
+
+  <select id="selectSimpleReviewRatingDistributionByTmdbMovieId" resultType="map">
+    SELECT 
+      simple_review_rating as rating, 
+      COUNT(*) as count
+    FROM simple_review 
+    WHERE simple_review_tmdb_movie_id = #{tmdbMovieId}
+    GROUP BY simple_review_rating
+    ORDER BY simple_review_rating
+  </select>
+
+ <select id="selectSimpleReviewList" resultType="simple_review">
+  SELECT 
+      simple_review_no as simpleReviewNo,
+      simple_review_member_id as simpleReviewMemberId,
+      simple_review_tmdb_movie_id as simpleReviewTmdbMovieId,
+      simple_review_rating as simpleReviewRating,
+      simple_review_content as simpleReviewContent,
+      simple_review_date as simpleReviewDate,
+      (select member_nickname from member where member_id = simple_review_member_id) as memberNickname,
+      (select member_profile_img from member where member_id = simple_review_member_id) as memberProfileImg
+  FROM simple_review 
+  WHERE simple_review_tmdb_movie_id = #{movieId}
+  ORDER BY simple_review_no DESC
+</select>
+
+<update id="updateSimpleReview">
+    UPDATE simple_review SET
+    simple_review_rating = #{simpleReviewRating},
+    simple_review_content = #{simpleReviewContent}
+    WHERE simple_review_no = #{simpleReviewNo}
+</update>
+
+<delete id="deleteSimpleReview">
+    DELETE FROM simple_review WHERE simple_review_no = #{simpleReviewNo}
+</delete>
 </mapper>

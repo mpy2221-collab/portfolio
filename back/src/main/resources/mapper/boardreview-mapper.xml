@@ -171,7 +171,38 @@
         board_review_rating = #{boardReviewRating}
         WHERE board_review_no = #{boardReviewNo}
     </update>
-    
+
+
+    <!-- 통계 관련 메서드 -->
+    <select id="selectBoardReviewCountByTmdbMovieId" resultType="int">
+        SELECT COUNT(*) FROM board_review WHERE board_review_tmdb_movie_id = #{tmdbMovieId}
+    </select>
+
+    <select id="selectBoardReviewAverageRatingByTmdbMovieId" resultType="double">
+        SELECT AVG(BOARD_REVIEW_RATING) FROM BOARD_REVIEW WHERE BOARD_REVIEW_TMDB_MOVIE_ID = #{tmdbMovieId}
+    </select>
+
+    <select id="selectBoardReviewRatingDistributionByTmdbMovieId" resultType="map">
+        SELECT 
+        BOARD_REVIEW_RATING as rating, 
+        COUNT(*) as count
+        FROM board_review 
+        WHERE board_review_tmdb_movie_id = #{tmdbMovieId}
+        GROUP BY board_review_rating
+        ORDER BY board_review_rating
+    </select>
+
+    <!-- 영화에 대한 게시글 리뷰 리스트 조회 -->
+    <select id="selectBoardReviewListByMovieId" resultType="board_review">
+        select 
+            br.*,
+            (select member_nickname from member where member_id = br.board_review_member_id) as memberNickname,
+            (select member_profile_img from member where member_id = br.board_review_member_id) as memberProfileImg
+        from board_review br 
+        where board_review_tmdb_movie_id = #{movieId}
+        and board_review_status = 1
+        order by board_review_no desc
+    </select>
 
  
 </mapper>

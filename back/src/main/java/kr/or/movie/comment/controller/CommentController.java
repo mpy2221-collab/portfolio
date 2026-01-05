@@ -52,6 +52,7 @@ public class CommentController {
     public ResponseEntity<ResponseDTO> writeComment(@RequestBody CommentTbl commentTbl, @RequestAttribute String memberId) {
         System.out.println(commentTbl.getCommentType());
         commentTbl.setCommentMemberId(memberId);
+        System.out.println(commentTbl);
         int result = commentService.insertComment(commentTbl);
 
         if(result > 0) {

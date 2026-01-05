@@ -31,7 +31,7 @@ const BoardMain = (props) => {
         <>
             <Routes>
                 <Route path="/popular/*" element={<PopularMain isLogin={isLogin} />} />
-                <Route path="/user-pick/*" element={<UserPickMain />} />
+                <Route path="/user-pick/*" element={<UserPickMain isLogin={isLogin} memberId={memberId} />} />
                 <Route path="/review/*" element={<ReviewMain isLogin={isLogin} memberId={memberId} />} />
                 <Route path="/review/modify/:boardReviewNo/:boardReviewTmdbMovieId" element={<ReviewModify />} />
             </Routes>

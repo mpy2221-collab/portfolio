@@ -7,3 +7,6 @@ npm install sweetalert2
 npm install quill-image-resize-module-react
 npm install react-quill --legacy-peer-deps
 npm install react@^18.2.0 react-dom@^18.2.0 --legacy-peer-deps
+
+2026-01-05
+npm install recharts

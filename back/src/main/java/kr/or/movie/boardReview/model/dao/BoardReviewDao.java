@@ -1,6 +1,7 @@
 package kr.or.movie.boardReview.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -34,4 +35,12 @@ public interface BoardReviewDao {
 
     // 수정 관련 메서드
     public int updateBoardReview(BoardReview boardReview);
+
+    // 통계 관련 메서드
+    public int selectBoardReviewCountByTmdbMovieId(int tmdbMovieId);
+    public Double selectBoardReviewAverageRatingByTmdbMovieId(int tmdbMovieId);
+    public List<Map<String, Object>> selectBoardReviewRatingDistributionByTmdbMovieId(int tmdbMovieId);
+
+    // 영화에 대한 게시글 리뷰 리스트 조회
+    public List<BoardReview> selectBoardReviewListByMovieId(int movieId);
 }

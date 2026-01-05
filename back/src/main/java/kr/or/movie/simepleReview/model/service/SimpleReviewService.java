@@ -9,6 +9,9 @@ import kr.or.movie.userPick.model.dao.UserPickMovieDao;
 import kr.or.movie.userPick.model.dao.UserPickMovieGenreDao;
 import kr.or.movie.userPick.model.dto.UserPickMovieGenre;
 import kr.or.movie.boardReview.model.dao.BoardReviewDao;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -97,5 +100,20 @@ public class SimpleReviewService {
         return (simpleReviewCount > 0 || boardReviewCount > 0);
     }
 
+    public List<SimpleReview> selectListReview(int movieId) {
+        return simpleReviewDao.selectSimpleReviewList(movieId);
+    }
+
+    @Transactional
+    public int updateSimpleReview(SimpleReview simpleReview) {
+        return simpleReviewDao.updateSimpleReview(simpleReview);
+    }
+
+    @Transactional
+    public int deleteSimpleReview(int simpleReviewNo) {
+        return simpleReviewDao.deleteSimpleReview(simpleReviewNo);
+    }
+
+   
 }
 

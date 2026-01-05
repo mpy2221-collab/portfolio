@@ -53,4 +53,10 @@ public class SimpleReview {
 
     @Schema(description = "러닝타임")
     private Integer movieRuntime;
+
+    @Schema(description = "작성자 닉네임")
+    private String memberNickname;
+
+    @Schema(description = "작성자 프로필 이미지")
+    private String memberProfileImg;
 }

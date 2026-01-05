@@ -250,4 +250,19 @@ public class BoardReviewController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/list/by-movie/{movieId}")
+    @Operation(summary = "영화에 대한 게시글 리뷰 리스트 조회", description = "영화에 대한 게시글 리뷰 리스트 조회")
+    public ResponseEntity<ResponseDTO> listByMovie(@PathVariable int movieId){
+        List<BoardReview> boardReviewList = boardReviewService.selectBoardReviewListByMovieId(movieId);
+
+        if(boardReviewList != null){
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", boardReviewList);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }else{
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+       
+    }
 }

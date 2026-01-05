@@ -1,6 +1,7 @@
 package kr.or.movie.userPick.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,5 +27,12 @@ public interface UserPickMovieDao {
     public List<UserPickMovie> selectUserPickSearchByGenre(@Param("genreId") int genreId, @Param("pageInfo") PageInfo pageInfo);
 
     public UserPickMovie selectUserPickMovie(int tmdbMovieId);
+
+    // 상세 조회 관련 메서드
+    public int updateUserPickViewCount(int tmdbMovieId);
+    
+    // 통계 관련 메서드
+    public Map<String, Object> calculateTotalRatingDistribution(int tmdbMovieId);
+    
 }
 
