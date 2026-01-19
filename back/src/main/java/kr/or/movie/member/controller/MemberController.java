@@ -24,9 +24,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.v3.oas.annotations.Operation;
 import kr.or.movie.EmailSender;
+
+import java.util.Map;
 
 
 @RestController
@@ -299,6 +302,82 @@ public class MemberController {
             ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/simple-review/statistics")
+    @Operation(summary = "심플 리뷰 통계 조회", description = "현재 로그인한 회원의 심플 리뷰 통계 조회")
+    public ResponseEntity<ResponseDTO> getSimpleReviewStatistics(
+        @RequestAttribute String memberId
+    ) {
+        Map<String, Object> statistics = memberService.selectSimpleReviewStatistics(memberId);
+        
+        ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", statistics);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/simple-review/list/{reqPage}")
+    @Operation(summary = "심플 리뷰 목록 조회", description = "현재 로그인한 회원의 심플 리뷰 목록 조회")
+    public ResponseEntity<ResponseDTO> getSimpleReviewList(
+        @PathVariable int reqPage,
+        @RequestAttribute String memberId
+    ) {
+        Map<String, Object> map = memberService.selectSimpleReviewList(memberId, reqPage);
+        
+        ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/simple-review/search")
+    @Operation(summary = "심플 리뷰 검색", description = "현재 로그인한 회원의 심플 리뷰 검색")
+    public ResponseEntity<ResponseDTO> searchSimpleReviewList(
+        @RequestParam String searchType,
+        @RequestParam(required = false) String keyword,
+        @RequestParam(required = false) String genreId,
+        @RequestParam int reqPage,
+        @RequestAttribute String memberId
+    ) {
+        Map<String, Object> map = memberService.searchSimpleReviewList(memberId, searchType, keyword, genreId, reqPage);
+        
+        ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/board-review/statistics")
+    @Operation(summary = "게시글 리뷰 통계 조회", description = "현재 로그인한 회원의 게시글 리뷰 통계 조회")
+    public ResponseEntity<ResponseDTO> getBoardReviewStatistics(
+        @RequestAttribute String memberId
+    ) {
+        Map<String, Object> statistics = memberService.selectBoardReviewStatistics(memberId);
+        
+        ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", statistics);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/board-review/list/{reqPage}")
+    @Operation(summary = "게시글 리뷰 목록 조회", description = "현재 로그인한 회원의 게시글 리뷰 목록 조회")
+    public ResponseEntity<ResponseDTO> getBoardReviewList(
+        @PathVariable int reqPage,
+        @RequestAttribute String memberId
+    ) {
+        Map<String, Object> map = memberService.selectBoardReviewList(memberId, reqPage);
+        
+        ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/board-review/search")
+    @Operation(summary = "게시글 리뷰 검색", description = "현재 로그인한 회원의 게시글 리뷰 검색")
+    public ResponseEntity<ResponseDTO> searchBoardReviewList(
+        @RequestParam String searchType,
+        @RequestParam(required = false) String keyword,
+        @RequestParam(required = false) String genreId,
+        @RequestParam int reqPage,
+        @RequestAttribute String memberId
+    ) {
+        Map<String, Object> map = memberService.searchBoardReviewList(memberId, searchType, keyword, genreId, reqPage);
+        
+        ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
 }

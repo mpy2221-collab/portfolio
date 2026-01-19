@@ -1,0 +1,57 @@
+/* 통계 박스 */
+.statistics-box {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.statistics-item {
+  flex: 1;
+  min-width: 200px;
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.statistics-label {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.statistics-value {
+  font-family: ns-eb;
+  font-size: 32px;
+  color: var(--accent-orange);
+}
+
+.statistics-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.chart-container {
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+}
+
+.chart-title {
+  font-family: ns-b;
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Recharts 범례 텍스트 색상 */
+.statistics-charts .recharts-legend-item-text,
+.chart-container .recharts-legend-item-text {
+  color: var(--text-primary);
+}
+

@@ -39,10 +39,8 @@ public class UserPickService {
         int numPerPage = 12;
         int pageNaviSize = 5;
         int totalCount = userPickMovieDao.selectUserPickListCount();
-        System.out.println(totalCount);
         PageInfo pageInfo = pagination.getPageInfo(reqPage, numPerPage, pageNaviSize, totalCount);
         List<UserPickMovie> list = userPickMovieDao.selectUserPickList(pageInfo);
-        System.out.println(list);
         
         //2. list의 각 영화에 장르 추가
         for(UserPickMovie userPickMovie : list) {

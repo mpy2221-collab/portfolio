@@ -2,23 +2,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import {
   PieChart,
   Pie,
   Cell,
   ResponsiveContainer as PieResponsiveContainer,
+  Tooltip,
+  Legend,
 } from "recharts";
 import Swal from "sweetalert2";
 import Comment from "../../../component/Comment";
+import { RatingDistributionBarChart } from "../../../component/StatisticsCharts";
 
 const UserPickView = (props) => {
   const isLogin = props.isLogin;
@@ -48,7 +41,7 @@ const UserPickView = (props) => {
   const [simpleReviews, setSimpleReviews] = useState([]);
   const [boardReviews, setBoardReviews] = useState([]);
 
-  // 차트 색상
+  // 차트 색상 (원형 그래프용)
   const COLORS = [
     "#0088FE",
     "#00C49F",
@@ -248,18 +241,29 @@ const UserPickView = (props) => {
     return stars + " " + rating + "점";
   };
 
-  // 평점 분포 데이터 포맷팅
+  // 평점 분포 데이터 포맷팅 (원형 그래프용)
   const formatRatingDistribution = (distribution) => {
     if (!distribution || !Array.isArray(distribution)) return [];
-    return distribution.map((item) => {
+    // 1-10점 모두 포함하도록 보장
+    const ratingMap = new Map();
+    distribution.forEach((item) => {
       // 대문자 키(RATING, COUNT) 또는 소문자 키(rating, count) 모두 처리
       const rating = item.RATING !== undefined ? item.RATING : item.rating;
       const count = item.COUNT !== undefined ? item.COUNT : item.count;
-      return {
-        rating: `${rating}점`,
-        count: count || 0,
-      };
+      if (rating !== undefined && rating !== null) {
+        ratingMap.set(Number(rating), Number(count || 0));
+      }
     });
+
+    // 1-10점 모두 포함하도록 리스트 생성 (정렬 보장)
+    const result = [];
+    for (let i = 1; i <= 10; i++) {
+      result.push({
+        rating: i, // 숫자로 유지
+        count: ratingMap.get(i) || 0,
+      });
+    }
+    return result;
   };
 
   // 심플 리뷰 작성 폼 표시/숨김
@@ -404,19 +408,20 @@ const UserPickView = (props) => {
             icon: "success",
             confirmButtonText: "확인",
           }).then(() => {
-            setSimpleReviews((prevReviews) => 
-              prevReviews.map((review,index) =>
-              review.simpleReviewNo === editingReviewNo ? {
-                ...review,
-                simpleReviewRating: parseInt(editingRating),
-                simpleReviewContent: editingContent.trim(),
-              } : review
-            ))
+            setSimpleReviews((prevReviews) =>
+              prevReviews.map((review, index) =>
+                review.simpleReviewNo === editingReviewNo
+                  ? {
+                      ...review,
+                      simpleReviewRating: parseInt(editingRating),
+                      simpleReviewContent: editingContent.trim(),
+                    }
+                  : review
+              )
+            );
             setEditingReviewNo(null);
             setEditingRating("");
             setEditingContent("");
-            
-         
           });
         } else {
           Swal.fire({
@@ -460,11 +465,12 @@ const UserPickView = (props) => {
                 icon: "success",
                 confirmButtonText: "확인",
               }).then(() => {
-                setSimpleReviews((prevReviews) => 
-                  prevReviews.filter((review) => review.simpleReviewNo !== reviewNo)
+                setSimpleReviews((prevReviews) =>
+                  prevReviews.filter(
+                    (review) => review.simpleReviewNo !== reviewNo
+                  )
                 );
                 setHasReview(false);
-
               });
             }
           })
@@ -640,111 +646,97 @@ const UserPickView = (props) => {
 
             {/* 심플 리뷰 통계 */}
             <div className="statistics-box">
-              <h3>심플 리뷰</h3>
-              <div className="statistics-info">
-                <p>심플 리뷰 수: {statistics.simpleReview?.count || 0}개</p>
-                <p>
-                  심플 평균 평점:{" "}
-                  {formatRating(statistics.simpleReview?.averageRating || 0)}점
-                </p>
+              <div>
+                <h3>심플 리뷰</h3>
+                <div className="statistics-info">
+                  <p>심플 리뷰 수: {statistics.simpleReview?.count || 0}개</p>
+                  <p>
+                    심플 평균 평점:{" "}
+                    {formatRating(statistics.simpleReview?.averageRating || 0)}
+                    점
+                  </p>
+                </div>
               </div>
-
               {/* 심플 리뷰 평점 분포 막대 그래프 */}
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart
-                  data={formatRatingDistribution(
-                    statistics.simpleReview?.ratingDistribution
-                  )}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="rating" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="count" fill="#8884d8" />
-                </BarChart>
-              </ResponsiveContainer>
+              <RatingDistributionBarChart
+                ratingDistribution={statistics.simpleReview?.ratingDistribution}
+              />
             </div>
 
             {/* 게시판 리뷰 통계 */}
             <div className="statistics-box">
-              <h3>게시판 리뷰</h3>
-              <div className="statistics-info">
-                <p>게시판 리뷰 수: {statistics.boardReview?.count || 0}개</p>
-                <p>
-                  게시판 평균 평점:{" "}
-                  {formatRating(statistics.boardReview?.averageRating || 0)}점
-                </p>
+              <div>
+                <h3>게시판 리뷰</h3>
+                <div className="statistics-info">
+                  <p>게시판 리뷰 수: {statistics.boardReview?.count || 0}개</p>
+                  <p>
+                    게시판 평균 평점:{" "}
+                    {formatRating(statistics.boardReview?.averageRating || 0)}점
+                  </p>
+                </div>
               </div>
-
               {/* 게시판 리뷰 평점 분포 막대 그래프 */}
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart
-                  data={formatRatingDistribution(
-                    statistics.boardReview?.ratingDistribution
-                  )}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="rating" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="count" fill="#82ca9d" />
-                </BarChart>
-              </ResponsiveContainer>
+              <RatingDistributionBarChart
+                ratingDistribution={statistics.boardReview?.ratingDistribution}
+              />
             </div>
 
             {/* 통합 통계 */}
             <div className="statistics-box">
-              <h3>통합 통계</h3>
-              <div className="statistics-info">
-                <p>전체 리뷰 수: {statistics.total?.count || 0}개</p>
-                <p>
-                  전체 평균 평점:{" "}
-                  {formatRating(statistics.total?.averageRating || 0)}점
-                </p>
-                <p>심플 리뷰 수: {statistics.simpleReview?.count || 0}개</p>
-                <p>게시판 리뷰 수: {statistics.boardReview?.count || 0}개</p>
+              <div>
+                <h3>통합 통계</h3>
+                <div className="statistics-info">
+                  <p>전체 리뷰 수: {statistics.total?.count || 0}개</p>
+                  <p>
+                    전체 평균 평점:{" "}
+                    {formatRating(statistics.total?.averageRating || 0)}점
+                  </p>
+                  <p>심플 리뷰 수: {statistics.simpleReview?.count || 0}개</p>
+                  <p>게시판 리뷰 수: {statistics.boardReview?.count || 0}개</p>
+                </div>
               </div>
-
               {/* 통합 평점 분포 원형 그래프 */}
-              <PieResponsiveContainer width="100%" height={500}>
-                <PieChart>
-                  <Pie
-                    data={formatRatingDistribution(
-                      statistics.total?.ratingDistribution
-                    )}
-                    dataKey="count"
-                    nameKey="rating"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={150}
-                    innerRadius={60}
-                    label={({ rating, count, percent }) => {
-                      // count가 0보다 큰 경우만 레이블 표시
-                      if (count > 0) {
-                        return `${rating} (${(percent * 100).toFixed(1)}%)`;
-                      }
-                      return null;
-                    }}
-                    labelLine={false}
-                  >
-                    {formatRatingDistribution(
-                      statistics.total?.ratingDistribution
-                    ).map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value, name) => [`${value}개`, name]} />
-                  <Legend
-                    formatter={(value) => value}
-                    wrapperStyle={{ paddingTop: "20px" }}
-                  />
-                </PieChart>
-              </PieResponsiveContainer>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <PieResponsiveContainer width="100%" height={500}>
+                  <PieChart>
+                    <Pie
+                      data={formatRatingDistribution(
+                        statistics.total?.ratingDistribution
+                      )}
+                      dataKey="count"
+                      nameKey="rating"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={150}
+                      innerRadius={60}
+                      label={({ rating, count, percent }) => {
+                        // count가 0보다 큰 경우만 레이블 표시
+                        if (count > 0) {
+                          return `${rating}점 (${(percent * 100).toFixed(1)}%)`;
+                        }
+                        return null;
+                      }}
+                      labelLine={false}
+                    >
+                      {formatRatingDistribution(
+                        statistics.total?.ratingDistribution
+                      ).map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value, name) => [`${value}개`, `${name}점`]}
+                    />
+                    <Legend
+                      formatter={(value) => `${value}점`}
+                      wrapperStyle={{ paddingTop: "20px" }}
+                    />
+                  </PieChart>
+                </PieResponsiveContainer>
+              </div>
             </div>
           </div>
         )}

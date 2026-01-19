@@ -10,7 +10,6 @@ import kr.or.movie.userPick.model.dao.UserPickMovieGenreDao;
 import kr.or.movie.userPick.model.dto.UserPickMovieGenre;
 import kr.or.movie.boardReview.model.dao.BoardReviewDao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

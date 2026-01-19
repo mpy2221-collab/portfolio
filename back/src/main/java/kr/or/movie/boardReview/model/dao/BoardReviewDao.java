@@ -43,4 +43,22 @@ public interface BoardReviewDao {
 
     // 영화에 대한 게시글 리뷰 리스트 조회
     public List<BoardReview> selectBoardReviewListByMovieId(int movieId);
+    
+    // 회원별 게시글 리뷰 목록 조회 (페이지네이션)
+    public int selectBoardReviewListCountByMemberId(@Param("memberId") String memberId);
+    public List<BoardReview> selectBoardReviewListByMemberId(@Param("memberId") String memberId, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 회원별 게시글 리뷰 검색 (제목)
+    public int selectBoardReviewSearchCountByTitle(@Param("memberId") String memberId, @Param("keyword") String keyword);
+    public List<BoardReview> selectBoardReviewSearchByTitle(@Param("memberId") String memberId, @Param("keyword") String keyword, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 회원별 게시글 리뷰 검색 (장르)
+    public int selectBoardReviewSearchCountByGenre(@Param("memberId") String memberId, @Param("genreId") int genreId);
+    public List<BoardReview> selectBoardReviewSearchByGenre(@Param("memberId") String memberId, @Param("genreId") int genreId, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 회원별 게시글 리뷰 통계
+    public int selectBoardReviewCountByMemberId(@Param("memberId") String memberId);
+    public Double selectBoardReviewAverageRatingByMemberId(@Param("memberId") String memberId);
+    public List<Map<String, Object>> selectBoardReviewGenreDistributionByMemberId(@Param("memberId") String memberId);
+    public List<Map<String, Object>> selectBoardReviewRatingDistributionByMemberId(@Param("memberId") String memberId);
 }

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import kr.or.movie.simepleReview.model.dto.SimpleReview;
+import kr.or.movie.util.PageInfo;
 
 @Mapper
 public interface SimpleReviewDao {
@@ -42,6 +44,23 @@ public interface SimpleReviewDao {
     // 심플 리뷰 삭제
     public int deleteSimpleReview(int simpleReviewNo);
 
+    // 심플 리뷰 통계 조회
+    public int selectSimpleReviewCountByMemberId(String memberId);
+    public Double selectSimpleReviewAverageRatingByMemberId(String memberId);
+    public List<Map<String, Object>> selectSimpleReviewGenreDistributionByMemberId(String memberId);
+    public List<Map<String, Object>> selectSimpleReviewRatingDistributionByMemberId(String memberId);
+
+    // 회원별 심플 리뷰 목록 조회 (페이지네이션)
+    public int selectSimpleReviewListCountByMemberId(String memberId);
+    public List<SimpleReview> selectSimpleReviewListByMemberId(@Param("memberId") String memberId, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 회원별 심플 리뷰 검색 (제목)
+    public int selectSimpleReviewSearchCountByTitle(@Param("memberId") String memberId, @Param("keyword") String keyword);
+    public List<SimpleReview> selectSimpleReviewSearchByTitle(@Param("memberId") String memberId, @Param("keyword") String keyword, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 회원별 심플 리뷰 검색 (장르)
+    public int selectSimpleReviewSearchCountByGenre(@Param("memberId") String memberId, @Param("genreId") int genreId);
+    public List<SimpleReview> selectSimpleReviewSearchByGenre(@Param("memberId") String memberId, @Param("genreId") int genreId, @Param("pageInfo") PageInfo pageInfo);
 
 }
 

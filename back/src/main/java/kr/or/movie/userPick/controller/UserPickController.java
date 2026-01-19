@@ -35,14 +35,8 @@ public class UserPickController {
     @GetMapping("/list/{reqPage}")
     public ResponseEntity<ResponseDTO> getUserPickList(@PathVariable int reqPage) {
         Map map = userPickService.selectUserPickList(reqPage);
-
-        
         ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", map);
         return new ResponseEntity<>(response, HttpStatus.OK);
-
-
-
-
     }
 
     @Operation(summary = "유저픽 영화 검색", description = "유저픽 영화 검색")
