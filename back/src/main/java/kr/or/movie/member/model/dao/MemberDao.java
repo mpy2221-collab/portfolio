@@ -1,7 +1,11 @@
 package kr.or.movie.member.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import kr.or.movie.member.model.dto.Member;
+import java.util.List;
+import kr.or.movie.util.PageInfo;
+
 @Mapper
 public interface MemberDao {
 
@@ -16,4 +20,17 @@ public interface MemberDao {
     public int updateMemberInfo(Member member);
     public String selectMemberProfileImg(String memberId);
 
+    // 관리자 회원 목록 조회
+    public int getMemberListCount();
+    public List<Member> getMemberList(PageInfo pageInfo);
+    
+    // 관리자 회원 검색
+    public int getMemberSearchCount(@Param("searchType") String searchType, @Param("keyword") String keyword);
+    public List<Member> getMemberSearchList(@Param("searchType") String searchType, @Param("keyword") String keyword, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 관리자 회원 유형 변경
+    public int updateMemberType(Member member);
+    
+    // 관리자 회원 삭제
+    public int deleteMember(String memberId);
 }

@@ -223,13 +223,11 @@ const UserPickList = (props) => {
                   {movie.userpickMovieGenres &&
                     movie.userpickMovieGenres.length > 0 && (
                       <div className="movie-genres">
-                        {movie.userpickMovieGenres
-                          .slice(0, 3)
-                          .map((genre, idx) => (
-                            <span key={idx} className="genre-tag">
-                              {genre.userpickGenreName}
-                            </span>
-                          ))}
+                        {movie.userpickMovieGenres.map((genre, idx) => (
+                          <span key={idx} className="genre-tag">
+                            {genre.userpickGenreName}
+                          </span>
+                        ))}
                       </div>
                     )}
                   {/* 유저 평가 정보 */}

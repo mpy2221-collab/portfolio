@@ -175,7 +175,14 @@ public Map selectBoardReviewList(int reqPage){
         Member member = memberDao.idCheck(memberId);
         boardReview.setProfilePath(member.getMemberProfileImg());
     }
-    // 5. map에 데이터 담기
+
+    // 6. 각 게시글의 좋아요 수 조회
+    for(BoardReview boardReview : list) {
+        int likeCount = boardLikeDao.selectBoardReviewLikeCount(boardReview.getBoardReviewNo());
+        boardReview.setLikeCount(likeCount);
+    }
+
+    // 7. map에 데이터 담기
     map.put("boardReviewList", list);
     map.put("pi", pageInfo);
     return map;
@@ -278,7 +285,13 @@ public Map searchBoardReviewList(String searchType, String keyword, String genre
         }
     }
 
-    // 6. map에 데이터 담기
+    // 6. 각 게시글의 좋아요 수 조회
+    for(BoardReview boardReview : list) {
+        int likeCount = boardLikeDao.selectBoardReviewLikeCount(boardReview.getBoardReviewNo());
+        boardReview.setLikeCount(likeCount);
+    }
+
+    // 7. map에 데이터 담기
     PageInfo pageInfo = pagination.getPageInfo(reqPage, numPerPage, pageNaviSize, totalCount);
     map.put("boardReviewList", list);
     map.put("pi", pageInfo);
@@ -286,7 +299,7 @@ public Map searchBoardReviewList(String searchType, String keyword, String genre
 }
 
 @Transactional
-public BoardReview selectBoardReviewByNo(int boardReviewNo){
+public BoardReview selectBoardReviewByNo(int boardReviewNo, String memberId){
 
     // 1. 게시글 리뷰 조회
     BoardReview boardReview = boardReviewDao.selectBoardReviewByNo(boardReviewNo);
@@ -314,8 +327,12 @@ public BoardReview selectBoardReviewByNo(int boardReviewNo){
     boardReview.setLikeCount(likeCount);
 
     // 5. 내가 좋아요 눌렀는지 체크 조회
-    int isLiked = boardLikeDao.checkBoardReviewLike(boardReviewNo, boardReview.getBoardReviewMemberId());
-    boardReview.setLiked(isLiked > 0);
+    if (memberId != null) {  // 로그인한 경우에만 체크
+        int isLiked = boardLikeDao.checkBoardReviewLike(boardReviewNo, memberId);  // 현재 로그인한 사용자 ID 사용
+        boardReview.setLiked(isLiked > 0);
+    } else {
+        boardReview.setLiked(false);  // 로그인하지 않은 경우 false
+    }
 
     // 6. 댓글 목록
     List<CommentTbl> boardComments = commentDao.selectCommentList("board", boardReviewNo);

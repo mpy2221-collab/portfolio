@@ -213,7 +213,7 @@ const PopularList = () => {
                   </p>
                   {movie.genre_ids && movie.genre_ids.length > 0 && (
                     <div className="movie-genres">
-                      {movie.genre_ids.slice(0, 3).map((genreId, idx) => {
+                      {movie.genre_ids.map((genreId, idx) => {
                         const genre = genreOptions.find(
                           (g) => g.value === String(genreId)
                         );

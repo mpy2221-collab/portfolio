@@ -52,4 +52,7 @@ public class UserPickMovie {
 
     @Schema(description = "유저 평가 리뷰 개수")
     private int userpickMovieReviewCount;
+
+    @Schema(description = "리뷰 수 (simple_review + board_review)")
+    private int reviewCount;
 }

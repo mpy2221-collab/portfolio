@@ -61,4 +61,29 @@ public interface BoardReviewDao {
     public Double selectBoardReviewAverageRatingByMemberId(@Param("memberId") String memberId);
     public List<Map<String, Object>> selectBoardReviewGenreDistributionByMemberId(@Param("memberId") String memberId);
     public List<Map<String, Object>> selectBoardReviewRatingDistributionByMemberId(@Param("memberId") String memberId);
+    
+    // 관리자 전체 게시글 리뷰 통계 조회
+    public int selectAllBoardReviewCount();
+    public Double selectAllBoardReviewAverageRating();
+    public List<Map<String, Object>> selectAllBoardReviewGenreDistribution();
+    public List<Map<String, Object>> selectAllBoardReviewRatingDistribution();
+    
+    // 관리자 전체 게시글 리뷰 목록 조회 (페이지네이션)
+    public int selectAllBoardReviewListCount();
+    public List<BoardReview> selectAllBoardReviewList(@Param("pageInfo") PageInfo pageInfo);
+    
+    // 관리자 전체 게시글 리뷰 검색 (영화 제목)
+    public int selectAllBoardReviewSearchCountByTitle(@Param("keyword") String keyword);
+    public List<BoardReview> selectAllBoardReviewSearchByTitle(@Param("keyword") String keyword, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 관리자 전체 게시글 리뷰 검색 (장르)
+    public int selectAllBoardReviewSearchCountByGenre(@Param("genreId") int genreId);
+    public List<BoardReview> selectAllBoardReviewSearchByGenre(@Param("genreId") int genreId, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 관리자 전체 게시글 리뷰 검색 (유저 아이디/닉네임)
+    public int selectAllBoardReviewSearchCountByUser(@Param("keyword") String keyword);
+    public List<BoardReview> selectAllBoardReviewSearchByUser(@Param("keyword") String keyword, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 최근 게시글 리뷰 조회 (메인 페이지용)
+    public List<BoardReview> selectRecentBoardReviews(@Param("limit") int limit);
 }

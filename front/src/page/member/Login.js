@@ -26,6 +26,22 @@ const Login = (props) => {
             // setIsLogin(true);
             loginFunction(res.data.data);
             navigate("/");
+          } else if (res.data.message === "suspended") {
+            Swal.fire({
+              title: "로그인 불가",
+              text: "정지된 회원입니다.",
+              icon: "warning",
+              confirmButtonText: "확인",
+              confirmButtonColor: "#1a1a1a",
+            });
+          } else {
+            Swal.fire({
+              title: "로그인 실패",
+              text: "존재하지 않는 회원입니다.",
+              icon: "error",
+              confirmButtonText: "확인",
+              confirmButtonColor: "#1a1a1a",
+            });
           }
         })
         .catch((err) => {

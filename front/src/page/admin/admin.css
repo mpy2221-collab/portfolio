@@ -1,0 +1,1502 @@
+/* 관리자 페이지 */
+.admin-wrap {
+  display: flex;
+  min-height: calc(100vh - 160px);
+  background: #ffffff;
+  padding: 30px 20px;
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 메인 컨텐츠 영역 */
+.admin-container {
+  flex: 1;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  min-height: 600px;
+}
+
+.admin-header {
+  margin-bottom: 30px;
+}
+
+.admin-content {
+  width: 100%;
+}
+
+/* 관리자 회원 관리 페이지 */
+.admin-member-wrap {
+  width: 100%;
+}
+
+/* 헤더 */
+.admin-member-header {
+  margin-bottom: 40px;
+}
+
+.admin-member-title {
+  font-family: ns-eb;
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.admin-member-subtitle {
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+/* 검색 영역 */
+.admin-member-search {
+  margin-bottom: 40px;
+}
+
+.admin-member-search-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.admin-member-search-container .search-type-select {
+  min-width: 150px;
+}
+
+.admin-member-search-container .search-type-select-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: ns-r;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.admin-member-search-container .search-type-select-input option {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+}
+
+.admin-member-search-container .search-type-select-input:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px var(--overlay-red-20);
+}
+
+.admin-member-search-container .search-input-area {
+  flex: 1;
+}
+
+.admin-member-search-container .search-button-area {
+  display: flex;
+  gap: 8px;
+}
+
+/* 회원 리스트 */
+.admin-member-list {
+  margin-bottom: 40px;
+}
+
+.no-members-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-tertiary);
+  font-family: ns-r;
+  font-size: 16px;
+  background: var(--bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--overlay-white-10);
+}
+
+/* 회원 테이블 */
+.admin-member-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  table-layout: fixed;
+}
+
+.admin-member-table thead {
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark-light) 0%,
+    var(--bg-dark) 100%
+  );
+}
+
+.admin-member-table th {
+  padding: 10px 8px;
+  text-align: center;
+  font-family: ns-b;
+  font-size: 13px;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--overlay-white-10);
+  white-space: nowrap;
+}
+
+.admin-member-table th:nth-child(1) {
+  width: 10%;
+}
+
+.admin-member-table th:nth-child(2) {
+  width: 10%;
+}
+
+.admin-member-table th:nth-child(3) {
+  width: 25%;
+}
+
+.admin-member-table th:nth-child(4) {
+  width: 15%;
+}
+
+.admin-member-table th:nth-child(5) {
+  width: 12%;
+}
+
+.admin-member-table th:nth-child(6) {
+  width: 13%;
+}
+
+.admin-member-table th:nth-child(7) {
+  width: 10%;
+}
+
+.admin-member-table tbody tr {
+  border-bottom: 1px solid var(--overlay-white-10);
+  transition: all 0.2s ease;
+}
+
+.admin-member-table tbody tr:hover {
+  background: var(--overlay-white-05);
+}
+
+.admin-member-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin-member-table td {
+  padding: 10px 8px;
+  font-family: ns-r;
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* 회원 유형 Select */
+.member-type-select {
+  padding: 6px 8px;
+  background: var(--bg-dark-light);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: ns-r;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  width: 100%;
+  min-width: 80px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+.member-type-select:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 2px var(--overlay-red-20);
+}
+
+.member-type-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--bg-dark);
+}
+
+.member-type-select option {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+}
+
+/* 회원 삭제 버튼 */
+.member-delete-btn {
+  padding: 6px 12px;
+  background: var(--overlay-red-20);
+  border: 1px solid var(--overlay-red-30);
+  border-radius: 6px;
+  color: var(--accent-red);
+  font-family: ns-r;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  white-space: nowrap;
+  margin: 0 auto;
+  display: block;
+}
+
+.member-delete-btn:hover:not(:disabled) {
+  background: var(--overlay-red-30);
+  color: var(--text-primary);
+  border-color: var(--overlay-red-50);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--overlay-red-30);
+}
+
+.member-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--bg-dark);
+  border-color: var(--overlay-white-10);
+  color: var(--text-tertiary);
+}
+
+.member-delete-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* 페이지네이션 */
+.admin-member-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* 관리자 심플 리뷰 관리 페이지 */
+.admin-simple-review-wrap {
+  width: 100%;
+}
+
+/* 헤더 */
+.admin-simple-review-header {
+  margin-bottom: 40px;
+}
+
+.admin-simple-review-title {
+  font-family: ns-eb;
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.admin-simple-review-subtitle {
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+/* 통계 영역 */
+.admin-simple-review-statistics-all,
+.admin-simple-review-statistics-user {
+  margin-bottom: 40px;
+  padding: 30px;
+  background: var(--bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--overlay-white-10);
+}
+
+/* StatisticsBox 스타일 */
+.admin-simple-review-statistics-all .statistics-box,
+.admin-simple-review-statistics-user .statistics-box {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.admin-simple-review-statistics-all .statistics-item,
+.admin-simple-review-statistics-user .statistics-item {
+  flex: 1;
+  min-width: 200px;
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.admin-simple-review-statistics-all .statistics-label,
+.admin-simple-review-statistics-user .statistics-label {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.admin-simple-review-statistics-all .statistics-value,
+.admin-simple-review-statistics-user .statistics-value {
+  font-family: ns-eb;
+  font-size: 32px;
+  color: var(--accent-orange);
+}
+
+.admin-simple-review-statistics-all .statistics-charts,
+.admin-simple-review-statistics-user .statistics-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.admin-simple-review-statistics-all .chart-container,
+.admin-simple-review-statistics-user .chart-container {
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+}
+
+.admin-simple-review-statistics-all .chart-title,
+.admin-simple-review-statistics-user .chart-title {
+  font-family: ns-b;
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.admin-simple-review-statistics-all .statistics-section-title,
+.admin-simple-review-statistics-user .statistics-section-title {
+  font-family: ns-b;
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--overlay-white-10);
+}
+
+/* 유저 검색 영역 */
+.user-search-area {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.user-search-input {
+  flex: 1;
+}
+
+.user-search-button {
+  min-width: 100px;
+}
+
+/* 검색 영역 */
+.admin-simple-review-search {
+  margin-bottom: 40px;
+}
+
+.admin-simple-review-search-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.admin-simple-review-search-container .search-type-select {
+  min-width: 150px;
+}
+
+.admin-simple-review-search-container .search-type-select-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: ns-r;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.admin-simple-review-search-container .search-type-select-input option {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+}
+
+.admin-simple-review-search-container .search-type-select-input:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px var(--overlay-red-20);
+}
+
+.admin-simple-review-search-container .search-input-area {
+  flex: 1;
+}
+
+.admin-simple-review-search-container .search-button-area {
+  display: flex;
+  gap: 8px;
+}
+
+/* 리뷰 리스트 */
+.admin-simple-review-list {
+  margin-bottom: 40px;
+}
+
+.no-reviews-message {
+  text-align: center;
+  padding: 60px 20px;
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  background: var(--bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--overlay-white-10);
+}
+
+.admin-simple-review-list .review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.admin-simple-review-list .review-card {
+  background: var(--bg-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--overlay-white-10);
+  transition: all 0.3s ease;
+}
+
+.admin-simple-review-list .review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: var(--accent-orange);
+}
+
+.admin-simple-review-list .review-poster {
+  width: 100%;
+  padding-top: 150%; /* 2:3 비율 유지 */
+  overflow: hidden;
+  background: var(--bg-dark-light);
+  position: relative;
+  cursor: pointer;
+}
+
+.admin-simple-review-list .review-poster img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  background: var(--bg-dark-light);
+}
+
+.admin-simple-review-list .review-card:hover .review-poster img {
+  transform: scale(1.05);
+}
+
+.admin-simple-review-list .review-info {
+  padding: 20px;
+}
+
+.admin-simple-review-list .review-movie-title {
+  font-family: ns-b;
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.admin-simple-review-list .review-movie-title:hover {
+  color: var(--accent-orange);
+}
+
+.admin-simple-review-list .review-movie-date {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.admin-simple-review-list .movie-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.admin-simple-review-list .genre-tag {
+  padding: 4px 10px;
+  background: var(--bg-dark-light);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 12px;
+  font-family: ns-r;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.admin-simple-review-list .review-author {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.admin-simple-review-list .author-link {
+  color: var(--accent-orange);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.admin-simple-review-list .author-link:hover {
+  color: var(--accent-red);
+}
+
+.admin-simple-review-list .review-rating {
+  margin-bottom: 12px;
+}
+
+.admin-simple-review-list .rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-simple-review-list .star {
+  font-size: 16px;
+  color: var(--accent-orange);
+}
+
+.admin-simple-review-list .star.empty {
+  color: var(--text-tertiary);
+}
+
+.admin-simple-review-list .star.half {
+  opacity: 0.5;
+}
+
+.admin-simple-review-list .rating-number {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
+
+.admin-simple-review-list .review-content {
+  font-family: ns-r;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 60px;
+  color: var(--text-primary);
+}
+
+.admin-simple-review-list .review-date {
+  font-family: ns-r;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.admin-simple-review-list .review-delete {
+  margin-top: 12px;
+}
+
+.delete-review-btn {
+  padding: 8px 16px;
+  background: var(--overlay-red-20);
+  border: 1px solid var(--overlay-red-30);
+  border-radius: 6px;
+  color: var(--accent-red);
+  font-family: ns-r;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  width: 100%;
+}
+
+.delete-review-btn:hover {
+  background: var(--overlay-red-30);
+  color: var(--text-primary);
+  border-color: var(--overlay-red-50);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--overlay-red-30);
+}
+
+/* 페이지네이션 */
+.admin-simple-review-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* Recharts 범례 텍스트 색상 */
+.admin-simple-review-statistics-all .recharts-legend-item-text,
+.admin-simple-review-statistics-user .recharts-legend-item-text {
+  color: var(--text-primary);
+}
+
+/* 관리자 게시글 리뷰 관리 페이지 */
+.admin-board-review-wrap {
+  width: 100%;
+}
+
+/* 헤더 */
+.admin-board-review-header {
+  margin-bottom: 40px;
+}
+
+.admin-board-review-title {
+  font-family: ns-eb;
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.admin-board-review-subtitle {
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+/* 통계 영역 */
+.admin-board-review-statistics-all,
+.admin-board-review-statistics-user {
+  margin-bottom: 40px;
+  padding: 30px;
+  background: var(--bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--overlay-white-10);
+}
+
+/* StatisticsBox 스타일 */
+.admin-board-review-statistics-all .statistics-box,
+.admin-board-review-statistics-user .statistics-box {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.admin-board-review-statistics-all .statistics-item,
+.admin-board-review-statistics-user .statistics-item {
+  flex: 1;
+  min-width: 200px;
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.admin-board-review-statistics-all .statistics-label,
+.admin-board-review-statistics-user .statistics-label {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.admin-board-review-statistics-all .statistics-value,
+.admin-board-review-statistics-user .statistics-value {
+  font-family: ns-eb;
+  font-size: 32px;
+  color: var(--accent-orange);
+}
+
+.admin-board-review-statistics-all .statistics-charts,
+.admin-board-review-statistics-user .statistics-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.admin-board-review-statistics-all .chart-container,
+.admin-board-review-statistics-user .chart-container {
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+}
+
+.admin-board-review-statistics-all .chart-title,
+.admin-board-review-statistics-user .chart-title {
+  font-family: ns-b;
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* 검색 영역 */
+.admin-board-review-search {
+  margin-bottom: 40px;
+}
+
+.admin-board-review-search-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.admin-board-review-search-container .search-type-select {
+  min-width: 150px;
+}
+
+.admin-board-review-search-container .search-type-select-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: ns-r;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.admin-board-review-search-container .search-type-select-input option {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+}
+
+.admin-board-review-search-container .search-type-select-input:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px var(--overlay-red-20);
+}
+
+.admin-board-review-search-container .search-input-area {
+  flex: 1;
+}
+
+.admin-board-review-search-container .search-button-area {
+  display: flex;
+  gap: 8px;
+}
+
+/* 리뷰 리스트 */
+.admin-board-review-list {
+  margin-bottom: 40px;
+}
+
+.admin-board-review-list .no-reviews-message {
+  text-align: center;
+  padding: 60px 20px;
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  background: var(--bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--overlay-white-10);
+}
+
+.admin-board-review-list .review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.admin-board-review-list .review-card {
+  background: var(--bg-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--overlay-white-10);
+  transition: all 0.3s ease;
+}
+
+.admin-board-review-list .review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: var(--accent-orange);
+}
+
+.admin-board-review-list .review-poster {
+  width: 100%;
+  padding-top: 150%;
+  overflow: hidden;
+  background: var(--bg-dark-light);
+  position: relative;
+  cursor: pointer;
+}
+
+.admin-board-review-list .review-poster img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  background: var(--bg-dark-light);
+}
+
+.admin-board-review-list .review-card:hover .review-poster img {
+  transform: scale(1.05);
+}
+
+.admin-board-review-list .review-info {
+  padding: 20px;
+}
+
+.admin-board-review-list .review-movie-title {
+  font-family: ns-b;
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.admin-board-review-list .review-movie-title:hover {
+  color: var(--accent-orange);
+}
+
+.admin-board-review-list .review-movie-date {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.admin-board-review-list .movie-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.admin-board-review-list .genre-tag {
+  padding: 4px 10px;
+  background: var(--bg-dark-light);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 12px;
+  font-family: ns-r;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.admin-board-review-list .review-title {
+  font-family: ns-b;
+  font-size: 16px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.admin-board-review-list .review-title:hover {
+  color: var(--accent-orange);
+}
+
+.admin-board-review-list .review-author {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.admin-board-review-list .author-link {
+  color: var(--accent-orange);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.admin-board-review-list .author-link:hover {
+  color: var(--accent-red);
+}
+
+.admin-board-review-list .review-rating {
+  margin-bottom: 12px;
+}
+
+.admin-board-review-list .rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-board-review-list .star {
+  font-size: 16px;
+  color: var(--accent-orange);
+}
+
+.admin-board-review-list .star.full {
+  color: var(--accent-orange);
+}
+
+.admin-board-review-list .star.half {
+  color: var(--accent-orange);
+  opacity: 0.7;
+}
+
+.admin-board-review-list .star.empty {
+  color: var(--text-tertiary);
+}
+
+.admin-board-review-list .rating-number {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-primary);
+  margin-left: 8px;
+}
+
+.admin-board-review-list .review-content {
+  font-family: ns-r;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 60px;
+  color: var(--text-primary);
+}
+
+.admin-board-review-list .review-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-family: ns-r;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.admin-board-review-list .review-view-count,
+.admin-board-review-list .review-like-count {
+  color: var(--text-secondary);
+}
+
+.admin-board-review-list .review-date {
+  font-family: ns-r;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.admin-board-review-list .review-delete {
+  margin-top: 12px;
+}
+
+/* 페이지네이션 */
+.admin-board-review-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* Recharts 범례 텍스트 색상 */
+.admin-board-review-statistics-all .recharts-legend-item-text,
+.admin-board-review-statistics-user .recharts-legend-item-text {
+  color: var(--text-primary);
+}
+
+/* 관리자 유저픽 영화 관리 페이지 */
+.admin-user-pick-wrap {
+  width: 100%;
+}
+
+/* 헤더 */
+.admin-user-pick-header {
+  margin-bottom: 40px;
+}
+
+.admin-user-pick-title {
+  font-family: ns-eb;
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.admin-user-pick-subtitle {
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+/* 통계 영역 */
+.admin-user-pick-statistics {
+  margin-bottom: 40px;
+  padding: 30px;
+  background: var(--bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--overlay-white-10);
+}
+
+.admin-user-pick-statistics .statistics-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.admin-user-pick-statistics .statistics-item {
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+  text-align: center;
+  min-width: 0;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+}
+
+.admin-user-pick-statistics .statistics-label {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.admin-user-pick-statistics .statistics-value {
+  font-family: ns-eb;
+  font-size: 24px;
+  color: var(--accent-orange);
+}
+
+.admin-user-pick-statistics .statistics-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.admin-user-pick-statistics .chart-container {
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+  min-height: 450px;
+}
+
+.admin-user-pick-statistics .chart-container .recharts-wrapper {
+  min-height: 400px;
+}
+
+.admin-user-pick-statistics .chart-title {
+  font-family: ns-b;
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* TOP 영화 섹션 */
+.top-movies-section {
+  margin-top: 40px;
+  padding: 20px;
+  background: var(--bg-dark-light);
+  border-radius: 8px;
+}
+
+.top-movies-title {
+  font-family: ns-b;
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.top-movies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.top-movie-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: var(--bg-dark);
+  border-radius: 8px;
+  border: 1px solid var(--overlay-white-10);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.top-movie-item:hover {
+  background: var(--bg-dark-light);
+  border-color: var(--accent-orange);
+  transform: translateX(4px);
+}
+
+.top-movie-rank {
+  font-family: ns-eb;
+  font-size: 18px;
+  color: var(--accent-orange);
+  min-width: 30px;
+  text-align: center;
+}
+
+.top-movie-title {
+  font-family: ns-b;
+  font-size: 16px;
+  color: var(--text-primary);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.top-movie-count {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* 검색 영역 */
+.admin-user-pick-search {
+  margin-bottom: 40px;
+}
+
+.admin-user-pick-search-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.admin-user-pick-search-container .search-type-select {
+  min-width: 150px;
+}
+
+.admin-user-pick-search-container .search-type-select-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: ns-r;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.admin-user-pick-search-container .search-type-select-input option {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+}
+
+.admin-user-pick-search-container .search-type-select-input:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px var(--overlay-red-20);
+}
+
+.admin-user-pick-search-container .search-input-area {
+  flex: 1;
+}
+
+.admin-user-pick-search-container .search-button-area {
+  display: flex;
+  gap: 8px;
+}
+
+/* 영화 리스트 */
+.admin-user-pick-list {
+  margin-bottom: 40px;
+}
+
+.admin-user-pick-list .no-movies-message {
+  text-align: center;
+  padding: 60px 20px;
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  background: var(--bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--overlay-white-10);
+}
+
+.admin-user-pick-list .movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* 유저픽 영화 그리드 내의 카드 설정 */
+.admin-user-pick-list .movie-card {
+  background: var(--bg-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--overlay-white-10);
+  transition: all 0.3s ease;
+}
+
+.admin-user-pick-list .movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: var(--accent-orange);
+}
+
+/* 이미지 컨테이너 (부모) - 여기서 높이를 고정합니다 */
+.admin-user-pick-list .movie-poster {
+  width: 100%;
+  padding-top: 150%; /* 2:3 비율 유지 */
+  overflow: hidden;
+  background: var(--bg-dark-light);
+  position: relative;
+  cursor: pointer;
+  height: 0; /* padding-top 비율을 위해 명시적으로 설정 */
+  transition: transform 0.3s ease;
+}
+
+/* 실제 이미지 (자식) */
+.admin-user-pick-list .movie-poster img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* contain보다 cover가 빈 공간 없이 꽉 차서 정돈되어 보입니다 */
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* 호버 시 이미지 확대 효과 (1.05배) */
+.admin-user-pick-list .movie-card:hover .movie-poster {
+  transform: scale(1.05);
+}
+
+.admin-user-pick-list .movie-card:hover .movie-poster img {
+  transform: scale(1.05);
+}
+
+
+.admin-user-pick-list .movie-info {
+  padding: 20px;
+}
+
+.admin-user-pick-list .movie-title {
+  font-family: ns-b;
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.admin-user-pick-list .movie-title:hover {
+  color: var(--accent-orange);
+}
+
+.admin-user-pick-list .movie-release-date {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.admin-user-pick-list .movie-view-count,
+.admin-user-pick-list .movie-review-count {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.admin-user-pick-list .movie-status {
+  margin-bottom: 12px;
+}
+
+.admin-user-pick-list .movie-status-select {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-dark-light);
+  border: 1px solid var(--overlay-white-10);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: ns-r;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.admin-user-pick-list .movie-status-select:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px var(--overlay-red-20);
+}
+
+.admin-user-pick-list .movie-status-select option {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+}
+
+.admin-user-pick-list .movie-date {
+  font-family: ns-r;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.admin-user-pick-list .movie-rating {
+  margin-bottom: 12px;
+}
+
+.admin-user-pick-list .rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-user-pick-list .star {
+  font-size: 16px;
+  color: var(--accent-orange);
+}
+
+.admin-user-pick-list .star.full {
+  color: var(--accent-orange);
+}
+
+.admin-user-pick-list .star.half {
+  color: var(--accent-orange);
+  opacity: 0.7;
+}
+
+.admin-user-pick-list .star.empty {
+  color: var(--text-tertiary);
+}
+
+.admin-user-pick-list .rating-number {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-primary);
+  margin-left: 8px;
+}
+
+.admin-user-pick-list .movie-delete {
+  margin-top: 12px;
+}
+
+.admin-user-pick-list .delete-movie-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: var(--overlay-red-20);
+  border: 1px solid var(--overlay-red-30);
+  border-radius: 6px;
+  color: var(--accent-red);
+  font-family: ns-r;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.admin-user-pick-list .delete-movie-btn:hover {
+  background: var(--overlay-red-30);
+  color: var(--text-primary);
+  border-color: var(--overlay-red-50);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--overlay-red-30);
+}
+
+/* 페이지네이션 */
+.admin-user-pick-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* Recharts 범례 텍스트 색상 */
+.admin-user-pick-statistics .recharts-legend-item-text {
+  color: var(--text-primary);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .admin-user-pick-statistics .statistics-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-user-pick-statistics {
+    padding: 20px;
+  }
+
+  .admin-user-pick-statistics .statistics-box {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .admin-user-pick-statistics .statistics-item {
+    padding: 16px;
+  }
+
+  .admin-user-pick-statistics .statistics-charts {
+    grid-template-columns: 1fr;
+  }
+}
+

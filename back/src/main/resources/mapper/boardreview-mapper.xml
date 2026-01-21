@@ -384,5 +384,205 @@
         ORDER BY board_review_rating
     </select>
 
- 
+    <!-- 관리자 전체 게시글 리뷰 통계 조회 -->
+    <select id="selectAllBoardReviewCount" resultType="int">
+        SELECT COUNT(*) FROM board_review
+    </select>
+
+    <select id="selectAllBoardReviewAverageRating" resultType="double">
+        SELECT AVG(board_review_rating) FROM board_review
+    </select>
+
+    <select id="selectAllBoardReviewGenreDistribution" resultType="map">
+        SELECT
+            ug.USERPICK_GENRE_NAME as genreName,
+            COUNT(*) as count
+        FROM board_review br
+        INNER JOIN userpick_movie um ON br.BOARD_REVIEW_TMDB_MOVIE_ID = um.USERPICK_MOVIE_TMDB_MOVIE_ID
+        INNER JOIN userpick_genre ug ON um.USERPICK_MOVIE_NO = ug.USERPICK_GENRE_MOVIE_NO
+        GROUP BY ug.USERPICK_GENRE_NAME
+        ORDER BY count DESC
+    </select>
+
+    <select id="selectAllBoardReviewRatingDistribution" resultType="map">
+        SELECT 
+            board_review_rating as rating, 
+            COUNT(*) as count
+        FROM board_review 
+        GROUP BY board_review_rating
+        ORDER BY board_review_rating
+    </select>
+
+    <!-- 관리자 전체 게시글 리뷰 목록 조회 (페이지네이션) -->
+    <select id="selectAllBoardReviewListCount" resultType="int">
+        SELECT COUNT(*) FROM board_review
+    </select>
+
+    <select id="selectAllBoardReviewList" resultType="board_review">
+        SELECT * FROM (
+            SELECT ROWNUM AS rnum, b.* FROM (
+                SELECT
+                    br.board_review_no as boardReviewNo,
+                    br.board_review_member_id as boardReviewMemberId,
+                    br.board_review_tmdb_movie_id as boardReviewTmdbMovieId,
+                    br.board_review_title as boardReviewTitle,
+                    br.board_review_content as boardReviewContent,
+                    br.board_review_rating as boardReviewRating,
+                    br.board_review_date as boardReviewDate,
+                    br.board_review_date as boardReviewEnrollDate,
+                    br.board_review_view_count as boardReviewViewCount,
+                    (SELECT member_nickname FROM member WHERE member_id = br.board_review_member_id) as memberNickname,
+                    (SELECT member_profile_img FROM member WHERE member_id = br.board_review_member_id) as memberProfileImg,
+                    um.userpick_movie_no as userpickMovieNo,
+                    um.userpick_movie_title as movieTitle,
+                    um.userpick_movie_poster_path as moviePosterPath,
+                    um.userpick_movie_release_date as movieReleaseDate,
+                    um.userpick_movie_runtime as movieRuntime,
+                    (SELECT COUNT(*) FROM board_like bl WHERE bl.board_like_review_no = br.board_review_no) as likeCount
+                FROM board_review br
+                LEFT JOIN userpick_movie um ON br.board_review_tmdb_movie_id = um.userpick_movie_tmdb_movie_id
+                ORDER BY br.board_review_no DESC
+            ) b
+        )
+        WHERE rnum BETWEEN #{pageInfo.start} AND #{pageInfo.end}
+    </select>
+
+    <!-- 관리자 전체 게시글 리뷰 검색 (영화 제목) -->
+    <select id="selectAllBoardReviewSearchCountByTitle" resultType="int">
+        SELECT COUNT(DISTINCT br.BOARD_REVIEW_NO)
+        FROM board_review br
+        INNER JOIN userpick_movie um ON br.BOARD_REVIEW_TMDB_MOVIE_ID = um.USERPICK_MOVIE_TMDB_MOVIE_ID
+        WHERE um.USERPICK_MOVIE_TITLE LIKE '%' || #{keyword} || '%'
+    </select>
+
+    <select id="selectAllBoardReviewSearchByTitle" resultType="board_review">
+        SELECT * FROM (
+            SELECT ROWNUM AS rnum, b.* FROM (
+                SELECT
+                    br.board_review_no as boardReviewNo,
+                    br.board_review_member_id as boardReviewMemberId,
+                    br.board_review_tmdb_movie_id as boardReviewTmdbMovieId,
+                    br.board_review_title as boardReviewTitle,
+                    br.board_review_content as boardReviewContent,
+                    br.board_review_rating as boardReviewRating,
+                    br.board_review_date as boardReviewDate,
+                    br.board_review_date as boardReviewEnrollDate,
+                    br.board_review_view_count as boardReviewViewCount,
+                    (SELECT member_nickname FROM member WHERE member_id = br.board_review_member_id) as memberNickname,
+                    (SELECT member_profile_img FROM member WHERE member_id = br.board_review_member_id) as memberProfileImg,
+                    um.userpick_movie_no as userpickMovieNo,
+                    um.userpick_movie_title as movieTitle,
+                    um.userpick_movie_poster_path as moviePosterPath,
+                    um.userpick_movie_release_date as movieReleaseDate,
+                    um.userpick_movie_runtime as movieRuntime,
+                    (SELECT COUNT(*) FROM board_like bl WHERE bl.board_like_review_no = br.board_review_no) as likeCount
+                FROM board_review br
+                LEFT JOIN userpick_movie um ON br.board_review_tmdb_movie_id = um.userpick_movie_tmdb_movie_id
+                WHERE um.USERPICK_MOVIE_TITLE LIKE '%' || #{keyword} || '%'
+                ORDER BY br.board_review_no DESC
+            ) b
+        )
+        WHERE rnum BETWEEN #{pageInfo.start} AND #{pageInfo.end}
+    </select>
+
+    <!-- 관리자 전체 게시글 리뷰 검색 (장르) -->
+    <select id="selectAllBoardReviewSearchCountByGenre" resultType="int">
+        SELECT COUNT(DISTINCT br.BOARD_REVIEW_NO)
+        FROM board_review br
+        INNER JOIN userpick_movie um ON br.BOARD_REVIEW_TMDB_MOVIE_ID = um.USERPICK_MOVIE_TMDB_MOVIE_ID
+        INNER JOIN userpick_genre ug ON um.USERPICK_MOVIE_NO = ug.USERPICK_GENRE_MOVIE_NO
+        WHERE ug.USERPICK_GENRE_ID = #{genreId}
+    </select>
+
+    <select id="selectAllBoardReviewSearchByGenre" resultType="board_review">
+        SELECT * FROM (
+            SELECT ROWNUM AS rnum, b.* FROM (
+                SELECT DISTINCT
+                    br.board_review_no as boardReviewNo,
+                    br.board_review_member_id as boardReviewMemberId,
+                    br.board_review_tmdb_movie_id as boardReviewTmdbMovieId,
+                    br.board_review_title as boardReviewTitle,
+                    br.board_review_content as boardReviewContent,
+                    br.board_review_rating as boardReviewRating,
+                    br.board_review_date as boardReviewDate,
+                    br.board_review_date as boardReviewEnrollDate,
+                    br.board_review_view_count as boardReviewViewCount,
+                    (SELECT member_nickname FROM member WHERE member_id = br.board_review_member_id) as memberNickname,
+                    (SELECT member_profile_img FROM member WHERE member_id = br.board_review_member_id) as memberProfileImg,
+                    um.userpick_movie_no as userpickMovieNo,
+                    um.userpick_movie_title as movieTitle,
+                    um.userpick_movie_poster_path as moviePosterPath,
+                    um.userpick_movie_release_date as movieReleaseDate,
+                    um.userpick_movie_runtime as movieRuntime,
+                    (SELECT COUNT(*) FROM board_like bl WHERE bl.board_like_review_no = br.board_review_no) as likeCount
+                FROM board_review br
+                LEFT JOIN userpick_movie um ON br.board_review_tmdb_movie_id = um.userpick_movie_tmdb_movie_id
+                INNER JOIN userpick_genre ug ON um.USERPICK_MOVIE_NO = ug.USERPICK_GENRE_MOVIE_NO
+                WHERE ug.USERPICK_GENRE_ID = #{genreId}
+                ORDER BY br.board_review_no DESC
+            ) b
+        )
+        WHERE rnum BETWEEN #{pageInfo.start} AND #{pageInfo.end}
+    </select>
+
+    <!-- 관리자 전체 게시글 리뷰 검색 (유저 아이디/닉네임) -->
+    <select id="selectAllBoardReviewSearchCountByUser" resultType="int">
+        SELECT COUNT(DISTINCT br.BOARD_REVIEW_NO)
+        FROM board_review br
+        LEFT JOIN member m ON br.board_review_member_id = m.member_id
+        WHERE m.member_id LIKE '%' || #{keyword} || '%' OR m.member_nickname LIKE '%' || #{keyword} || '%'
+    </select>
+
+    <select id="selectAllBoardReviewSearchByUser" resultType="board_review">
+        SELECT * FROM (
+            SELECT ROWNUM AS rnum, b.* FROM (
+                SELECT
+                    br.board_review_no as boardReviewNo,
+                    br.board_review_member_id as boardReviewMemberId,
+                    br.board_review_tmdb_movie_id as boardReviewTmdbMovieId,
+                    br.board_review_title as boardReviewTitle,
+                    br.board_review_content as boardReviewContent,
+                    br.board_review_rating as boardReviewRating,
+                    br.board_review_date as boardReviewDate,
+                    br.board_review_date as boardReviewEnrollDate,
+                    br.board_review_view_count as boardReviewViewCount,
+                    (SELECT member_nickname FROM member WHERE member_id = br.board_review_member_id) as memberNickname,
+                    (SELECT member_profile_img FROM member WHERE member_id = br.board_review_member_id) as memberProfileImg,
+                    um.userpick_movie_no as userpickMovieNo,
+                    um.userpick_movie_title as movieTitle,
+                    um.userpick_movie_poster_path as moviePosterPath,
+                    um.userpick_movie_release_date as movieReleaseDate,
+                    um.userpick_movie_runtime as movieRuntime,
+                    (SELECT COUNT(*) FROM board_like bl WHERE bl.board_like_review_no = br.board_review_no) as likeCount
+                FROM board_review br
+                LEFT JOIN userpick_movie um ON br.board_review_tmdb_movie_id = um.userpick_movie_tmdb_movie_id
+                LEFT JOIN member m ON br.board_review_member_id = m.member_id
+                WHERE m.member_id LIKE '%' || #{keyword} || '%' OR m.member_nickname LIKE '%' || #{keyword} || '%'
+                ORDER BY br.board_review_no DESC
+            ) b
+        )
+        WHERE rnum BETWEEN #{pageInfo.start} AND #{pageInfo.end}
+    </select>
+
+
+    <!-- 최근 게시글 리뷰 조회 (메인 페이지용) -->
+    <select id="selectRecentBoardReviews" resultType="board_review">
+        SELECT * FROM (
+            SELECT 
+                br.board_review_no as boardReviewNo,
+                br.board_review_member_id as boardReviewMemberId,
+                br.board_review_tmdb_movie_id as boardReviewTmdbMovieId,
+                br.board_review_title as boardReviewTitle,
+                br.board_review_content as boardReviewContent,
+                br.board_review_rating as boardReviewRating,
+                br.board_review_date as boardReviewDate,
+                br.board_review_date as boardReviewEnrollDate,
+                br.board_review_view_count as boardReviewViewCount,
+                (SELECT userpick_movie_title FROM userpick_movie WHERE userpick_movie_tmdb_movie_id = br.board_review_tmdb_movie_id AND ROWNUM = 1) as movieTitle
+            FROM board_review br
+            WHERE br.board_review_status = 1
+            ORDER BY br.board_review_no DESC
+        )
+        WHERE ROWNUM &lt;= #{limit}
+    </select>
 </mapper>

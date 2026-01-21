@@ -1,30 +1,29 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./formFrm.css";
 
 const SideMenu = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const menus = props.menus;
-  const setMenus = props.setMenus;
+  const basePath = props.basePath;
+  const title = props.title;
 
-  const handleMenuClick = (index, url) => {
-    // 모든 메뉴의 active를 false로 설정
-    const updatedMenus = menus.map((menu, i) => ({
-      ...menu,
-      active: i === index,
-    }));
-    setMenus(updatedMenus);
-    navigate("/member/" + url);
+  const handleMenuClick = (url) => {
+    navigate(basePath + "/" + url);
   };
 
   return (
     <div className="mypage-sidebar">
-      <h2 className="sidebar-title">마이페이지</h2>
+      <h2 className="sidebar-title">{title}</h2>
       <nav className="sidebar-menu">
         <ul className="sidebar-menu-list">
           {menus.map((menu, index) => {
+            const currentPath = location.pathname;
+            const isActive = currentPath === `${basePath}/${menu.url}`;
+            
             const getSidebarClassName = () => {
               const baseClass = "sidebar-menu-link";
-              const activeClass = menu.active ? " active" : "";
+              const activeClass = isActive ? " active" : "";
               return baseClass + activeClass;
             };
 
@@ -32,7 +31,7 @@ const SideMenu = (props) => {
               <li key={index} className="sidebar-menu-item">
                 <button
                   className={getSidebarClassName()}
-                  onClick={() => handleMenuClick(index, menu.url)}
+                  onClick={() => handleMenuClick(menu.url)}
                   type="button"
                 >
                   {menu.text}

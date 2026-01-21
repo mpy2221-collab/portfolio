@@ -376,3 +376,424 @@
   color: var(--text-tertiary);
 }
 
+/* ============================================
+   메인페이지 스타일 (우선순위 높게 설정)
+   ============================================ */
+
+/* 메인페이지 래퍼 */
+.main-wrap {
+  width: 100%;
+  min-height: calc(100vh - 160px);
+  background: #ffffff;
+  padding: 0;
+}
+
+/* 히어로 섹션 */
+.main-wrap .main-hero {
+  position: relative;
+  width: 100%;
+  min-height: 500px;
+  background: linear-gradient(
+    135deg,
+    var(--bg-dark) 0%,
+    var(--bg-dark-light) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  margin-bottom: 60px;
+}
+
+.main-wrap .main-hero-content {
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.main-wrap .main-hero-title {
+  font-family: ns-eb;
+  font-size: 48px;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.main-wrap .main-hero-subtitle {
+  font-family: ns-r;
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+
+.main-wrap .main-hero-button {
+  padding: 16px 48px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-red) 0%,
+    var(--accent-orange) 100%
+  );
+  color: var(--text-primary);
+  font-family: ns-b;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px var(--overlay-red-30);
+}
+
+.main-wrap .main-hero-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--overlay-red-40);
+}
+
+/* 섹션 공통 스타일 */
+.main-wrap .main-section {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto 80px;
+  padding: 0 20px;
+}
+
+.main-wrap .main-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.main-wrap .main-section-title {
+  font-family: ns-eb;
+  font-size: 32px;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.main-wrap .main-section-more-btn {
+  padding: 10px 24px;
+  background: transparent;
+  color: var(--accent-orange);
+  font-family: ns-b;
+  font-size: 16px;
+  border: 2px solid var(--accent-orange);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.main-wrap .main-section-more-btn:hover {
+  background: var(--accent-orange);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--overlay-red-30);
+}
+
+/* 캐러셀 컨테이너 */
+.main-wrap .main-carousel-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* React Slick 리스트 overflow 제어 */
+.main-wrap .main-carousel-container .slick-list {
+  overflow: hidden !important;
+  margin: 0 -15px;
+  padding: 0 !important;
+}
+
+.main-wrap .main-carousel-container .slick-track {
+  display: flex;
+  align-items: stretch;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.main-wrap .main-carousel-container .slick-slide {
+  padding: 0 15px;
+  height: auto;
+}
+
+.main-wrap .main-carousel-slide {
+  padding: 0 15px;
+  height: auto;
+}
+
+/* 영화 카드 */
+.main-wrap .main-movie-card {
+  background: var(--bg-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.main-wrap .main-movie-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.main-wrap .main-movie-poster {
+  width: 100%;
+  padding-top: 150%; /* 2:3 비율 */
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-dark-light);
+}
+
+.main-wrap .main-movie-rank-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  background: #ffd700;
+  color: #1a1a1a;
+  font-family: ns-b;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  line-height: 1;
+}
+
+.main-wrap .main-movie-poster img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.main-wrap .main-movie-card:hover .main-movie-poster img {
+  transform: scale(1.05);
+}
+
+.main-wrap .main-movie-info {
+  padding: 20px;
+}
+
+.main-wrap .main-movie-title {
+  font-family: ns-b;
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-wrap .main-movie-date {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.main-wrap .main-movie-rating {
+  margin-bottom: 8px;
+}
+
+.main-wrap .main-movie-review-count {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* 평점 별점 */
+.main-wrap .main-rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.main-wrap .main-star {
+  font-size: 18px;
+  color: var(--accent-orange);
+}
+
+.main-wrap .main-star-empty {
+  color: var(--text-tertiary);
+}
+
+.main-wrap .main-rating-number {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
+
+.main-wrap .main-rating-label {
+  font-family: ns-r;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-left: 8px;
+}
+
+/* 리뷰 리스트 */
+.main-wrap .main-review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-wrap .main-review-item {
+  background: var(--bg-dark);
+  border-radius: 8px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--overlay-white-10);
+}
+
+.main-wrap .main-review-item:hover {
+  background: var(--bg-dark-light);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: var(--accent-orange);
+}
+
+.main-wrap .main-review-title {
+  font-family: ns-b;
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-wrap .main-review-movie-title {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--accent-orange);
+  margin-bottom: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-wrap .main-review-meta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.main-wrap .main-review-author,
+.main-wrap .main-review-date,
+.main-wrap .main-review-view-count,
+.main-wrap .main-review-like-count {
+  font-family: ns-r;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.main-wrap .main-review-author {
+  color: var(--accent-orange);
+  font-family: ns-b;
+}
+
+/* 빈 메시지 */
+.main-wrap .main-empty-message {
+  text-align: center;
+  padding: 60px 20px;
+  font-family: ns-r;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  background: var(--bg-dark);
+  border-radius: 8px;
+}
+
+/* React Slick 커스터마이징 (메인페이지 전용) */
+.main-wrap .slick-prev,
+.main-wrap .slick-next {
+  z-index: 1;
+  width: 50px;
+  height: 50px;
+  background: var(--bg-dark-light);
+  border-radius: 50%;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.main-wrap .slick-prev:hover,
+.main-wrap .slick-next:hover {
+  opacity: 1;
+  background: var(--accent-orange);
+}
+
+.main-wrap .slick-prev {
+  left: 10px;
+  z-index: 10;
+}
+
+.main-wrap .slick-next {
+  right: 10px;
+  z-index: 10;
+}
+
+.main-wrap .slick-prev:before,
+.main-wrap .slick-next:before {
+  color: var(--text-primary);
+  font-size: 24px;
+}
+
+.main-wrap .slick-dots {
+  bottom: -40px;
+}
+
+.main-wrap .slick-dots li button:before {
+  color: var(--accent-orange);
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.main-wrap .slick-dots li.slick-active button:before {
+  opacity: 1;
+  color: var(--accent-orange);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .main-wrap .main-hero-title {
+    font-size: 32px;
+  }
+
+  .main-wrap .main-hero-subtitle {
+    font-size: 16px;
+  }
+
+  .main-wrap .main-section-title {
+    font-size: 24px;
+  }
+
+  .main-wrap .main-movie-title {
+    font-size: 18px;
+  }
+
+  .main-wrap .main-review-title {
+    font-size: 18px;
+  }
+
+  .main-wrap .main-review-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+

@@ -52,5 +52,75 @@
         WHERE member_id = #{memberId}
     </select>
 
+    <!--  -->
+    <select id="getMemberListCount" resultType="int">
+        SELECT COUNT(*) FROM member
+    </select>
+
+    <select id="getMemberList" resultType="member">
+ 
+    SELECT *
+    FROM (
+        SELECT ROWNUM AS rnum, m.*
+        FROM (
+            SELECT *
+            FROM member
+            ORDER BY MEMBER_ENROLL_DATE DESC
+        ) m
+    ) 
+    WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 회원 검색 카운트 -->
+    <select id="getMemberSearchCount" resultType="int">
+        SELECT COUNT(*) FROM member
+        <where>
+            <if test="searchType == 'member_id'">
+                AND member_id LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchType == 'member_nickname'">
+                AND member_nickname LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchType == 'both'">
+                AND (member_id LIKE '%' || #{keyword} || '%' OR member_nickname LIKE '%' || #{keyword} || '%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 회원 검색 목록 -->
+    <select id="getMemberSearchList" resultType="member">
+        SELECT *
+        FROM (
+            SELECT ROWNUM AS rnum, m.*
+            FROM (
+                SELECT *
+                FROM member
+                <where>
+                    <if test="searchType == 'member_id'">
+                        AND member_id LIKE '%' || #{keyword} || '%'
+                    </if>
+                    <if test="searchType == 'member_nickname'">
+                        AND member_nickname LIKE '%' || #{keyword} || '%'
+                    </if>
+                    <if test="searchType == 'both'">
+                        AND (member_id LIKE '%' || #{keyword} || '%' OR member_nickname LIKE '%' || #{keyword} || '%')
+                    </if>
+                </where>
+                ORDER BY MEMBER_ENROLL_DATE DESC
+            ) m
+        ) 
+        WHERE rnum BETWEEN #{pageInfo.start} AND #{pageInfo.end}
+    </select>
+
+    <!-- 회원 유형 변경 -->
+    <update id="updateMemberType" parameterType="member">
+        UPDATE member SET member_type = #{memberType} WHERE member_id = #{memberId}
+    </update>
+
+    <!-- 회원 삭제 -->
+    <delete id="deleteMember">
+        DELETE FROM member WHERE member_id = #{memberId}
+    </delete>
+
 
 </mapper>

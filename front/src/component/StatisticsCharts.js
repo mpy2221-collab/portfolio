@@ -72,7 +72,7 @@ const GenreDistributionDonutChart = ({ genreDistribution }) => {
   return (
     <div className="chart-container">
       <h3 className="chart-title">장르별 분포 (도넛 차트)</h3>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={400}>
         <PieChart>
           <Pie
             data={data}
@@ -121,10 +121,18 @@ const GenreDistributionBarChart = ({ genreDistribution }) => {
   return (
     <div className="chart-container">
       <h3 className="chart-title">장르별 분포 (막대 그래프)</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
+      <ResponsiveContainer width="100%" height={360}>
+        <BarChart data={data} margin={{ bottom: 36, left: 0, right: 10 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
+          <XAxis
+            dataKey="name"
+            interval={0}
+            angle={-35}
+            textAnchor="end"
+            height={90}
+            tick={{ fill: "#ffffff", fontSize: 12 }}
+            tickLine={false}
+          />
           <YAxis />
           <Tooltip />
           <Legend
@@ -178,10 +186,15 @@ const RatingDistributionBarChart = ({ ratingDistribution }) => {
   return (
     <div className="chart-container">
       <h3 className="chart-title">평점별 분포 (막대 그래프)</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
+      <ResponsiveContainer width="100%" height={260}>
+        <BarChart data={data} margin={{ bottom: 28, left: 10, right: 10 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="rating" />
+          <XAxis
+            dataKey="rating"
+            interval={0}
+            tick={{ fill: "#ffffff", fontSize: 12 }}
+            tickLine={false}
+          />
           <YAxis />
           <Tooltip />
           <Legend

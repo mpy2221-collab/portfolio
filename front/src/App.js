@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import MemberMain from "./page/member/MemberMain";
 import BoardMain from "./page/board/BoardMain";
+import AdminMain from "./page/admin/AdminMain";
 
 // findDOMNode 경고 억제 (react-quill 내부 문제)
 const originalError = console.error;
@@ -116,6 +117,7 @@ function App() {
           <Route path="/find-pw" element={<FindPw />} />
           <Route path="/member/*" element={<MemberMain isLogin={isLogin} logoutFunction={logout} />} />
           <Route path="/board/*" element={<BoardMain isLogin={isLogin} />} />
+          <Route path="/admin/*" element={<AdminMain isLogin={isLogin} />} />
         </Routes>
       </div>
       <Footer />

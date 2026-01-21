@@ -35,6 +35,8 @@ public class WebConfig implements WebMvcConfigurer{
 			.excludePathPatterns("/comment/list/*")
 			// 유저픽 영화 관련 요청
 			.excludePathPatterns("/board/user-pick/view/*","/board/user-pick/list/*","/board/user-pick/search","/simple/review/list/*")
+			// 메인 페이지 관련 요청
+			.excludePathPatterns("/main/**")
 			;
 	}
 //	

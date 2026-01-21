@@ -465,7 +465,7 @@ const ReviewList = (props) => {
                     {/* 장르 태그 */}
                     {review.movieGenres && review.movieGenres.length > 0 && (
                       <div className="movie-genres">
-                        {review.movieGenres.slice(0, 3).map((genre, idx) => (
+                        {review.movieGenres.map((genre, idx) => (
                           <span key={idx} className="genre-tag">
                             {genre.name || genre}
                           </span>

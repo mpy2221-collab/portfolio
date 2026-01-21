@@ -61,7 +61,10 @@ public class MemberService {
         // 1. 아이디 존재 여부 확인
         // 2. 비밀번호 일치 여부 확인(평문 패스워드, 암호화된 패스워드 비교)
         if(m != null && passwordEncoder.matches(member.getMemberPw(), m.getMemberPw())) {
-            
+
+            if(m.getMemberType() == 3) {
+                return "SUSPENDED";
+            }
             long expiredDateMs = 60*60*1000l; // 1시간
             String accessToken = jwtUtil.createToken(m.getMemberId(), expiredDateMs);
             return accessToken;

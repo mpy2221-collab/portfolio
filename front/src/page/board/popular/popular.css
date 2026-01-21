@@ -162,7 +162,7 @@
 }
 
 /* 영화 카드 */
-.movie-card {
+.popular-list-wrap .movie-card {
   background: linear-gradient(
     135deg,
     var(--bg-dark) 0%,
@@ -176,13 +176,13 @@
   border: 1px solid var(--overlay-white-10);
 }
 
-.movie-card:hover {
+.popular-list-wrap .movie-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
   border-color: var(--accent-orange);
 }
 
-.movie-poster-wrapper {
+.popular-list-wrap .movie-poster-wrapper {
   position: relative;
   width: 100%;
   padding-top: 150%; /* 2:3 비율 */
@@ -190,7 +190,7 @@
   background: var(--bg-dark);
 }
 
-.movie-poster {
+.popular-list-wrap .movie-poster {
   position: absolute;
   top: 0;
   left: 0;
@@ -200,11 +200,11 @@
   transition: transform 0.3s ease;
 }
 
-.movie-card:hover .movie-poster {
+.popular-list-wrap .movie-card:hover .movie-poster {
   transform: scale(1.1);
 }
 
-.movie-rating-badge {
+.popular-list-wrap .movie-rating-badge {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -223,28 +223,28 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.movie-card:hover .movie-rating-badge {
+.popular-list-wrap .movie-card:hover .movie-rating-badge {
   background: rgba(0, 0, 0, 0.9);
   transform: scale(1.05);
 }
 
-.rating-icon {
+.popular-list-wrap .rating-icon {
   font-size: 18px;
   line-height: 1;
   color: #ffffff;
 }
 
-.rating-value {
+.popular-list-wrap .rating-value {
   font-family: ns-b;
   font-size: 16px;
   color: #ffffff;
 }
 
-.movie-info {
+.popular-list-wrap .movie-info {
   padding: 20px;
 }
 
-.movie-title {
+.popular-list-wrap .movie-title {
   font-family: ns-b;
   font-size: 18px;
   color: var(--text-primary);
@@ -258,20 +258,20 @@
   min-height: 50px;
 }
 
-.movie-release-date {
+.popular-list-wrap .movie-release-date {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
   margin-bottom: 12px;
 }
 
-.movie-genres {
+.popular-list-wrap .movie-genres {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.genre-tag {
+.popular-list-wrap .genre-tag {
   padding: 4px 12px;
   background: var(--overlay-white-10);
   border: 1px solid var(--overlay-white-20);
@@ -282,7 +282,7 @@
   transition: all 0.3s ease;
 }
 
-.movie-card:hover .genre-tag {
+.popular-list-wrap .movie-card:hover .genre-tag {
   background: var(--overlay-red-20);
   border-color: var(--accent-orange);
   color: var(--accent-orange);
@@ -411,11 +411,11 @@
 }
 
 /* 포스터 섹션 */
-.movie-poster-section {
+.popular-view-wrap .movie-poster-section {
   flex-shrink: 0;
 }
 
-.movie-poster-large {
+.popular-view-wrap .movie-poster-large {
   width: 350px;
   height: auto;
   border-radius: 12px;
@@ -424,14 +424,14 @@
 }
 
 /* 영화 상세 정보 섹션 */
-.movie-details-section {
+.popular-view-wrap .movie-details-section {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.movie-title-large {
+.popular-view-wrap .movie-title-large {
   font-family: ns-eb;
   font-size: 42px;
   color: var(--text-primary);
@@ -439,7 +439,7 @@
   line-height: 1.2;
 }
 
-.movie-original-title {
+.popular-view-wrap .movie-original-title {
   font-family: ns-r;
   font-size: 18px;
   color: var(--text-tertiary);
@@ -447,42 +447,42 @@
 }
 
 /* 메타 정보 */
-.movie-meta-info {
+.popular-view-wrap .movie-meta-info {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.meta-item {
+.popular-view-wrap .meta-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
 
-.meta-item.genres {
+.popular-view-wrap .meta-item.genres {
   flex-wrap: wrap;
 }
 
-.meta-label {
+.popular-view-wrap .meta-label {
   font-family: ns-b;
   font-size: 16px;
   color: var(--text-secondary);
   min-width: 100px;
 }
 
-.meta-value {
+.popular-view-wrap .meta-value {
   font-family: ns-r;
   font-size: 16px;
   color: var(--text-primary);
 }
 
-.genre-tags {
+.popular-view-wrap .genre-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.genre-tag-large {
+.popular-view-wrap .genre-tag-large {
   padding: 6px 16px;
   background: var(--overlay-white-10);
   border: 1px solid var(--overlay-white-20);
@@ -493,71 +493,71 @@
   transition: all 0.3s ease;
 }
 
-.genre-tag-large:hover {
+.popular-view-wrap .genre-tag-large:hover {
   background: var(--overlay-red-20);
   border-color: var(--accent-orange);
   color: var(--accent-orange);
 }
 
 /* 평점 섹션 */
-.movie-rating-section {
+.popular-view-wrap .movie-rating-section {
   padding: 24px;
   background: var(--bg-dark);
   border-radius: 12px;
   border: 1px solid var(--overlay-white-10);
 }
 
-.rating-item {
+.popular-view-wrap .rating-item {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.rating-label {
+.popular-view-wrap .rating-label {
   font-family: ns-b;
   font-size: 14px;
   color: var(--text-secondary);
 }
 
-.rating-value-large {
+.popular-view-wrap .rating-value-large {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.rating-icon-large {
+.popular-view-wrap .rating-icon-large {
   font-size: 32px;
   line-height: 1;
 }
 
-.rating-number {
+.popular-view-wrap .rating-number {
   font-family: ns-eb;
   font-size: 32px;
   color: var(--text-primary);
 }
 
-.rating-count {
+.popular-view-wrap .rating-count {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
 }
 
 /* 줄거리 섹션 */
-.movie-overview-section {
+.popular-view-wrap .movie-overview-section {
   padding: 24px;
   background: var(--bg-dark);
   border-radius: 12px;
   border: 1px solid var(--overlay-white-10);
 }
 
-.overview-title {
+.popular-view-wrap .overview-title {
   font-family: ns-b;
   font-size: 20px;
   color: var(--text-primary);
   margin-bottom: 16px;
 }
 
-.overview-text {
+.popular-view-wrap .overview-text {
   font-family: ns-r;
   font-size: 16px;
   color: var(--text-secondary);
@@ -566,7 +566,7 @@
 }
 
 /* 제작 정보 섹션 */
-.movie-production-section {
+.popular-view-wrap .movie-production-section {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -576,25 +576,25 @@
   border: 1px solid var(--overlay-white-10);
 }
 
-.production-item {
+.popular-view-wrap .production-item {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.production-label {
+.popular-view-wrap .production-label {
   font-family: ns-b;
   font-size: 16px;
   color: var(--text-secondary);
 }
 
-.production-list {
+.popular-view-wrap .production-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.production-tag {
+.popular-view-wrap .production-tag {
   padding: 6px 14px;
   background: var(--overlay-white-10);
   border: 1px solid var(--overlay-white-20);
@@ -617,24 +617,24 @@
   margin-bottom: 40px;
 }
 
-.review-section-title {
+.popular-view-wrap .review-section-title {
   font-family: ns-eb;
   font-size: 28px;
   color: var(--text-primary);
   margin-bottom: 24px;
 }
 
-.review-buttons {
+.popular-view-wrap .review-buttons {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
 }
 
-.review-btn {
+.popular-view-wrap .review-btn {
   flex: 1;
 }
 
-.review-note {
+.popular-view-wrap .review-note {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
@@ -654,7 +654,7 @@
     flex-direction: column;
   }
 
-  .movie-poster-large {
+  .popular-view-wrap .movie-poster-large {
     width: 100%;
     max-width: 350px;
     margin: 0 auto;
@@ -680,7 +680,7 @@
   color: var(--text-primary);
 }
 
-.rating-select {
+.popular-view-wrap .rating-select {
   padding: 12px 16px;
   background: var(--bg-dark);
   border: 1px solid var(--overlay-white-10);
@@ -693,17 +693,17 @@
   outline: none;
 }
 
-.rating-select option {
+.popular-view-wrap .rating-select option {
   background-color: var(--bg-dark);
   color: var(--text-primary);
 }
 
-.rating-select:focus {
+.popular-view-wrap .rating-select:focus {
   border-color: var(--accent-orange);
   box-shadow: 0 0 0 3px var(--overlay-red-20);
 }
 
-.review-content-textarea {
+.popular-view-wrap .review-content-textarea {
   width: 100%;
   padding: 12px 16px;
   background: var(--bg-dark);
@@ -718,11 +718,11 @@
   box-sizing: border-box;
 }
 
-.review-content-textarea::placeholder {
+.popular-view-wrap .review-content-textarea::placeholder {
   color: var(--text-tertiary);
 }
 
-.review-content-textarea:focus {
+.popular-view-wrap .review-content-textarea:focus {
   border-color: var(--accent-orange);
   box-shadow: 0 0 0 3px var(--overlay-red-20);
 }
@@ -744,7 +744,7 @@
   flex: 1;
 }
 
-.review-complete-message {
+.popular-view-wrap .review-complete-message {
   font-family: ns-r;
   font-size: 16px;
   color: var(--text-secondary);
@@ -768,7 +768,7 @@
     padding: 24px;
   }
 
-  .movie-title-large {
+  .popular-view-wrap .movie-title-large {
     font-size: 28px;
   }
 

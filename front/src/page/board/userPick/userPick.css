@@ -162,7 +162,7 @@
 }
 
 /* 영화 카드 */
-.movie-card {
+.userpick-list-wrap .movie-card {
   background: linear-gradient(
     135deg,
     var(--bg-dark) 0%,
@@ -176,13 +176,13 @@
   border: 1px solid var(--overlay-white-10);
 }
 
-.movie-card:hover {
+.userpick-list-wrap .movie-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
   border-color: var(--accent-orange);
 }
 
-.movie-poster-wrapper {
+.userpick-list-wrap .movie-poster-wrapper {
   position: relative;
   width: 100%;
   padding-top: 150%; /* 2:3 비율 */
@@ -190,7 +190,7 @@
   background: var(--bg-dark);
 }
 
-.movie-poster {
+.userpick-list-wrap .movie-poster {
   position: absolute;
   top: 0;
   left: 0;
@@ -200,11 +200,11 @@
   transition: transform 0.3s ease;
 }
 
-.movie-card:hover .movie-poster {
+.userpick-list-wrap .movie-card:hover .movie-poster {
   transform: scale(1.1);
 }
 
-.movie-rating-badge {
+.userpick-list-wrap .movie-rating-badge {
   position: absolute;
   display: flex;
   align-items: center;
@@ -221,43 +221,43 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.movie-rating-badge.tmdb-rating {
+.userpick-list-wrap .movie-rating-badge.tmdb-rating {
   top: 12px;
   right: 12px;
 }
 
-.movie-rating-badge.user-rating {
+.userpick-list-wrap .movie-rating-badge.user-rating {
   top: 12px;
   left: 12px;
   background: rgba(255, 87, 34, 0.9);
 }
 
-.movie-card:hover .movie-rating-badge {
+.userpick-list-wrap .movie-card:hover .movie-rating-badge {
   background: rgba(0, 0, 0, 0.9);
   transform: scale(1.05);
 }
 
-.movie-card:hover .movie-rating-badge.user-rating {
+.userpick-list-wrap .movie-card:hover .movie-rating-badge.user-rating {
   background: rgba(255, 87, 34, 1);
 }
 
-.rating-icon {
+.userpick-list-wrap .rating-icon {
   font-size: 18px;
   line-height: 1;
   color: #ffffff;
 }
 
-.rating-value {
+.userpick-list-wrap .rating-value {
   font-family: ns-b;
   font-size: 16px;
   color: #ffffff;
 }
 
-.movie-info {
+.userpick-list-wrap .movie-info {
   padding: 20px;
 }
 
-.movie-title {
+.userpick-list-wrap .movie-title {
   font-family: ns-b;
   font-size: 18px;
   color: var(--text-primary);
@@ -271,28 +271,28 @@
   min-height: 50px;
 }
 
-.movie-release-date {
+.userpick-list-wrap .movie-release-date {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
   margin-bottom: 12px;
 }
 
-.movie-view-count {
+.userpick-list-wrap .movie-view-count {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
   margin-bottom: 12px;
 }
 
-.movie-genres {
+.userpick-list-wrap .movie-genres {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 12px;
 }
 
-.genre-tag {
+.userpick-list-wrap .genre-tag {
   padding: 4px 12px;
   background: var(--overlay-white-10);
   border: 1px solid var(--overlay-white-20);
@@ -303,14 +303,14 @@
   transition: all 0.3s ease;
 }
 
-.movie-card:hover .genre-tag {
+.userpick-list-wrap .movie-card:hover .genre-tag {
   background: var(--overlay-red-20);
   border-color: var(--accent-orange);
   color: var(--accent-orange);
 }
 
 /* 유저 평가 정보 */
-.movie-user-rating-info {
+.userpick-list-wrap .movie-user-rating-info {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -321,19 +321,19 @@
   margin-top: 8px;
 }
 
-.user-rating-label {
+.userpick-list-wrap .user-rating-label {
   font-family: ns-r;
   font-size: 13px;
   color: var(--text-tertiary);
 }
 
-.user-rating-value {
+.userpick-list-wrap .user-rating-value {
   font-family: ns-b;
   font-size: 14px;
   color: var(--accent-orange);
 }
 
-.user-rating-count {
+.userpick-list-wrap .user-rating-count {
   font-family: ns-r;
   font-size: 12px;
   color: var(--text-tertiary);
@@ -385,7 +385,7 @@
     gap: 20px;
   }
 
-  .movie-rating-badge.user-rating {
+  .userpick-list-wrap .movie-rating-badge.user-rating {
     top: 50px;
     left: 12px;
   }
@@ -481,22 +481,22 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.movie-poster-section {
+.userpick-view-wrap .movie-poster-section {
   flex-shrink: 0;
 }
 
-.movie-poster-large {
+.userpick-view-wrap .movie-poster-large {
   width: 300px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-.movie-details-section {
+.userpick-view-wrap .movie-details-section {
   flex: 1;
   color: var(--text-primary);
 }
 
-.movie-title-large {
+.userpick-view-wrap .movie-title-large {
   font-family: ns-b;
   font-size: 36px;
   color: var(--text-primary);
@@ -504,45 +504,45 @@
   line-height: 1.2;
 }
 
-.movie-original-title {
+.userpick-view-wrap .movie-original-title {
   font-family: ns-r;
   font-size: 18px;
   color: var(--text-tertiary);
   margin-bottom: 24px;
 }
 
-.movie-meta-info {
+.userpick-view-wrap .movie-meta-info {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
   margin-bottom: 24px;
 }
 
-.meta-item {
+.userpick-view-wrap .meta-item {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.meta-label {
+.userpick-view-wrap .meta-label {
   font-family: ns-b;
   font-size: 14px;
   color: var(--text-tertiary);
 }
 
-.meta-value {
+.userpick-view-wrap .meta-value {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-primary);
 }
 
-.genre-tags {
+.userpick-view-wrap .genre-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.genre-tag-large {
+.userpick-view-wrap .genre-tag-large {
   padding: 6px 14px;
   background: var(--overlay-white-10);
   border: 1px solid var(--overlay-white-20);
@@ -552,88 +552,88 @@
   color: var(--text-secondary);
 }
 
-.movie-rating-section {
+.userpick-view-wrap .movie-rating-section {
   margin-bottom: 24px;
 }
 
-.rating-item {
+.userpick-view-wrap .rating-item {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.rating-label {
+.userpick-view-wrap .rating-label {
   font-family: ns-b;
   font-size: 16px;
   color: var(--text-tertiary);
 }
 
-.rating-value-large {
+.userpick-view-wrap .rating-value-large {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.rating-icon-large {
+.userpick-view-wrap .rating-icon-large {
   font-size: 24px;
 }
 
-.rating-number {
+.userpick-view-wrap .rating-number {
   font-family: ns-b;
   font-size: 24px;
   color: var(--accent-orange);
 }
 
-.rating-count {
+.userpick-view-wrap .rating-count {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
 }
 
-.movie-overview-section {
+.userpick-view-wrap .movie-overview-section {
   margin-bottom: 24px;
 }
 
-.overview-title {
+.userpick-view-wrap .overview-title {
   font-family: ns-b;
   font-size: 20px;
   color: var(--text-primary);
   margin-bottom: 12px;
 }
 
-.overview-text {
+.userpick-view-wrap .overview-text {
   font-family: ns-r;
   font-size: 16px;
   color: var(--text-secondary);
   line-height: 1.6;
 }
 
-.movie-production-section {
+.userpick-view-wrap .movie-production-section {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.production-item {
+.userpick-view-wrap .production-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
 
-.production-label {
+.userpick-view-wrap .production-label {
   font-family: ns-b;
   font-size: 14px;
   color: var(--text-tertiary);
   min-width: 80px;
 }
 
-.production-list {
+.userpick-view-wrap .production-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.production-tag {
+.userpick-view-wrap .production-tag {
   padding: 4px 12px;
   background: var(--overlay-white-10);
   border-radius: 12px;
@@ -655,7 +655,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.statistics-title {
+.userpick-view-wrap .statistics-title {
   font-family: ns-b;
   font-size: 28px;
   color: var(--text-primary);
@@ -663,7 +663,7 @@
   text-align: center;
 }
 
-.statistics-box {
+.userpick-view-wrap .statistics-box {
   margin-bottom: 40px;
   padding: 24px;
   background: rgba(0, 0, 0, 0.3);
@@ -673,7 +673,7 @@
   align-items: flex-start;
 }
 
-.statistics-box h3 {
+.userpick-view-wrap .statistics-box h3 {
   font-family: ns-b;
   font-size: 20px;
   color: var(--accent-orange);
@@ -681,31 +681,31 @@
   width: 100%;
 }
 
-.statistics-info {
+.userpick-view-wrap .statistics-info {
   flex: 0 0 auto;
   min-width: 200px;
 }
 
-.statistics-info p {
+.userpick-view-wrap .statistics-info p {
   font-family: ns-r;
   font-size: 16px;
   color: var(--text-primary);
   margin-bottom: 8px;
 }
 
-.statistics-box .chart-container {
+.userpick-view-wrap .statistics-box .chart-container {
   flex: 1;
   min-width: 0;
   background: transparent;
   padding: 0;
 }
 
-.statistics-box > .recharts-responsive-container {
+.userpick-view-wrap .statistics-box > .recharts-responsive-container {
   flex: 1;
   min-width: 0;
 }
 
-.statistics-box .chart-container .chart-title {
+.userpick-view-wrap .statistics-box .chart-container .chart-title {
   display: none;
 }
 
@@ -722,20 +722,20 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.review-section-title {
+.userpick-view-wrap .review-section-title {
   font-family: ns-b;
   font-size: 24px;
   color: var(--text-primary);
   margin-bottom: 24px;
 }
 
-.review-buttons {
+.userpick-view-wrap .review-buttons {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
 }
 
-.review-btn {
+.userpick-view-wrap .review-btn {
   flex: 1;
   padding: 14px 24px;
   background: linear-gradient(
@@ -752,7 +752,7 @@
   transition: all 0.3s ease;
 }
 
-.review-btn:hover {
+.userpick-view-wrap .review-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px var(--overlay-red-40);
 }
@@ -775,8 +775,8 @@
   color: var(--text-primary);
 }
 
-.rating-select,
-.review-content-textarea {
+.userpick-view-wrap .rating-select,
+.userpick-view-wrap .review-content-textarea {
   padding: 12px 16px;
   background: var(--bg-dark);
   border: 1px solid var(--overlay-white-10);
@@ -788,18 +788,23 @@
   outline: none;
 }
 
-.rating-select:focus,
-.review-content-textarea:focus {
+.userpick-view-wrap .rating-select option {
+  background: var(--bg-dark);
+  color: #ffffff;
+}
+
+.userpick-view-wrap .rating-select:focus,
+.userpick-view-wrap .review-content-textarea:focus {
   border-color: var(--accent-orange);
   box-shadow: 0 0 0 3px var(--overlay-red-20);
 }
 
-.review-content-textarea {
+.userpick-view-wrap .review-content-textarea {
   resize: vertical;
   min-height: 120px;
 }
 
-.simple-review-edit-form .review-content-textarea {
+.userpick-view-wrap .simple-review-edit-form .review-content-textarea {
   resize: none;
 }
 
@@ -848,14 +853,14 @@
   border-color: var(--accent-orange);
 }
 
-.review-note {
+.userpick-view-wrap .review-note {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
   margin-top: 16px;
 }
 
-.review-complete-message {
+.userpick-view-wrap .review-complete-message {
   font-family: ns-r;
   font-size: 16px;
   color: var(--text-primary);
@@ -889,34 +894,34 @@
   border: 1px solid var(--overlay-white-10);
 }
 
-.review-author-info {
+.userpick-view-wrap .review-author-info {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
 }
 
-.review-author-img {
+.userpick-view-wrap .review-author-img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.review-author-name {
+.userpick-view-wrap .review-author-name {
   font-family: ns-b;
   font-size: 16px;
   color: var(--text-primary);
 }
 
-.review-rating {
+.userpick-view-wrap .review-rating {
   font-family: ns-b;
   font-size: 18px;
   color: var(--accent-orange);
   margin-bottom: 12px;
 }
 
-.simple-review-item .review-content {
+.userpick-view-wrap .simple-review-item .review-content {
   font-family: ns-r;
   font-size: 15px;
   color: #ffffff !important;
@@ -924,14 +929,14 @@
   margin-bottom: 12px;
 }
 
-.review-date {
+.userpick-view-wrap .review-date {
   font-family: ns-r;
   font-size: 13px;
   color: #cccccc;
   margin-bottom: 12px;
 }
 
-.review-actions {
+.userpick-view-wrap .review-actions {
   display: flex;
   gap: 8px;
   margin-top: 12px;
@@ -1034,17 +1039,17 @@
   background-color: transparent !important;
 }
 
-.review-meta {
+.userpick-view-wrap .review-meta {
   display: flex;
   gap: 16px;
   margin-bottom: 12px;
 }
 
-.board-review-item .review-date {
+.userpick-view-wrap .board-review-item .review-date {
   color: #cccccc !important;
 }
 
-.review-like-count {
+.userpick-view-wrap .review-like-count {
   font-family: ns-r;
   font-size: 14px;
   color: var(--accent-orange);
@@ -1103,13 +1108,13 @@
     gap: 24px;
   }
 
-  .movie-poster-large {
+  .userpick-view-wrap .movie-poster-large {
     width: 100%;
     max-width: 300px;
     margin: 0 auto;
   }
 
-  .movie-title-large {
+  .userpick-view-wrap .movie-title-large {
     font-size: 28px;
   }
 

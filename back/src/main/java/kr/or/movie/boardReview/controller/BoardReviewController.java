@@ -142,8 +142,9 @@ public class BoardReviewController {
 
     @GetMapping("/view/{boardReviewNo}")
     @Operation(summary = "게시글 리뷰 상세 조회", description = "게시글 리뷰 상세 조회")
-    public ResponseEntity<ResponseDTO> view(@PathVariable int boardReviewNo){
-        BoardReview boardReview = boardReviewService.selectBoardReviewByNo(boardReviewNo);
+    public ResponseEntity<ResponseDTO> view(@PathVariable int boardReviewNo,
+    @RequestAttribute(required = false) String memberId){
+        BoardReview boardReview = boardReviewService.selectBoardReviewByNo(boardReviewNo, memberId);
         
         if(boardReview == null){
             ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "fail", null);

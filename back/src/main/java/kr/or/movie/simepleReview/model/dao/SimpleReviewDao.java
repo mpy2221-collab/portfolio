@@ -62,5 +62,27 @@ public interface SimpleReviewDao {
     public int selectSimpleReviewSearchCountByGenre(@Param("memberId") String memberId, @Param("genreId") int genreId);
     public List<SimpleReview> selectSimpleReviewSearchByGenre(@Param("memberId") String memberId, @Param("genreId") int genreId, @Param("pageInfo") PageInfo pageInfo);
 
+    // 관리자 전체 심플 리뷰 통계 조회
+    public int selectAllSimpleReviewCount();
+    public Double selectAllSimpleReviewAverageRating();
+    public List<Map<String, Object>> selectAllSimpleReviewGenreDistribution();
+    public List<Map<String, Object>> selectAllSimpleReviewRatingDistribution();
+
+    // 관리자 전체 심플 리뷰 목록 조회 (페이지네이션)
+    public int selectAllSimpleReviewListCount();
+    public List<SimpleReview> selectAllSimpleReviewList(@Param("pageInfo") PageInfo pageInfo);
+    
+    // 관리자 심플 리뷰 검색 (제목)
+    public int selectAllSimpleReviewSearchCountByTitle(@Param("keyword") String keyword);
+    public List<SimpleReview> selectAllSimpleReviewSearchByTitle(@Param("keyword") String keyword, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 관리자 심플 리뷰 검색 (장르)
+    public int selectAllSimpleReviewSearchCountByGenre(@Param("genreId") int genreId);
+    public List<SimpleReview> selectAllSimpleReviewSearchByGenre(@Param("genreId") int genreId, @Param("pageInfo") PageInfo pageInfo);
+    
+    // 관리자 심플 리뷰 검색 (유저 아이디/닉네임)
+    public int selectAllSimpleReviewSearchCountByUser(@Param("keyword") String keyword);
+    public List<SimpleReview> selectAllSimpleReviewSearchByUser(@Param("keyword") String keyword, @Param("pageInfo") PageInfo pageInfo);
+
 }
 

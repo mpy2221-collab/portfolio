@@ -873,14 +873,14 @@
   border: 1px solid var(--overlay-white-10);
 }
 
-.statistics-box {
+.member-simple-review-statistics .statistics-box {
   display: flex;
   gap: 40px;
   margin-bottom: 40px;
   flex-wrap: wrap;
 }
 
-.statistics-item {
+.member-simple-review-statistics .statistics-item {
   flex: 1;
   min-width: 200px;
   padding: 20px;
@@ -889,33 +889,33 @@
   text-align: center;
 }
 
-.statistics-label {
+.member-simple-review-statistics .statistics-label {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
   margin-bottom: 8px;
 }
 
-.statistics-value {
+.member-simple-review-statistics .statistics-value {
   font-family: ns-eb;
   font-size: 32px;
   color: var(--accent-orange);
 }
 
-.statistics-charts {
+.member-simple-review-statistics .statistics-charts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 30px;
   margin-top: 30px;
 }
 
-.chart-container {
+.member-simple-review-statistics .chart-container {
   padding: 20px;
   background: var(--bg-dark-light);
   border-radius: 8px;
 }
 
-.chart-title {
+.member-simple-review-statistics .chart-title {
   font-family: ns-b;
   font-size: 18px;
   color: var(--text-primary);
@@ -1009,13 +1009,19 @@
   margin-bottom: 40px;
 }
 
-.review-grid {
+.member-board-review-list {
+  margin-bottom: 40px;
+}
+
+.member-simple-review-list .review-grid,
+.member-board-review-list .review-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
 }
 
-.review-card {
+.member-simple-review-list .review-card,
+.member-board-review-list .review-card {
   background: var(--bg-dark);
   border-radius: 12px;
   overflow: hidden;
@@ -1024,13 +1030,15 @@
   transition: all 0.3s ease;
 }
 
-.review-card:hover {
+.member-simple-review-list .review-card:hover,
+.member-board-review-list .review-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   border-color: var(--accent-orange);
 }
 
-.review-poster {
+.member-simple-review-list .review-poster,
+.member-board-review-list .review-poster {
   width: 100%;
   padding-top: 150%; /* 2:3 비율 유지 */
   overflow: hidden;
@@ -1038,7 +1046,8 @@
   position: relative;
 }
 
-.review-poster img {
+.member-simple-review-list .review-poster img,
+.member-board-review-list .review-poster img {
   position: absolute;
   top: 0;
   left: 0;
@@ -1049,19 +1058,23 @@
   background: var(--bg-dark-light);
 }
 
-.review-card:hover .review-poster {
+.member-simple-review-list .review-card:hover .review-poster,
+.member-board-review-list .review-card:hover .review-poster {
   overflow: hidden;
 }
 
-.review-card:hover .review-poster img {
+.member-simple-review-list .review-card:hover .review-poster img,
+.member-board-review-list .review-card:hover .review-poster img {
   transform: scale(1.05);
 }
 
-.review-info {
+.member-simple-review-list .review-info,
+.member-board-review-list .review-info {
   padding: 20px;
 }
 
-.review-movie-title {
+.member-simple-review-list .review-movie-title,
+.member-board-review-list .review-movie-title {
   font-family: ns-b;
   font-size: 18px;
   color: var(--text-primary);
@@ -1071,47 +1084,54 @@
   white-space: nowrap;
 }
 
-.review-movie-date {
+.member-simple-review-list .review-movie-date,
+.member-board-review-list .review-movie-date {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-tertiary);
   margin-bottom: 12px;
 }
 
-.review-rating {
+.member-simple-review-list .review-rating,
+.member-board-review-list .review-rating {
   margin-bottom: 12px;
 }
 
-.rating-stars {
+.member-simple-review-list .rating-stars,
+.member-board-review-list .rating-stars {
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-.star {
+.member-simple-review-list .star,
+.member-board-review-list .star {
   font-size: 16px;
   color: var(--accent-orange);
 }
 
-.star.empty {
+.member-simple-review-list .star.empty,
+.member-board-review-list .star.empty {
   color: var(--text-tertiary);
 }
 
-.star.half {
+.member-simple-review-list .star.half,
+.member-board-review-list .star.half {
   opacity: 0.5;
 }
 
-.rating-number {
+.member-simple-review-list .rating-number,
+.member-board-review-list .rating-number {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-secondary);
   margin-left: 8px;
 }
 
-.review-content {
+.member-simple-review-list .review-content,
+.member-board-review-list .review-content {
   font-family: ns-r;
   font-size: 14px;
-
   line-height: 1.6;
   margin-bottom: 12px;
   display: -webkit-box;
@@ -1121,11 +1141,13 @@
   min-height: 60px;
 }
 
-.review-card .review-content {
+.member-simple-review-list .review-card .review-content,
+.member-board-review-list .review-card .review-content {
   color: var(--text-primary);
 }
 
-.review-date {
+.member-simple-review-list .review-date,
+.member-board-review-list .review-date {
   font-family: ns-r;
   font-size: 12px;
   color: var(--text-tertiary);
@@ -1148,7 +1170,8 @@
 }
 
 /* 페이지네이션 */
-.pagination {
+.member-simple-review-wrap .pagination,
+.member-board-review-wrap .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1158,7 +1181,8 @@
   flex-wrap: wrap;
 }
 
-.pagination-btn {
+.member-simple-review-wrap .pagination-btn,
+.member-board-review-wrap .pagination-btn {
   padding: 10px 20px;
   background: var(--bg-dark);
   border: 1px solid var(--overlay-white-10);
@@ -1170,24 +1194,28 @@
   transition: all 0.3s ease;
 }
 
-.pagination-btn:hover:not(:disabled) {
+.member-simple-review-wrap .pagination-btn:hover:not(:disabled),
+.member-board-review-wrap .pagination-btn:hover:not(:disabled) {
   background: var(--overlay-white-10);
   border-color: var(--accent-orange);
   color: var(--accent-orange);
 }
 
-.pagination-btn:disabled {
+.member-simple-review-wrap .pagination-btn:disabled,
+.member-board-review-wrap .pagination-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.pagination-pages {
+.member-simple-review-wrap .pagination-pages,
+.member-board-review-wrap .pagination-pages {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.pagination-page {
+.member-simple-review-wrap .pagination-page,
+.member-board-review-wrap .pagination-page {
   padding: 10px 16px;
   background: var(--bg-dark);
   border: 1px solid var(--overlay-white-10);
@@ -1201,12 +1229,14 @@
   text-align: center;
 }
 
-.pagination-page:hover {
+.member-simple-review-wrap .pagination-page:hover,
+.member-board-review-wrap .pagination-page:hover {
   background: var(--overlay-white-10);
   border-color: var(--accent-orange);
 }
 
-.pagination-page.active {
+.member-simple-review-wrap .pagination-page.active,
+.member-board-review-wrap .pagination-page.active {
   background: linear-gradient(
     135deg,
     var(--accent-red) 0%,
@@ -1217,7 +1247,8 @@
   font-family: ns-b;
 }
 
-.pagination-info {
+.member-simple-review-wrap .pagination-info,
+.member-board-review-wrap .pagination-info {
   font-family: ns-r;
   font-size: 14px;
   color: var(--text-secondary);

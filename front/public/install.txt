@@ -10,3 +10,6 @@ npm install react@^18.2.0 react-dom@^18.2.0 --legacy-peer-deps
 
 2026-01-05
 npm install recharts
+
+2026-01-20
+npm install react-slick slick-carousel

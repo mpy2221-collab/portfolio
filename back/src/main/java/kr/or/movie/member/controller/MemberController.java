@@ -133,10 +133,14 @@ public class MemberController {
     @PostMapping("/login")
     @Operation(summary = "로그인", description = "로그인 정보 전달")
     public ResponseEntity<ResponseDTO> login(@RequestBody Member member) {
-        String accessToken = memberService.login(member);
+        String result = memberService.login(member);
 
-        if(accessToken != null) {
-            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", accessToken);
+        if("SUSPENDED".equals(result)) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "suspended", null);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        else if(result != null) {
+            ResponseDTO response = new ResponseDTO(200, HttpStatus.OK, "success", result);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         else{

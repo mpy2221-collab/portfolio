@@ -1,14 +1,19 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import "./default.css";
+import { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
 
 const Header = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const isLogin = props.isLogin;
   const logoutFunction = props.logoutFunction;
-  const isAdmin = false;
+  const backServer = process.env.REACT_APP_BACK_SERVER;
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [member, setMember] = useState({});
 
   // 현재 경로가 활성화된 메뉴인지 확인
   const isActive = (path) => {
@@ -21,6 +26,26 @@ const Header = (props) => {
     const activeClass = isActive(path) ? " active" : "";
     return baseClass + activeClass;
   };
+
+  useEffect(()=>{
+    if(isLogin){
+      axios.get(backServer + "/member")
+      .then((res)=>{
+        if(res.data.message == "success"){
+          setMember(res.data.data);
+          console.log(res.data.data);
+          if(res.data.data.memberType == 1){
+            setIsAdmin(true);
+          }else{
+            setIsAdmin(false);
+          }
+        }
+      })
+      .catch((err)=>{
+        console.error("회원 정보 조회 실패:", err);
+      })
+    }
+  },[isLogin]);
 
   return (
     <header className="header">
