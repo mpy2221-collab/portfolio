@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>back</name>
 	<description>Demo project for Spring Boot</description>
+	<packaging>jar</packaging>
 	<url/>
 	<licenses>
 		<license/>
@@ -109,11 +110,13 @@
 			<version>2.3.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter -->
+		<!--
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-boot-starter</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		-->
 
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
 		<dependency>

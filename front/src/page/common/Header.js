@@ -33,7 +33,7 @@ const Header = (props) => {
       .then((res)=>{
         if(res.data.message == "success"){
           setMember(res.data.data);
-          console.log(res.data.data);
+          // console.log(res.data.data);
           if(res.data.data.memberType == 1){
             setIsAdmin(true);
           }else{
