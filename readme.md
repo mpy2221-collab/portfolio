@@ -85,4 +85,5 @@
 
 ## 기능 명세서 / DB 명세서
 
-- [기능 명세서·DB 명세서 (Google 스프레드시트)](https://docs.google.com/spreadsheets/d/1uzDVS4ifMEe-4gQmuWvMJEI-8--kOPu9KvydilDoYtk/edit?gid=555917731#gid=555917731)
+- [기능 명세서 (Google 스프레드시트)](https://docs.google.com/spreadsheets/d/1uzDVS4ifMEe-4gQmuWvMJEI-8--kOPu9KvydilDoYtk/edit?pli=1&gid=555917731#gid=555917731)
+- [DB 명세서 (Google 스프레드시트)](https://docs.google.com/spreadsheets/d/1uzDVS4ifMEe-4gQmuWvMJEI-8--kOPu9KvydilDoYtk/edit?pli=1&gid=196580395#gid=196580395)
