@@ -429,6 +429,16 @@
   line-height: 1.8;
 }
 
+.main-wrap .main-hero-test-info {
+  color: var(--text-secondary);
+  font-family: ns-r;
+}
+
+.main-wrap .main-hero-test-info p,
+.main-wrap .main-hero-test-info strong {
+  color: var(--text-secondary);
+}
+
 .main-wrap .main-hero-button {
   padding: 16px 48px;
   background: linear-gradient(

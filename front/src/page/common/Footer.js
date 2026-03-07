@@ -11,31 +11,36 @@ const Footer = () => {
           <p className="footer-description">
             TMDB API를 활용한 영화 추천 서비스
           </p>
+          <p className="footer-description">
+            유저가 직접 리뷰를 작성하고 공유할 수 있는 커뮤니티 서비스
+          </p>
           <a
             href="https://www.themoviedb.org/"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-link"
           >
-            TMDB 공식 사이트
+            TMDB 공식 사이트 링크
           </a>
         </div>
 
         <div className="footer-section">
           <h4 className="footer-subtitle">기술 스택</h4>
           <p className="footer-text">
-            Built with React, Spring Boot, Oracle DB
+            React.js, Java, Spring Boot, Oracle, MyBatis, AWS(EC2)
           </p>
-          <p className="footer-text">Portfolio Project</p>
         </div>
 
         <div className="footer-section">
           <h4 className="footer-subtitle">연락처</h4>
-          <a href="mailto:example@gmail.com" className="footer-link">
-            Email: mp2221mp2221@gmail.com
-          </a>
+          <div
+            style={{ pointerEvents: "none", cursor: "default" }}
+            className="footer-text"
+          >
+            Email: mpy2221@gmail.com
+          </div>
           <a
-            href="https://github.com/mpy2221-collab"
+            href="https://github.com/mpy2221-collab/portfolio"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-link"

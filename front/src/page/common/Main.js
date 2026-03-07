@@ -225,12 +225,31 @@ const Main = () => {
         <div className="main-hero-content">
           <h1 className="main-hero-title">영화를 추천하고 리뷰를 공유하세요</h1>
           <p className="main-hero-subtitle">
-            TMDB API를 활용한 영화 추천 서비스에서 나만의 영화를 발견하고,
+            유저들의 리뷰로 추천받는 영화 커뮤니티입니다. 나만의 영화를 발견하고,
             <br />
             다른 사용자들과 리뷰를 공유해보세요.
           </p>
+          <div
+            className="main-hero-test-info"
+            style={{ marginTop: "1rem", fontSize: "0.9rem", opacity: 0.95 }}
+          >
+            <p style={{ marginBottom: "0.5rem" }}>
+              <strong>※ 포트폴리오 프로젝트</strong> · 테스트 계정으로 로그인해
+              이용해 보실 수 있습니다.
+            </p>
+            <p style={{ marginBottom: "0.25rem" }}>
+              <strong>일반 회원</strong> user01 / 1234, user02 / 1234 → 인기
+              영화·유저픽 조회, 심플/게시글 리뷰 작성·댓글 등
+            </p>
+            <p style={{ marginBottom: "0.25rem" }}>
+              <strong>관리자</strong> admin / 1234 → 일반 회원 기능에 더해
+              유저픽·리뷰 관리·리뷰 통계 확인·회원 관리 등 관리자 페이지 이용
+              가능
+            </p>
+          </div>
           <button
             className="main-hero-button"
+            style={{ marginTop: "1.5rem" }}
             onClick={() => navigate("/board/popular/list")}
           >
             인기 영화 보기
