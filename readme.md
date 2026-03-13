@@ -25,6 +25,12 @@
 
 ![AWS EC2 Application Flow](AWS%20EC2%20Application%20Flow-2026-03-01-155235.png)
 
+### DB ERD
+
+영화, 리뷰, 유저픽, 댓글, 회원 도메인 간 관계를 정리한 ERD입니다.
+
+![ERD 다이어그램](명세서/ERD%20다이어그램.png)
+
 ---
 
 ## 사이트 이용
