@@ -41,6 +41,9 @@ const UserPickView = (props) => {
   const [simpleReviews, setSimpleReviews] = useState([]);
   const [boardReviews, setBoardReviews] = useState([]);
 
+  // 게시글 재조회 트리거
+  const [selectTrigger, setSelectTrigger] = useState(false);
+
   // 차트 색상 (원형 그래프용)
   const COLORS = [
     "#0088FE",
@@ -179,7 +182,7 @@ const UserPickView = (props) => {
       .catch((err) => {
         console.error("게시판 리뷰 목록 조회 실패:", err);
       });
-  }, [movieId, backServer, isLogin, hasReview]);
+  }, [movieId, backServer, isLogin, hasReview, selectTrigger]);
 
   // 포스터 이미지 URL 생성
   const getPosterUrl = (posterPath) => {
@@ -416,12 +419,13 @@ const UserPickView = (props) => {
                       simpleReviewRating: parseInt(editingRating),
                       simpleReviewContent: editingContent.trim(),
                     }
-                  : review
-              )
+                  : review,
+              ),
             );
             setEditingReviewNo(null);
             setEditingRating("");
             setEditingContent("");
+            setSelectTrigger(!selectTrigger);
           });
         } else {
           Swal.fire({
@@ -465,13 +469,14 @@ const UserPickView = (props) => {
                 icon: "success",
                 confirmButtonText: "확인",
               }).then(() => {
-                setSimpleReviews((prevReviews) =>
-                  prevReviews.filter(
-                    (review) => review.simpleReviewNo !== reviewNo
-                  )
-                );
-                setHasReview(false);
+                // setSimpleReviews((prevReviews) =>
+                //   prevReviews.filter(
+                //     (review) => review.simpleReviewNo !== reviewNo,
+                //   ),
+                // );
+                // setHasReview(false);
               });
+              setSelectTrigger(!selectTrigger);
             }
           })
           .catch((err) => {
@@ -701,7 +706,7 @@ const UserPickView = (props) => {
                   <PieChart>
                     <Pie
                       data={formatRatingDistribution(
-                        statistics.total?.ratingDistribution
+                        statistics.total?.ratingDistribution,
                       )}
                       dataKey="count"
                       nameKey="rating"
@@ -719,7 +724,7 @@ const UserPickView = (props) => {
                       labelLine={false}
                     >
                       {formatRatingDistribution(
-                        statistics.total?.ratingDistribution
+                        statistics.total?.ratingDistribution,
                       ).map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}

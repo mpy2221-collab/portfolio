@@ -36,10 +36,10 @@
 ## 사이트 이용
 
 - **포트폴리오 URL**  
-  http://3.25.200.13/
+  http://15.135.240.116/
 
 - **REST API 문서 (Swagger)**  
-  http://3.25.200.13:8888/swagger-ui/index.html
+  http://15.135.240.116:8888/swagger-ui/index.html
 
 ### 테스트 계정
 
