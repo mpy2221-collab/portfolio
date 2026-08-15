@@ -6,12 +6,17 @@
   padding: 30px 20px;
   gap: 30px;
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 /* 메인 컨텐츠 영역 */
 .admin-container {
   flex: 1;
+  min-width: 0; /* flex 안에서 가로 스크롤이 생기도록 */
+  max-width: 100%;
   background: linear-gradient(
     135deg,
     var(--bg-dark) 0%,
@@ -21,6 +26,8 @@
   padding: 40px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   min-height: 600px;
+  box-sizing: border-box;
+  overflow: visible;
 }
 
 .admin-header {
@@ -29,11 +36,15 @@
 
 .admin-content {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* 관리자 회원 관리 페이지 */
 .admin-member-wrap {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* 헤더 */
@@ -115,6 +126,13 @@
 /* 회원 리스트 */
 .admin-member-list {
   margin-bottom: 40px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
 }
 
 .no-members-message {
@@ -128,13 +146,13 @@
   border: 1px solid var(--overlay-white-10);
 }
 
-/* 회원 테이블 */
+/* 회원 테이블 - 넓은 화면에서는 영역 전체 사용 */
 .admin-member-table {
   width: 100%;
+  min-width: 0;
   border-collapse: collapse;
   background: var(--bg-dark);
   border-radius: 12px;
-  overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   table-layout: fixed;
 }
@@ -148,7 +166,7 @@
 }
 
 .admin-member-table th {
-  padding: 10px 8px;
+  padding: 12px 14px;
   text-align: center;
   font-family: ns-b;
   font-size: 13px;
@@ -158,19 +176,19 @@
 }
 
 .admin-member-table th:nth-child(1) {
-  width: 10%;
+  width: 12%;
 }
 
 .admin-member-table th:nth-child(2) {
-  width: 10%;
+  width: 12%;
 }
 
 .admin-member-table th:nth-child(3) {
-  width: 25%;
+  width: 22%;
 }
 
 .admin-member-table th:nth-child(4) {
-  width: 15%;
+  width: 14%;
 }
 
 .admin-member-table th:nth-child(5) {
@@ -178,7 +196,7 @@
 }
 
 .admin-member-table th:nth-child(6) {
-  width: 13%;
+  width: 14%;
 }
 
 .admin-member-table th:nth-child(7) {
@@ -199,14 +217,39 @@
 }
 
 .admin-member-table td {
-  padding: 10px 8px;
+  padding: 12px 14px;
   font-family: ns-r;
   font-size: 13px;
   color: var(--text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+  text-overflow: clip;
   text-align: center;
+  max-width: none;
+}
+
+/* 좁은 화면: 말줄임 대신 가로 스크롤로 전체 표시 */
+@media (max-width: 1100px) {
+  .admin-member-table {
+    table-layout: auto;
+    min-width: 900px;
+  }
+
+  .admin-member-table th:nth-child(1),
+  .admin-member-table th:nth-child(2),
+  .admin-member-table th:nth-child(3),
+  .admin-member-table th:nth-child(4),
+  .admin-member-table th:nth-child(5),
+  .admin-member-table th:nth-child(6),
+  .admin-member-table th:nth-child(7) {
+    width: auto;
+  }
+
+  .admin-member-table td {
+    white-space: nowrap;
+    word-break: normal;
+  }
 }
 
 /* 회원 유형 Select */
@@ -221,8 +264,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   outline: none;
-  width: 100%;
-  min-width: 80px;
+  width: auto;
+  min-width: 100px;
   text-align: center;
   margin: 0 auto;
   display: block;
@@ -361,7 +404,7 @@
 .admin-simple-review-statistics-all .statistics-charts,
 .admin-simple-review-statistics-user .statistics-charts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: 30px;
   margin-top: 30px;
 }
@@ -747,7 +790,7 @@
 .admin-board-review-statistics-all .statistics-charts,
 .admin-board-review-statistics-user .statistics-charts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: 30px;
   margin-top: 30px;
 }
@@ -1116,7 +1159,7 @@
 
 .admin-user-pick-statistics .statistics-charts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: 30px;
   margin-top: 30px;
 }
@@ -1474,7 +1517,40 @@
   color: var(--text-primary);
 }
 
-/* 반응형 디자인 */
+/* 관리자 반응형 */
+@media (max-width: 968px) {
+  .admin-wrap {
+    flex-direction: column;
+    padding: 20px 12px;
+    gap: 16px;
+  }
+
+  .admin-wrap .sidebar-desktop {
+    display: none;
+  }
+
+  .admin-container {
+    padding: 24px 16px;
+    min-height: auto;
+  }
+
+  .admin-member-title {
+    font-size: 24px;
+  }
+
+  .admin-member-search-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-member-search-container .search-type-select,
+  .admin-member-search-container .search-input-area,
+  .admin-member-search-container .search-button-area {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
 @media (max-width: 1200px) {
   .admin-user-pick-statistics .statistics-box {
     grid-template-columns: repeat(2, 1fr);
@@ -1497,6 +1573,14 @@
 
   .admin-user-pick-statistics .statistics-charts {
     grid-template-columns: 1fr;
+  }
+
+  .admin-member-title {
+    font-size: 22px;
+  }
+
+  .admin-container {
+    padding: 20px 12px;
   }
 }
 

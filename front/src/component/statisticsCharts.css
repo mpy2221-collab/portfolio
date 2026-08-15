@@ -30,15 +30,22 @@
 
 .statistics-charts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: 30px;
   margin-top: 30px;
+  width: 100%;
+  min-width: 0;
 }
 
 .chart-container {
   padding: 20px;
   background: var(--bg-dark-light);
   border-radius: 8px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .chart-title {
@@ -47,11 +54,87 @@
   color: var(--text-primary);
   margin-bottom: 20px;
   text-align: center;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
-/* Recharts 범례 텍스트 색상 */
+.chart-responsive-wrap {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Recharts 툴팁 - 다크 배경에서도 글자 보이게 */
+.recharts-default-tooltip {
+  background: #2d2d2d !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+}
+
+.recharts-tooltip-wrapper,
+.recharts-default-tooltip,
+.recharts-default-tooltip *,
+.recharts-tooltip-label,
+.recharts-tooltip-item,
+.recharts-tooltip-item-name,
+.recharts-tooltip-item-separator,
+.recharts-tooltip-item-value,
+.recharts-tooltip-item-list {
+  color: #ffffff !important;
+}
+
+/* Recharts 범례 텍스트 색상 / 줄바꿈 */
 .statistics-charts .recharts-legend-item-text,
 .chart-container .recharts-legend-item-text {
-  color: var(--text-primary);
+  color: var(--text-primary) !important;
 }
 
+.chart-container .recharts-legend-wrapper {
+  width: 100% !important;
+  left: 0 !important;
+  padding: 0 4px;
+}
+
+.chart-container .recharts-default-legend {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 4px 8px;
+}
+
+.chart-container .recharts-legend-item {
+  margin: 2px 6px !important;
+}
+
+@media (max-width: 768px) {
+  .statistics-box {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .statistics-item {
+    min-width: 0;
+    width: 100%;
+    padding: 16px;
+  }
+
+  .statistics-value {
+    font-size: 28px;
+  }
+
+  .statistics-charts {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .chart-container {
+    padding: 16px 12px;
+  }
+
+  .chart-title {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+}

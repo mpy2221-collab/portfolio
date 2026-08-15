@@ -1,10 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import "./default.css";
+
+const getSlidesToShow = (width) => {
+  if (width <= 768) return 1;
+  if (width <= 1024) return 2;
+  return 3;
+};
 
 const Main = () => {
   const navigate = useNavigate();
@@ -15,76 +21,43 @@ const Main = () => {
   const [popularMovies, setPopularMovies] = useState([]);
   const [userPickMovies, setUserPickMovies] = useState([]);
   const [recentReviews, setRecentReviews] = useState([]);
+  const [slidesToShow, setSlidesToShow] = useState(() =>
+    typeof window !== "undefined" ? getSlidesToShow(window.innerWidth) : 1
+  );
+  const [sliderReady, setSliderReady] = useState(false);
 
   // 드래그 감지를 위한 ref
   const dragStartRef = useRef({ x: 0, y: 0 });
   const isDraggingRef = useRef(false);
 
-  // React Slick 설정 (인기 영화)
-  const popularSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    pauseOnHover: true,
-    arrows: true,
-    centerMode: false,
-    centerPadding: '0px',
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-        }
-      }
-    ]
-  };
+  // 화면 너비에 따라 보여줄 슬라이드 수 계산 (라우트 이동 시에도 안정적으로 1장 표시)
+  useEffect(() => {
+    const updateSlides = () => {
+      setSlidesToShow(getSlidesToShow(window.innerWidth));
+    };
+    updateSlides();
+    setSliderReady(true);
+    window.addEventListener("resize", updateSlides);
+    return () => window.removeEventListener("resize", updateSlides);
+  }, []);
 
-  // React Slick 설정 (유저픽 영화)
-  const userPickSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    pauseOnHover: true,
-    arrows: true,
-    centerMode: false,
-    centerPadding: '0px',
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-        }
-      }
-    ]
-  };
+  const carouselSettings = useMemo(
+    () => ({
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 3000,
+      pauseOnHover: true,
+      arrows: true,
+      centerMode: false,
+      centerPadding: "0px",
+      adaptiveHeight: false,
+    }),
+    [slidesToShow]
+  );
 
   // 인기 영화 TOP 5 조회 (TMDB의 인기도 순위 기준)
   useEffect(() => {
@@ -222,38 +195,29 @@ const Main = () => {
     <div className="main-wrap">
       {/* 히어로 섹션 */}
       <section className="main-hero">
+        <div className="main-hero-glow main-hero-glow-a" aria-hidden="true" />
+        <div className="main-hero-glow main-hero-glow-b" aria-hidden="true" />
         <div className="main-hero-content">
-          <h1 className="main-hero-title">영화를 추천하고 리뷰를 공유하세요</h1>
-          <p className="main-hero-subtitle">
-            유저들의 리뷰로 추천받는 영화 커뮤니티입니다. 나만의 영화를 발견하고,
+          <p className="main-hero-eyebrow">MOVIE COMMUNITY</p>
+          <h1 className="main-hero-title">
+            영화를 추천하고
             <br />
-            다른 사용자들과 리뷰를 공유해보세요.
-          </p>
-          <div
-            className="main-hero-test-info"
-            style={{ marginTop: "1rem", fontSize: "0.9rem", opacity: 0.95 }}
-          >
-            <p style={{ marginBottom: "0.5rem" }}>
-              <strong>※ 포트폴리오 프로젝트</strong> · 테스트 계정으로 로그인해
-              이용해 보실 수 있습니다.
-            </p>
-            <p style={{ marginBottom: "0.25rem" }}>
-              <strong>일반 회원</strong> user01 / 1234, user02 / 1234 → 인기
-              영화·유저픽 조회, 심플/게시글 리뷰 작성·댓글 등
-            </p>
-            <p style={{ marginBottom: "0.25rem" }}>
-              <strong>관리자</strong> admin / 1234 → 일반 회원 기능에 더해
-              유저픽·리뷰 관리·리뷰 통계 확인·회원 관리 등 관리자 페이지 이용
-              가능
-            </p>
+            리뷰를 공유하세요
+          </h1>
+          <div className="main-hero-divider" aria-hidden="true" />
+          <div className="main-hero-test-info">
+            <p className="main-hero-account-label">테스트 계정</p>
+            <div className="main-hero-account-list">
+              <div className="main-hero-account-chip">
+                <span className="main-hero-account-role">일반 회원</span>
+                <span className="main-hero-account-cred">user01 / 1234</span>
+              </div>
+              <div className="main-hero-account-chip">
+                <span className="main-hero-account-role">관리자</span>
+                <span className="main-hero-account-cred">admin / 1234</span>
+              </div>
+            </div>
           </div>
-          <button
-            className="main-hero-button"
-            style={{ marginTop: "1.5rem" }}
-            onClick={() => navigate("/board/popular/list")}
-          >
-            인기 영화 보기
-          </button>
         </div>
       </section>
 
@@ -268,9 +232,12 @@ const Main = () => {
             더보기
           </button>
         </div>
-        {popularMovies.length > 0 ? (
+        {sliderReady && popularMovies.length > 0 ? (
           <div className="main-carousel-container">
-            <Slider {...popularSettings}>
+            <Slider
+              key={`popular-${slidesToShow}-${popularMovies.length}`}
+              {...carouselSettings}
+            >
               {popularMovies.map((movie, index) => (
                 <div key={movie.id} className="main-carousel-slide">
                   <div
@@ -326,9 +293,12 @@ const Main = () => {
             더보기
           </button>
         </div>
-        {userPickMovies.length > 0 ? (
+        {sliderReady && userPickMovies.length > 0 ? (
           <div className="main-carousel-container">
-            <Slider {...userPickSettings}>
+            <Slider
+              key={`userpick-${slidesToShow}-${userPickMovies.length}`}
+              {...carouselSettings}
+            >
               {userPickMovies.map((movie, index) => (
                 <div key={movie.userpickMovieNo || movie.tmdbMovieId} className="main-carousel-slide">
                   <div

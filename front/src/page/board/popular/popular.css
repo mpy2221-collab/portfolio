@@ -762,10 +762,20 @@
 
   .popular-view-backdrop {
     height: 300px;
+    background-attachment: scroll;
   }
 
   .popular-view-main-info {
+    flex-direction: column;
     padding: 24px;
+    gap: 24px;
+  }
+
+  .popular-view-wrap .movie-poster-large {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    display: block;
   }
 
   .popular-view-wrap .movie-title-large {

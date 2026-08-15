@@ -26,6 +26,15 @@ const UserPickView = (props) => {
   const [hasReview, setHasReview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [viewCount, setViewCount] = useState(0);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false
+  );
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   // 심플 리뷰 작성 폼 state
   const [simpleRating, setSimpleRating] = useState("");
@@ -701,9 +710,12 @@ const UserPickView = (props) => {
                 </div>
               </div>
               {/* 통합 평점 분포 원형 그래프 */}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <PieResponsiveContainer width="100%" height={500}>
-                  <PieChart>
+              <div className="userpick-pie-chart-wrap">
+                <PieResponsiveContainer
+                  width="100%"
+                  height={isMobile ? 320 : 500}
+                >
+                  <PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
                     <Pie
                       data={formatRatingDistribution(
                         statistics.total?.ratingDistribution,
@@ -711,17 +723,20 @@ const UserPickView = (props) => {
                       dataKey="count"
                       nameKey="rating"
                       cx="50%"
-                      cy="50%"
-                      outerRadius={150}
-                      innerRadius={60}
-                      label={({ rating, count, percent }) => {
-                        // count가 0보다 큰 경우만 레이블 표시
-                        if (count > 0) {
-                          return `${rating}점 (${(percent * 100).toFixed(1)}%)`;
-                        }
-                        return null;
-                      }}
-                      labelLine={false}
+                      cy={isMobile ? "42%" : "50%"}
+                      outerRadius={isMobile ? 80 : 150}
+                      innerRadius={isMobile ? 36 : 60}
+                      label={
+                        isMobile
+                          ? false
+                          : ({ rating, count, percent }) => {
+                              if (count > 0) {
+                                return `${rating}점 (${(percent * 100).toFixed(1)}%)`;
+                              }
+                              return null;
+                            }
+                      }
+                      labelLine={!isMobile}
                     >
                       {formatRatingDistribution(
                         statistics.total?.ratingDistribution,
@@ -734,10 +749,25 @@ const UserPickView = (props) => {
                     </Pie>
                     <Tooltip
                       formatter={(value, name) => [`${value}개`, `${name}점`]}
+                      contentStyle={{
+                        background: "#2d2d2d",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                        borderRadius: 8,
+                        color: "#ffffff",
+                      }}
+                      labelStyle={{ color: "#ffffff" }}
+                      itemStyle={{ color: "#ffffff" }}
                     />
                     <Legend
                       formatter={(value) => `${value}점`}
-                      wrapperStyle={{ paddingTop: "20px" }}
+                      layout="horizontal"
+                      verticalAlign="bottom"
+                      align="center"
+                      wrapperStyle={{
+                        paddingTop: isMobile ? 8 : 20,
+                        fontSize: isMobile ? 11 : 13,
+                        width: "100%",
+                      }}
                     />
                   </PieChart>
                 </PieResponsiveContainer>

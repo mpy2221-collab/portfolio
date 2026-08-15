@@ -13,24 +13,19 @@ const SideMenu = (props) => {
   };
 
   return (
-    <div className="mypage-sidebar">
+    <div className="mypage-sidebar sidebar-desktop">
       <h2 className="sidebar-title">{title}</h2>
       <nav className="sidebar-menu">
         <ul className="sidebar-menu-list">
           {menus.map((menu, index) => {
             const currentPath = location.pathname;
             const isActive = currentPath === `${basePath}/${menu.url}`;
-            
-            const getSidebarClassName = () => {
-              const baseClass = "sidebar-menu-link";
-              const activeClass = isActive ? " active" : "";
-              return baseClass + activeClass;
-            };
+            const className = "sidebar-menu-link" + (isActive ? " active" : "");
 
             return (
               <li key={index} className="sidebar-menu-item">
                 <button
-                  className={getSidebarClassName()}
+                  className={className}
                   onClick={() => handleMenuClick(menu.url)}
                   type="button"
                 >
@@ -46,7 +41,3 @@ const SideMenu = (props) => {
 };
 
 export default SideMenu;
-
-
-
-

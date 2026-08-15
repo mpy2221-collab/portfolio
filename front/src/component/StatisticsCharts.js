@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   PieChart,
   Pie,
@@ -36,6 +37,20 @@ const COLORS = [
   "#fd79a8",
 ];
 
+const useIsMobile = (breakpoint = 768) => {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth <= breakpoint : false
+  );
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= breakpoint);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [breakpoint]);
+
+  return isMobile;
+};
+
 // 통계 정보 박스 컴포넌트
 const StatisticsBox = ({ statistics }) => {
   return (
@@ -52,6 +67,8 @@ const StatisticsBox = ({ statistics }) => {
 
 // 장르별 분포 도넛 차트 컴포넌트
 const GenreDistributionDonutChart = ({ genreDistribution }) => {
+  const isMobile = useIsMobile();
+
   const formatGenreDistribution = () => {
     if (!genreDistribution || genreDistribution.length === 0) {
       return [];
@@ -69,38 +86,69 @@ const GenreDistributionDonutChart = ({ genreDistribution }) => {
     return null;
   }
 
+  const outerRadius = isMobile ? 70 : 100;
+  const innerRadius = isMobile ? 35 : 50;
+  const chartHeight = isMobile ? 320 : 400;
+
   return (
     <div className="chart-container">
       <h3 className="chart-title">장르별 분포 (도넛 차트)</h3>
-      <ResponsiveContainer width="100%" height={400}>
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={({ name, percent }) =>
-              `${name} ${(percent * 100).toFixed(0)}%`
-            }
-            outerRadius={100}
-            innerRadius={50}
-            fill="#8884d8"
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.fill} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+      <div className="chart-responsive-wrap">
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="45%"
+              labelLine={!isMobile}
+              label={
+                isMobile
+                  ? false
+                  : ({ name, percent }) =>
+                      `${name} ${(percent * 100).toFixed(0)}%`
+              }
+              outerRadius={outerRadius}
+              innerRadius={innerRadius}
+              fill="#8884d8"
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Pie>
+            <Tooltip
+              formatter={(value, name) => [`${value}개`, name]}
+              contentStyle={{
+                background: "#2d2d2d",
+                border: "1px solid rgba(255,255,255,0.15)",
+                borderRadius: 8,
+                color: "#ffffff",
+              }}
+              labelStyle={{ color: "#ffffff" }}
+              itemStyle={{ color: "#ffffff" }}
+            />
+            <Legend
+              layout="horizontal"
+              verticalAlign="bottom"
+              align="center"
+              wrapperStyle={{
+                color: "#ffffff",
+                fontSize: isMobile ? 11 : 13,
+                paddingTop: 8,
+                width: "100%",
+              }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
 
 // 장르별 분포 막대 그래프 컴포넌트
 const GenreDistributionBarChart = ({ genreDistribution }) => {
+  const isMobile = useIsMobile();
+
   const formatGenreDistribution = () => {
     if (!genreDistribution || genreDistribution.length === 0) {
       return [];
@@ -118,55 +166,83 @@ const GenreDistributionBarChart = ({ genreDistribution }) => {
     return null;
   }
 
+  const chartHeight = isMobile ? 300 : 360;
+
   return (
     <div className="chart-container">
       <h3 className="chart-title">장르별 분포 (막대 그래프)</h3>
-      <ResponsiveContainer width="100%" height={360}>
-        <BarChart data={data} margin={{ bottom: 36, left: 0, right: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="name"
-            interval={0}
-            angle={-35}
-            textAnchor="end"
-            height={90}
-            tick={{ fill: "#ffffff", fontSize: 12 }}
-            tickLine={false}
-          />
-          <YAxis />
-          <Tooltip />
-          <Legend
-            formatter={(value, entry) => {
-              const index = data.findIndex((item) => item.name === value);
-              return index >= 0 ? data[index].name : value;
+      <div className="chart-responsive-wrap">
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <BarChart
+            data={data}
+            margin={{
+              top: 8,
+              bottom: isMobile ? 48 : 36,
+              left: 0,
+              right: 8,
             }}
-            payload={data.map((entry, index) => ({
-              value: entry.name,
-              type: "square",
-              id: entry.name,
-              color: entry.fill,
-            }))}
-            wrapperStyle={{ color: "#ffffff" }}
-          />
-          <Bar dataKey="value">
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.fill} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="name"
+              interval={0}
+              angle={-35}
+              textAnchor="end"
+              height={isMobile ? 70 : 90}
+              tick={{ fill: "#ffffff", fontSize: isMobile ? 10 : 12 }}
+              tickLine={false}
+            />
+            <YAxis
+              width={isMobile ? 28 : 40}
+              tick={{ fill: "#ffffff", fontSize: isMobile ? 10 : 12 }}
+            />
+            <Tooltip
+              formatter={(value) => [`${value}개`, "개수"]}
+              contentStyle={{
+                background: "#2d2d2d",
+                border: "1px solid rgba(255,255,255,0.15)",
+                borderRadius: 8,
+                color: "#ffffff",
+              }}
+              labelStyle={{ color: "#ffffff" }}
+              itemStyle={{ color: "#ffffff" }}
+            />
+            {!isMobile && (
+              <Legend
+                formatter={(value) => {
+                  const index = data.findIndex((item) => item.name === value);
+                  return index >= 0 ? data[index].name : value;
+                }}
+                payload={data.map((entry) => ({
+                  value: entry.name,
+                  type: "square",
+                  id: entry.name,
+                  color: entry.fill,
+                }))}
+                wrapperStyle={{ color: "#ffffff" }}
+              />
+            )}
+            <Bar dataKey="value">
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
 
 // 평점별 분포 막대 그래프 컴포넌트
 const RatingDistributionBarChart = ({ ratingDistribution }) => {
+  const isMobile = useIsMobile();
+
   const formatRatingDistribution = () => {
     if (!ratingDistribution || ratingDistribution.length === 0) {
       return [];
     }
     return ratingDistribution.map((item, index) => {
-      // 대문자 키(RATING, COUNT) 또는 소문자 키(rating, count) 모두 처리
       const rating = item.RATING !== undefined ? item.RATING : item.rating;
       const count = item.COUNT !== undefined ? item.COUNT : item.count;
       return {
@@ -183,40 +259,52 @@ const RatingDistributionBarChart = ({ ratingDistribution }) => {
     return null;
   }
 
+  const chartHeight = isMobile ? 240 : 260;
+
   return (
     <div className="chart-container">
       <h3 className="chart-title">평점별 분포 (막대 그래프)</h3>
-      <ResponsiveContainer width="100%" height={260}>
-        <BarChart data={data} margin={{ bottom: 28, left: 10, right: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="rating"
-            interval={0}
-            tick={{ fill: "#ffffff", fontSize: 12 }}
-            tickLine={false}
-          />
-          <YAxis />
-          <Tooltip />
-          <Legend
-            formatter={(value, entry) => {
-              const index = data.findIndex((item) => item.rating === value);
-              return index >= 0 ? data[index].rating : value;
+      <div className="chart-responsive-wrap">
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <BarChart
+            data={data}
+            margin={{
+              top: 8,
+              bottom: isMobile ? 16 : 28,
+              left: 0,
+              right: 8,
             }}
-            payload={data.map((entry, index) => ({
-              value: entry.rating,
-              type: "square",
-              id: entry.rating,
-              color: entry.fill,
-            }))}
-            wrapperStyle={{ color: "#ffffff" }}
-          />
-          <Bar dataKey="count">
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.fill} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="rating"
+              interval={0}
+              tick={{ fill: "#ffffff", fontSize: isMobile ? 10 : 12 }}
+              tickLine={false}
+            />
+            <YAxis
+              width={isMobile ? 28 : 40}
+              tick={{ fill: "#ffffff", fontSize: isMobile ? 10 : 12 }}
+            />
+            <Tooltip
+              formatter={(value) => [`${value}개`, "개수"]}
+              contentStyle={{
+                background: "#2d2d2d",
+                border: "1px solid rgba(255,255,255,0.15)",
+                borderRadius: 8,
+                color: "#ffffff",
+              }}
+              labelStyle={{ color: "#ffffff" }}
+              itemStyle={{ color: "#ffffff" }}
+            />
+            <Bar dataKey="count">
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

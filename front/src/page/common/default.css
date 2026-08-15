@@ -83,28 +83,48 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: ns-r;
   color: var(--text-dark);
   text-decoration: none;
 }
 
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
 .wrap {
-  min-width: 1200px;
+  width: 100%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-top: 80px; /* fixed 헤더 높이만큼 여백 */
 }
 
 .content {
   flex: 1;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: 30px auto;
+  padding: 0 16px;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 /* 헤더 */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
   background: linear-gradient(
     135deg,
@@ -117,12 +137,23 @@
 
 .header-content {
   height: 80px;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  gap: 12px;
+}
+
+.header-desktop-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  gap: 16px;
+  margin-left: 24px;
 }
 
 /* 로고 영역 */
@@ -293,6 +324,54 @@
   border-color: var(--overlay-red-50);
 }
 
+/* 햄버거 버튼 */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--overlay-white-20);
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1102;
+  flex-shrink: 0;
+}
+
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.hamburger-btn.open .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-btn.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.open .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* 모바일 메뉴 오버레이 / 드로어 */
+.mobile-menu-overlay {
+  display: none;
+}
+
+.mobile-menu-drawer {
+  display: none;
+}
+
 /* 푸터 */
 .footer {
   background: linear-gradient(
@@ -305,8 +384,13 @@
   margin-top: auto;
 }
 
+.footer.footer-simple {
+  padding: 28px 20px;
+}
+
 .footer-content {
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -363,11 +447,17 @@
 }
 
 .footer-bottom {
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   padding-top: 30px;
   border-top: 1px solid var(--overlay-white-10);
   text-align: center;
+}
+
+.footer.footer-simple .footer-bottom {
+  padding-top: 0;
+  border-top: none;
 }
 
 .footer-copyright {
@@ -384,7 +474,7 @@
 .main-wrap {
   width: 100%;
   min-height: calc(100vh - 160px);
-  background: #ffffff;
+  background: #f7f7f8;
   padding: 0;
 }
 
@@ -392,113 +482,230 @@
 .main-wrap .main-hero {
   position: relative;
   width: 100%;
-  min-height: 500px;
-  background: linear-gradient(
-    135deg,
-    var(--bg-dark) 0%,
-    var(--bg-dark-light) 100%
-  );
+  min-height: 420px;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(255, 107, 107, 0.18), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 70%, rgba(255, 165, 0, 0.14), transparent 50%),
+    linear-gradient(160deg, #121212 0%, #1e1e1e 45%, #2a2a2a 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px;
-  margin-bottom: 60px;
+  padding: 88px 20px 72px;
+  margin-bottom: 56px;
+  overflow: hidden;
+}
+
+.main-wrap .main-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, #f7f7f8);
+  pointer-events: none;
+}
+
+.main-wrap .main-hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.main-wrap .main-hero-glow-a {
+  width: 280px;
+  height: 280px;
+  top: -80px;
+  right: 12%;
+  background: rgba(255, 140, 60, 0.35);
+  animation: main-hero-float 8s ease-in-out infinite;
+}
+
+.main-wrap .main-hero-glow-b {
+  width: 220px;
+  height: 220px;
+  bottom: -40px;
+  left: 8%;
+  background: rgba(255, 80, 80, 0.28);
+  animation: main-hero-float 10s ease-in-out infinite reverse;
+}
+
+@keyframes main-hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(18px);
+  }
 }
 
 .main-wrap .main-hero-content {
-  max-width: 1200px;
+  max-width: 900px;
   width: 100%;
   text-align: center;
   z-index: 1;
+  animation: main-hero-in 0.7s ease-out both;
+}
+
+@keyframes main-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-wrap .main-hero-eyebrow {
+  font-family: ns-b;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  color: var(--accent-orange);
+  margin: 0 0 18px;
 }
 
 .main-wrap .main-hero-title {
   font-family: ns-eb;
-  font-size: 48px;
+  font-size: clamp(32px, 5vw, 52px);
   color: var(--text-primary);
-  margin-bottom: 24px;
-  letter-spacing: -1px;
-  line-height: 1.2;
+  margin: 0 0 28px;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
 }
 
-.main-wrap .main-hero-subtitle {
-  font-family: ns-r;
-  font-size: 18px;
-  color: var(--text-secondary);
-  margin-bottom: 40px;
-  line-height: 1.8;
+.main-wrap .main-hero-divider {
+  width: 56px;
+  height: 2px;
+  margin: 0 auto 28px;
+  background: linear-gradient(90deg, var(--accent-red), var(--accent-orange));
+  border-radius: 2px;
 }
 
 .main-wrap .main-hero-test-info {
-  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.main-wrap .main-hero-account-label {
+  margin: 0;
   font-family: ns-r;
+  font-size: 13px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
 }
 
-.main-wrap .main-hero-test-info p,
-.main-wrap .main-hero-test-info strong {
-  color: var(--text-secondary);
+.main-wrap .main-hero-account-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }
 
-.main-wrap .main-hero-button {
-  padding: 16px 48px;
-  background: linear-gradient(
-    135deg,
-    var(--accent-red) 0%,
-    var(--accent-orange) 100%
-  );
-  color: var(--text-primary);
-  font-family: ns-b;
-  font-size: 18px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px var(--overlay-red-30);
+.main-wrap .main-hero-account-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 180px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
-.main-wrap .main-hero-button:hover {
+.main-wrap .main-hero-account-chip:hover {
+  border-color: rgba(255, 165, 0, 0.45);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px var(--overlay-red-40);
+}
+
+.main-wrap .main-hero-account-role {
+  font-family: ns-b;
+  font-size: 12px;
+  color: var(--accent-orange);
+}
+
+.main-wrap .main-hero-account-cred {
+  font-family: ns-r;
+  font-size: 15px;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
 }
 
 /* 섹션 공통 스타일 */
 .main-wrap .main-section {
   max-width: 1200px;
   width: 100%;
-  margin: 0 auto 80px;
+  margin: 0 auto 72px;
   padding: 0 20px;
+  animation: main-section-in 0.6s ease-out both;
+}
+
+.main-wrap .main-section:nth-of-type(2) {
+  animation-delay: 0.08s;
+}
+
+.main-wrap .main-section:nth-of-type(3) {
+  animation-delay: 0.16s;
+}
+
+.main-wrap .main-section:nth-of-type(4) {
+  animation-delay: 0.24s;
+}
+
+@keyframes main-section-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .main-wrap .main-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
+  gap: 16px;
 }
 
 .main-wrap .main-section-title {
   font-family: ns-eb;
-  font-size: 32px;
-  color: var(--text-dark);
+  font-size: 28px;
+  color: #1a1a1a;
   margin: 0;
+  padding-left: 14px;
+  border-left: 3px solid var(--accent-orange);
+  line-height: 1.2;
 }
 
 .main-wrap .main-section-more-btn {
-  padding: 10px 24px;
+  padding: 10px 20px;
   background: transparent;
   color: var(--accent-orange);
   font-family: ns-b;
-  font-size: 16px;
-  border: 2px solid var(--accent-orange);
-  border-radius: 6px;
+  font-size: 14px;
+  border: 1px solid var(--accent-orange);
+  border-radius: 999px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .main-wrap .main-section-more-btn:hover {
   background: var(--accent-orange);
   color: var(--text-primary);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: 0 4px 12px var(--overlay-red-30);
 }
 
@@ -506,7 +713,7 @@
 .main-wrap .main-carousel-container {
   width: 100%;
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 12px 0 28px;
   overflow: hidden;
   position: relative;
 }
@@ -537,17 +744,18 @@
 
 /* 영화 카드 */
 .main-wrap .main-movie-card {
-  background: var(--bg-dark);
-  border-radius: 12px;
+  background: #1a1a1a;
+  border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .main-wrap .main-movie-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
 }
 
 .main-wrap .main-movie-poster {
@@ -563,18 +771,17 @@
   top: 12px;
   left: 12px;
   z-index: 10;
-  background: #ffd700;
+  background: linear-gradient(135deg, #ffd700 0%, #f0b429 100%);
   color: #1a1a1a;
-  font-family: ns-b;
-  font-size: 20px;
-  font-weight: bold;
-  padding: 8px 16px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  font-family: ns-eb;
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 40px;
+  min-width: 36px;
   line-height: 1;
 }
 
@@ -585,22 +792,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.45s ease;
 }
 
 .main-wrap .main-movie-card:hover .main-movie-poster img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .main-wrap .main-movie-info {
-  padding: 20px;
+  padding: 18px 16px 20px;
 }
 
 .main-wrap .main-movie-title {
   font-family: ns-b;
-  font-size: 20px;
+  font-size: 18px;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -608,18 +815,18 @@
 
 .main-wrap .main-movie-date {
   font-family: ns-r;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-tertiary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .main-wrap .main-movie-rating {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .main-wrap .main-movie-review-count {
   font-family: ns-r;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
@@ -658,28 +865,29 @@
 .main-wrap .main-review-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .main-wrap .main-review-item {
-  background: var(--bg-dark);
-  border-radius: 8px;
-  padding: 24px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 22px 24px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid var(--overlay-white-10);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .main-wrap .main-review-item:hover {
-  background: var(--bg-dark-light);
-  transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-color: var(--accent-orange);
+  background: #242424;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  border-color: rgba(255, 165, 0, 0.45);
 }
 
 .main-wrap .main-review-title {
   font-family: ns-b;
-  font-size: 20px;
+  font-size: 18px;
   color: var(--text-primary);
   margin-bottom: 8px;
   overflow: hidden;
@@ -689,7 +897,7 @@
 
 .main-wrap .main-review-movie-title {
   font-family: ns-r;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--accent-orange);
   margin-bottom: 12px;
   overflow: hidden;
@@ -709,7 +917,7 @@
 .main-wrap .main-review-view-count,
 .main-wrap .main-review-like-count {
   font-family: ns-r;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
@@ -721,12 +929,13 @@
 /* 빈 메시지 */
 .main-wrap .main-empty-message {
   text-align: center;
-  padding: 60px 20px;
+  padding: 48px 20px;
   font-family: ns-r;
-  font-size: 16px;
-  color: var(--text-tertiary);
-  background: var(--bg-dark);
-  border-radius: 8px;
+  font-size: 15px;
+  color: #888;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px dashed #ddd;
 }
 
 /* React Slick 커스터마이징 (메인페이지 전용) */
@@ -779,31 +988,273 @@
 }
 
 /* 반응형 디자인 */
-@media (max-width: 768px) {
-  .main-wrap .main-hero-title {
-    font-size: 32px;
+@media (max-width: 968px) {
+  .wrap {
+    padding-top: 64px;
   }
 
-  .main-wrap .main-hero-subtitle {
+  .header-content {
+    height: 64px;
+    padding: 0 16px;
+  }
+
+  .logo-text {
+    font-size: 22px;
+  }
+
+  .logo-subtext {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .header-desktop-menu {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .mobile-menu-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1100;
+  }
+
+  .mobile-menu-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-menu-drawer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 86vw);
+    height: 100%;
+    background: linear-gradient(
+      160deg,
+      var(--bg-dark) 0%,
+      var(--bg-dark-light) 100%
+    );
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.4);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1101;
+    padding: 20px 16px 24px;
+    overflow-y: auto;
+    touch-action: pan-y;
+  }
+
+  .mobile-menu-drawer.open {
+    transform: translateX(0);
+  }
+
+  .mobile-menu-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--overlay-white-10);
+  }
+
+  .mobile-menu-title {
+    font-family: ns-b;
+    font-size: 18px;
+    color: var(--text-primary);
+  }
+
+  .mobile-menu-close {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    background: var(--overlay-white-10);
+    color: var(--text-primary);
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .mobile-menu-body {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    flex: 1;
+  }
+
+  .mobile-section-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--overlay-white-10);
+  }
+
+  .mobile-section-title {
+    font-family: ns-b;
+    font-size: 13px;
+    color: var(--accent-orange);
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .mobile-section-nav {
+    gap: 6px;
+  }
+
+  .mobile-menu-drawer .sub-nav-item {
+    padding-left: 20px;
+    font-size: 15px;
+    color: var(--text-tertiary);
+  }
+
+  .mobile-menu-drawer .sub-nav-item.active {
+    color: var(--accent-orange);
+  }
+
+  .mobile-menu-drawer .header-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .mobile-menu-drawer .nav-item {
+    width: 100%;
+    text-align: left;
+    padding: 14px 16px;
     font-size: 16px;
   }
 
+  .mobile-menu-drawer .nav-item::after {
+    display: none;
+  }
+
+  .mobile-menu-drawer .header-user-menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .mobile-menu-drawer .user-menu-btn {
+    width: 100%;
+    text-align: center;
+    padding: 12px 16px;
+  }
+
+  .mobile-menu-hint {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  .content {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  .footer {
+    padding: 40px 16px 24px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-wrap .main-hero {
+    min-height: 340px;
+    padding: 56px 16px 48px;
+    margin-bottom: 36px;
+  }
+
+  .main-wrap .main-hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+  }
+
+  .main-wrap .main-hero-title {
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+
+  .main-wrap .main-hero-account-chip {
+    min-width: 0;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .main-wrap .main-section {
+    margin-bottom: 48px;
+    padding: 0 12px;
+  }
+
+  .main-wrap .main-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
   .main-wrap .main-section-title {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .main-wrap .main-movie-title {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .main-wrap .main-review-title {
-    font-size: 18px;
+    font-size: 16px;
+  }
+
+  .main-wrap .main-review-item {
+    padding: 16px;
   }
 
   .main-wrap .main-review-meta {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+
+  .main-wrap .main-carousel-container .slick-list {
+    margin: 0;
+  }
+
+  .main-wrap .main-carousel-container .slick-slide {
+    padding: 0 8px;
+  }
+
+  .main-wrap .main-carousel-slide {
+    padding: 0;
+  }
+
+  .main-wrap .main-movie-card {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .main-wrap .slick-prev,
+  .main-wrap .slick-next {
+    width: 36px;
+    height: 36px;
+  }
+
+  .main-wrap .slick-prev:before,
+  .main-wrap .slick-next:before {
+    font-size: 18px;
   }
 }
 

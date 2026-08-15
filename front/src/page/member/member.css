@@ -585,7 +585,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   height: fit-content;
   position: sticky;
-  top: 100px; /* 헤더 높이 고려 */
+  top: 100px; /* fixed 헤더 아래 */
 }
 
 /* 사이드바 타이틀 */
@@ -664,6 +664,9 @@
 
 .mypage-content {
   width: 100%;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* 마이페이지 내정보 페이지 */
@@ -871,6 +874,11 @@
   background: var(--bg-dark);
   border-radius: 12px;
   border: 1px solid var(--overlay-white-10);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .member-simple-review-statistics .statistics-box {
@@ -904,15 +912,22 @@
 
 .member-simple-review-statistics .statistics-charts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: 30px;
   margin-top: 30px;
+  width: 100%;
+  min-width: 0;
 }
 
 .member-simple-review-statistics .chart-container {
   padding: 20px;
   background: var(--bg-dark-light);
   border-radius: 8px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .member-simple-review-statistics .chart-title {
@@ -921,6 +936,21 @@
   color: var(--text-primary);
   margin-bottom: 20px;
   text-align: center;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.member-board-review-statistics {
+  margin-bottom: 40px;
+  padding: 30px;
+  background: var(--bg-dark);
+  border-radius: 12px;
+  border: 1px solid var(--overlay-white-10);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* 검색 영역 */
@@ -1259,3 +1289,81 @@
 .member-simple-review-statistics .recharts-legend-item-text {
   color: var(--text-primary);
 }
+
+/* 마이페이지 / 회원 반응형 */
+@media (max-width: 968px) {
+  .mypage-wrap {
+    flex-direction: column;
+    padding: 20px 12px;
+    gap: 16px;
+  }
+
+  /* 모바일에서는 사이드바 숨김 → 헤더 햄버거에 메뉴 포함 */
+  .sidebar-desktop {
+    display: none;
+  }
+
+  .join-container,
+  .login-container,
+  .find-id-container,
+  .find-pw-container {
+    padding: 36px 20px;
+  }
+
+  .join-title,
+  .login-title {
+    font-size: 28px;
+  }
+
+  .member-simple-review-statistics,
+  .member-board-review-statistics {
+    padding: 20px 12px;
+  }
+
+  .member-simple-review-statistics .statistics-box {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .member-simple-review-statistics .statistics-item {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .member-simple-review-statistics .statistics-charts {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .join-wrap,
+  .login-wrap,
+  .find-id-wrap,
+  .find-pw-wrap {
+    padding: 32px 12px;
+  }
+
+  .mypage-content,
+  .member-info-wrap,
+  .member-simple-review-wrap,
+  .member-board-review-wrap {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .member-simple-review-search-container,
+  .member-board-review-search-container {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .member-simple-review-title,
+  .member-board-review-title {
+    font-size: 24px;
+  }
+}
+
