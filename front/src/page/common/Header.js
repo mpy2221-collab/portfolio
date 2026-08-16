@@ -28,6 +28,7 @@ const Header = (props) => {
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth <= MOBILE_BREAKPOINT : false
   );
@@ -96,13 +97,15 @@ const Header = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen && !guideOpen) return;
     const onKeyDown = (e) => {
-      if (e.key === "Escape") closeMenu();
+      if (e.key !== "Escape") return;
+      if (guideOpen) setGuideOpen(false);
+      else closeMenu();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [menuOpen, closeMenu]);
+  }, [menuOpen, guideOpen, closeMenu]);
 
   useEffect(() => {
     if (menuOpen) {
@@ -227,9 +230,23 @@ const Header = (props) => {
   return (
     <header className="header">
       <div className="header-content">
-        <div className="header-logo" onClick={() => go("/")}>
-          <span className="logo-text">MOVIE</span>
-          <span className="logo-subtext">PORTFOLIO</span>
+        <div className="header-brand">
+          <div className="header-logo" onClick={() => go("/")}>
+            <span className="logo-text">MOVIE</span>
+            <span className="logo-subtext">PORTFOLIO</span>
+          </div>
+          <button
+            className="header-guide-btn"
+            type="button"
+            onClick={() => setGuideOpen(true)}
+            aria-haspopup="dialog"
+            aria-expanded={guideOpen}
+          >
+            <span className="header-guide-icon" aria-hidden="true">
+              ?
+            </span>
+            안내
+          </button>
         </div>
 
         <div className="header-desktop-menu">
@@ -300,6 +317,55 @@ const Header = (props) => {
         </div>
         <p className="mobile-menu-hint">← 왼쪽으로 밀어서 닫기</p>
       </div>
+
+      {guideOpen && (
+        <div
+          className="guide-modal-overlay"
+          onClick={() => setGuideOpen(false)}
+          role="presentation"
+        >
+          <div
+            className="guide-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="guide-modal-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 id="guide-modal-title" className="guide-modal-title">
+              MOVIE PORTFOLIO 안내
+            </h2>
+            <p className="guide-modal-desc">
+              영화를 추천하고 리뷰를 공유하는 커뮤니티입니다. TMDB 인기 영화를
+              조회하고, 심플 리뷰·게시글 리뷰를 작성하면 유저픽에 반영됩니다.
+              일반 회원은 리뷰·댓글 작성, 관리자는 회원·리뷰·유저픽 관리와
+              통계를 이용할 수 있습니다.
+            </p>
+            <div className="guide-modal-accounts">
+              <p>
+                <strong>관리자</strong>
+                <br />
+                아이디 <strong>admin</strong> · 비밀번호 <strong>1234</strong>
+              </p>
+              <p>
+                <strong>일반 회원</strong>
+                <br />
+                아이디 <strong>user01</strong> · 비밀번호 <strong>1234</strong>
+                <br />
+                user01~user15 계정으로도 로그인할 수 있습니다.
+              </p>
+            </div>
+            <div className="guide-modal-actions">
+              <button
+                className="guide-modal-confirm"
+                type="button"
+                onClick={() => setGuideOpen(false)}
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

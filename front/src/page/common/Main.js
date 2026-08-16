@@ -204,20 +204,6 @@ const Main = () => {
             <br />
             리뷰를 공유하세요
           </h1>
-          <div className="main-hero-divider" aria-hidden="true" />
-          <div className="main-hero-test-info">
-            <p className="main-hero-account-label">테스트 계정</p>
-            <div className="main-hero-account-list">
-              <div className="main-hero-account-chip">
-                <span className="main-hero-account-role">일반 회원</span>
-                <span className="main-hero-account-cred">user01 / 1234</span>
-              </div>
-              <div className="main-hero-account-chip">
-                <span className="main-hero-account-role">관리자</span>
-                <span className="main-hero-account-cred">admin / 1234</span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

@@ -844,15 +844,18 @@
 }
 
 /* 마이페이지 심플 리뷰 */
-.member-simple-review-wrap {
+.member-simple-review-wrap,
+.member-board-review-wrap {
   width: 100%;
 }
 
-.member-simple-review-header {
+.member-simple-review-header,
+.member-board-review-header {
   margin-bottom: 40px;
 }
 
-.member-simple-review-title {
+.member-simple-review-title,
+.member-board-review-title {
   font-family: ns-eb;
   font-size: 32px;
   color: var(--text-primary);
@@ -860,7 +863,8 @@
   letter-spacing: -0.5px;
 }
 
-.member-simple-review-subtitle {
+.member-simple-review-subtitle,
+.member-board-review-subtitle {
   font-family: ns-r;
   font-size: 16px;
   color: var(--text-tertiary);
