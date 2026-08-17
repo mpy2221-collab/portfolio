@@ -23,7 +23,7 @@
 
 사용자 → AWS EC2(React SPA) → Spring Boot API(REST API + JWT). 백엔드는 MyBatis·Oracle, BCrypt·TMDB API·로컬 파일 저장·SMTP(Gmail)·Swagger UI와 연동됩니다.
 
-![AWS EC2 Application Flow](AWS%20EC2%20Application%20Flow-2026-03-01-155235.png)
+![AWS EC2 Application Flow](AWS%20EC2%20Application%20Flow.png)
 
 ### DB ERD
 
