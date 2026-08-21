@@ -82,8 +82,11 @@ pipeline {
               test -f "$APP_DIR/$JAR_NAME"
               cp /tmp/movie-backend.jar "$APP_DIR/$JAR_NAME"
               sudo -n "$PM2" restart backend
-              sleep 8
-              ss -lntp | grep 8888
+              for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
+                ss -lntp | grep -q ':8888' && break
+                sleep 5
+              done
+              ss -lntp | grep ':8888'
 
               test -f /tmp/movie-frontend-build/index.html
               test -d "$LIVE_DIR"
@@ -92,7 +95,10 @@ pipeline {
               cp -a /tmp/movie-frontend-build "$LIVE_DIR"
               test -f "$LIVE_DIR/index.html"
               sudo -n "$PM2" restart frontend
-              sleep 5
+              for i in 1 2 3 4 5 6; do
+                ss -lntp | grep -q ':80 ' && break
+                sleep 2
+              done
               ss -lntp | grep ':80 '
 
               sudo -n "$PM2" list
