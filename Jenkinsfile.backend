@@ -51,15 +51,36 @@ pipeline {
             scp -i "$SSH_KEY" -o StrictHostKeyChecking=accept-new \
               back/target/back-0.0.1-SNAPSHOT.jar \
               "$SSH_USER@$EC2_HOST:/tmp/movie-backend.jar"
-            ssh -i "$SSH_KEY" -o StrictHostKeyChecking=accept-new \
-              "$SSH_USER@$EC2_HOST" "ls -lh /tmp/movie-backend.jar"
+
+            ssh -i "$SSH_KEY" -o StrictHostKeyChecking=accept-new "$SSH_USER@$EC2_HOST" bash -s << 'ENDSSH'
+              set -e
+              APP_DIR=/home/ubuntu
+              JAR_NAME=back-0.0.1-SNAPSHOT.jar
+              PM2=/usr/local/bin/pm2
+
+              PID=$(ss -lntp | grep ':8888' | grep -oP 'pid=\\K[0-9]+' | head -1)
+              if [ -n "$PID" ]; then
+                CMDLINE=$(tr '\\0' ' ' < /proc/$PID/cmdline || true)
+                echo "$CMDLINE" | grep -qi catalina && { echo "8888이 톰캣이다. 중단"; exit 1; }
+              fi
+
+              test -f /tmp/movie-backend.jar
+              test -f "$APP_DIR/$JAR_NAME"
+              cp /tmp/movie-backend.jar "$APP_DIR/$JAR_NAME"
+
+              sudo -n "$PM2" restart backend
+              sleep 8
+              sudo -n "$PM2" list
+              ss -lntp | grep 8888
+ENDSSH
           '''
         }
       }
     }
     stage('Verify') {
       steps {
-        echo '이번 단계는 /tmp 복사만. java -jar 와 8888은 아직 안 바뀜. 톰캣도 안 건드림'
+        echo '영화 백엔드 라이브 교체. 브라우저는 http://15.135.240.116:8888/swagger-ui/index.html'
+        echo 'frontend 와 톰캣은 이 Job이 안 건드렸어야 한다'
       }
     }
   }
