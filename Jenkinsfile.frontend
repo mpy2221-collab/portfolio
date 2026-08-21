@@ -7,6 +7,14 @@ pipeline {
 
   stages {
     stage('Build') {
+      when {
+        beforeAgent true
+        anyOf {
+          changeset 'front/**'
+          changeset 'Jenkinsfile.frontend'
+          triggeredBy cause: 'UserIdCause'
+        }
+      }
       agent {
         docker {
           image 'node:18-alpine'
@@ -27,6 +35,13 @@ pipeline {
       }
     }
     stage('Deploy') {
+      when {
+        anyOf {
+          changeset 'front/**'
+          changeset 'Jenkinsfile.frontend'
+          triggeredBy cause: 'UserIdCause'
+        }
+      }
       steps {
         withCredentials([sshUserPrivateKey(
           credentialsId: 'ec2-ssh',
@@ -48,7 +63,7 @@ pipeline {
     }
     stage('Verify') {
       steps {
-        echo '이번 단계는 /tmp 복사만. PM2·Nginx·80번은 아직 안 바뀜. jar와 톰캣도 안 건드림'
+        echo '이번 단계는 /tmp 복사만. PM2·80번은 아직 안 바뀜. jar와 톰캣도 안 건드림'
       }
     }
   }
