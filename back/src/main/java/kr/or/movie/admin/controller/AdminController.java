@@ -25,7 +25,7 @@ import kr.or.movie.admin.model.service.AdminService;
 @Tag(name = "관리자", description = "관리자 API")
 public class AdminController {
     @Autowired
-    private AdminService adminService;
+    private AdminService adminService; 
 
     @GetMapping("/member/list/{reqPage}")
     @Operation(summary = "회원 목록 조회", description = "회원 목록 조회")
