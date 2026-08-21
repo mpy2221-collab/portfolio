@@ -1,0 +1,51 @@
+pipeline {
+  agent any
+
+  environment {
+    EC2_HOST = '15.135.240.116'
+  }
+
+  stages {
+    stage('Build') {
+      agent {
+        docker {
+          image 'maven:3.9.9-eclipse-temurin-21'
+          reuseNode true
+        }
+      }
+      steps {
+        dir('back') {
+          sh '''
+            java -version
+            mvn -B -DskipTests package
+            ls -la target/*.jar
+            test -f target/back-0.0.1-SNAPSHOT.jar
+          '''
+        }
+      }
+    }
+    stage('Deploy') {
+      steps {
+        withCredentials([sshUserPrivateKey(
+          credentialsId: 'ec2-ssh',
+          keyFileVariable: 'SSH_KEY',
+          usernameVariable: 'SSH_USER'
+        )]) {
+          sh '''
+            test -f back/target/back-0.0.1-SNAPSHOT.jar
+            scp -i "$SSH_KEY" -o StrictHostKeyChecking=accept-new \
+              back/target/back-0.0.1-SNAPSHOT.jar \
+              "$SSH_USER@$EC2_HOST:/tmp/movie-backend.jar"
+            ssh -i "$SSH_KEY" -o StrictHostKeyChecking=accept-new \
+              "$SSH_USER@$EC2_HOST" "ls -lh /tmp/movie-backend.jar"
+          '''
+        }
+      }
+    }
+    stage('Verify') {
+      steps {
+        echo '이번 단계는 /tmp 복사만. java -jar 와 8888은 아직 안 바뀜. 톰캣도 안 건드림'
+      }
+    }
+  }
+}
