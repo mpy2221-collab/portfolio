@@ -245,7 +245,7 @@ const Header = (props) => {
             <span className="header-guide-icon" aria-hidden="true">
               ?
             </span>
-            안내+
+            안내
           </button>
         </div>
 
