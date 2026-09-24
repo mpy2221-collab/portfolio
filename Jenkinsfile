@@ -37,7 +37,7 @@ pipeline {
             node --version
             npm --version
             npm ci
-            CI=false npm run build
+            REACT_APP_BACK_SERVER=http://15.135.240.116:8888 CI=false npm run build
             ls -la build
             test -f build/index.html
           '''
@@ -81,7 +81,9 @@ pipeline {
               test -f /tmp/movie-backend.jar
               test -f "$APP_DIR/$JAR_NAME"
               cp /tmp/movie-backend.jar "$APP_DIR/$JAR_NAME"
-              sudo -n "$PM2" restart backend
+              sudo -n "$PM2" delete backend || true
+              sudo -n "$PM2" start java --name backend --cwd "$APP_DIR" -- -jar "$APP_DIR/$JAR_NAME" --spring.datasource.url=jdbc:oracle:thin:@127.0.0.1:1521/xe --spring.datasource.username=web --spring.datasource.password=1234
+              sudo -n "$PM2" save
               for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
                 ss -lntp | grep -q ':8888' && break
                 sleep 5
