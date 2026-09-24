@@ -31,16 +31,15 @@ pipeline {
           reuseNode true
         }
       }
-      environment {
-        CI = 'false'
-        REACT_APP_BACK_SERVER = 'http://15.135.240.116:8888'
-      }
       steps {
         dir('front') {
           sh '''
             node --version
             npm --version
             npm ci
+            cat > .env.production << 'EOF'
+REACT_APP_BACK_SERVER=http://15.135.240.116:8888
+EOF
             CI=false npm run build
             ls -la build
             test -f build/index.html
